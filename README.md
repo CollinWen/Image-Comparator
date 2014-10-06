@@ -15,6 +15,15 @@ User Interface, Algorithms and Database for allowing users to compare two images
 
 Currently used modules
 
+0. JQuery
 1. Bootstrap
 2. CouchDB
+
+## Coding Conventions and Styles
+
+For multiple file javascript, we're primarily using "Module with Loose Augmentation".  
+See, for example, 
+http://www.adequatelygood.com/JavaScript-Module-Pattern-In-Depth.html
+
+
 
