@@ -5,3 +5,59 @@ $(document).ready(function() {
     
 });
 
+// global namespace pollution: todo - refactor 
+
+OnImage0 = function() {
+// hack(?) - todo, use proper credential validation
+    // $.ajax({
+        // url: 'http://127.0.0.1:5984/image_compare_results/0003',
+        // type: 'PUT',
+        // dataType: 'jsonp', 
+        // data: '{"user":"anon", "img0":"img0id", "value":1}', 
+        // success: function() { alert('PUT completed'); }
+    // });
+    
+     $.ajax({
+        url : 'http://127.0.0.1:5984/image_compare_results/0001',
+        type : 'GET',
+        dataType : "jsonp",
+        success : function(json) { 
+            alert ("read succeeded: " + JSON.stringify(json)); 
+        }
+    });
+  
+    // var couchURL = 'http://127.0.0.1:5984/';
+    // var dbname = "image_compare_results/";
+    // var couchDocId = "004";
+    
+    // var url= couchURL + dbname + couchDocId;
+    $.ajax({
+        url : 'http://127.0.0.1:5984/image_compare_results/00012',
+        type : 'POST',
+        dataType : "jsonp",
+        data: '{"user":"bob" }',
+        success : function(json) { 
+            alert ("post succeeded: " + JSON.stringify(json)); 
+        }
+    });
+    // $.ajax({
+        // type: "PUT",
+        // url: url,
+        // dataType: 'jsonp', 
+        // data: '{"user":"anon", "img0":"img0id", "value":1}',
+        // success: function (response) {
+            // alert("put succeeded : " + response);
+        // },
+        // error: function (response) {
+            // alert("put failed : " + response);
+        // }
+    // });
+    
+};
+
+OnImage1 = function() {
+
+    alert("ho");
+};
+
+// private utility

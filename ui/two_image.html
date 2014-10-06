@@ -16,8 +16,6 @@
 
     <!-- Custom CSS -->
     <link href="../vendor/bootstrap/css/2-col-portfolio.css" rel="stylesheet">
-
-    
     
 </head>
 
@@ -70,21 +68,21 @@
 
         <!-- Projects Row -->
         <div class="row">
-            <div  class="col-md-6">
+            <div  class="col-md-6" onclick="OnImage0()">
                 <a href="#">
                     <img id="image0" class="img-responsive portfolio-item" src="http://placehold.it/700x400" alt="">
                 </a>
                 <h3>
-                    <a href="#">Image One</a>
+                    <button class="btn-primary" onclick="OnImage0()">Image A</button>
                 </h3>
                 <p></p>
             </div>
-            <div  class="col-md-6 portfolio-item">
+            <div  class="col-md-6 portfolio-item" onclick="OnImage1()">
                 <a href="#">
                     <img id="image1" class="img-responsive" src="http://placehold.it/700x400" alt="">
                 </a>
                 <h3>
-                    <a href="#">Image Two</a>
+                    <button class="btn-primary" onclick="OnImage1()">Image B</button>
                 </h3>
                 <p></p>
             </div>
@@ -126,9 +124,10 @@
     
     <!-- Feeder reference -->
     <script src="../feeders/default.js"></script>
-    
-    <!-- document ready behavior -->
+        
+    <!-- document ready behavior and handlers -->
     <script src="two_image.js"></script>
+
 </body>
 
 </html>
