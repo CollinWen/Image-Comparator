@@ -22,7 +22,10 @@ OnImage0 = function() {
         type : 'GET',
         dataType : "jsonp",
         success : function(json) { 
-            alert ("read succeeded: " + JSON.stringify(json)); 
+            alert ("get succeeded: " + JSON.stringify(json)); 
+        },
+        error: function (response) {
+            alert("get failed : " + JSON.stringify(response));
         }
     });
   
@@ -32,12 +35,15 @@ OnImage0 = function() {
     
     // var url= couchURL + dbname + couchDocId;
     $.ajax({
-        url : 'http://127.0.0.1:5984/image_compare_results/00012',
-        type : 'POST',
-        dataType : "jsonp",
+        url : 'http://127.0.0.1:5984/image_compare_results/0002',
+        type : 'PUT',
+        //dataType : "jsonp",
         data: '{"user":"bob" }',
         success : function(json) { 
-            alert ("post succeeded: " + JSON.stringify(json)); 
+            alert ("put succeeded: " + JSON.stringify(json)); 
+        },
+        error: function (response) {
+            alert("put failed : " + JSON.stringify(response));
         }
     });
     // $.ajax({
