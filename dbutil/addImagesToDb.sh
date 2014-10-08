@@ -18,6 +18,8 @@ do
    echo $res
    IFS='"' read -a array <<< "$res"
    rev=${array[9]}
-   cmd="$curlcmd$i/$(basename "$arg")?rev=$rev --data-binary @$arg -H \"Content-Type: image/jpg\""
+   imagename="image"
+   cmd="$curlcmd$i/$imagename?rev=$rev --data-binary @$arg -H \"Content-Type: image/jpg\""
+   echo $cmd  
    res=$($cmd)
 done
