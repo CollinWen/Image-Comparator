@@ -6,64 +6,63 @@ $(document).ready(function() {
 });
 
 // global namespace pollution: todo - refactor 
+var ct=1069;
 
-OnImage0 = function() {
-// hack(?) - todo, use proper credential validation
+
+// winVal is a number representing how much A is greater than B
+// In a situation where the user can pick one or the other or neither
+// winVal will be -1, 0, or 1. This can support other values for UIs 
+// where the user can say "A five times more than B"
+createICResult = function(winVal) {
+    // todo get uuid
     // $.ajax({
-        // url: 'http://127.0.0.1:5984/image_compare_results/0003',
-        // type: 'PUT',
-        // dataType: 'jsonp', 
-        // data: '{"user":"anon", "img0":"img0id", "value":1}', 
-        // success: function() { alert('PUT completed'); }
+        // url : 'http://127.0.0.1:5984/image_compare_results/0001',
+        // type : 'GET',
+        // success : function(json) { 
+            // console.log ("get succeeded: " + JSON.stringify(json)); 
+        // },
+        // error: function (response) {
+            // console.log("get failed : " + JSON.stringify(response));
+        // }
     // });
-    
-     $.ajax({
-        url : 'http://127.0.0.1:5984/image_compare_results/0001',
-        type : 'GET',
-        dataType : "jsonp",
-        success : function(json) { 
-            alert ("get succeeded: " + JSON.stringify(json)); 
-        },
-        error: function (response) {
-            alert("get failed : " + JSON.stringify(response));
-        }
-    });
   
     // var couchURL = 'http://127.0.0.1:5984/';
     // var dbname = "image_compare_results/";
-    // var couchDocId = "004";
-    
+    // var couchDocId = "004";    
     // var url= couchURL + dbname + couchDocId;
+    
+    var currentTime = new Date();
+    var timeStr = currentTime.toString();
+    var dataStr = "{\"user\":\"anon\",";
+    dataStr += "\"date\":\"" + timeStr + "\",";
+    dataStr += "\"winner\":\"" +  winVal.toString();
+    dataStr += "\"}";
+
     $.ajax({
-        url : 'http://127.0.0.1:5984/image_compare_results/0002',
+        url : 'http://127.0.0.1:5984/image_compare_results/'+ct,
         type : 'PUT',
         //dataType : "jsonp",
-        data: '{"user":"bob" }',
+        data: dataStr,
         success : function(json) { 
-            alert ("put succeeded: " + JSON.stringify(json)); 
+            console.log ("put succeeded: " + JSON.stringify(json)); 
+            ct++;
+            ImageCompare.Feeder.SetImagePair();
         },
         error: function (response) {
-            alert("put failed : " + JSON.stringify(response));
+            console.log("put failed : " + JSON.stringify(response));
         }
     });
-    // $.ajax({
-        // type: "PUT",
-        // url: url,
-        // dataType: 'jsonp', 
-        // data: '{"user":"anon", "img0":"img0id", "value":1}',
-        // success: function (response) {
-            // alert("put succeeded : " + response);
-        // },
-        // error: function (response) {
-            // alert("put failed : " + response);
-        // }
-    // });
     
+};
+
+OnImage0 = function() {
+
+    createICResult(1);
 };
 
 OnImage1 = function() {
 
-    alert("ho");
+    createICResult(-1);
 };
 
 // private utility
