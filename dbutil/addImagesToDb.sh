@@ -8,10 +8,10 @@ i=0
 for arg in $*
 do
    i=$((i+1))
-   filename=$(cd $(dirname "$1"); pwd)/$(basename "$1")
+   filename=$(cd $(dirname "$arg"); pwd)/$(basename "$arg")
    echo "adding $i : $filename"
    curldata="{\"origin\":\"$filename\"}"
-   cmd="curl -vX PUT http://127.0.0.1:5984/rop_images/$i -d $curldata"
+   cmd="curl -X PUT http://127.0.0.1:5984/rop_images/$i -d $curldata"
    echo $cmd
-   $cmd 
+   res=$($cmd) 
 done

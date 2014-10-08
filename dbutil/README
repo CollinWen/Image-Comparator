@@ -1,0 +1,6 @@
+At the couchdb with url
+http://127.0.0.1:5984/
+create an empty database called rop_images
+Then run the script e.g.
+find ../images -name *.jpg | xargs addImagesToDb.sh
+
