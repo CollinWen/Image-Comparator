@@ -46,6 +46,9 @@ var ImageCompare = (function (IC) {
                 img1.src = "http://127.0.0.1:5984/rop_images/" + idx1.toString() + "/image"; 
                 img1.style.width = "550px";
                 img1.style.height = "400px";
+                
+                IC.Feeder.Image0 = idx0;
+                IC.Feeder.Image1 = idx1;
             },
             error: function (response) {
                 alert("get failed : " + JSON.stringify(response));
