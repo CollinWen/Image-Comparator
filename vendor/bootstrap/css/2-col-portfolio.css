@@ -8,6 +8,7 @@ body {
 }
 .col-lg-12 {
 	#background-color:silver;
+    margin:10px;
 }
 .portfolio-item:hover {
   transform: translateZ(25px); /* rotate(3deg); */
