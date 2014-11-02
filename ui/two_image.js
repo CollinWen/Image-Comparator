@@ -10,7 +10,7 @@ $(document).ready(function() {
 // In a situation where the user can pick one or the other or neither
 // winVal will be -1, 0, or 1. This can support other values for UIs 
 // where the user can say "A five times more than B"
-createICResult = function(winVal, img0, img1) {
+createICResult = function(winVal, img0, img1, comment) {
     // todo get uuid
     // $.ajax({
         // url : 'http://127.0.0.1:5984/image_compare_results/0001',
@@ -36,8 +36,14 @@ createICResult = function(winVal, img0, img1) {
     dataStr += "\"date\":\"" + timeStr + "\",";
     dataStr += "\"image0\":\"" + imgDbStr + img0.toString() + "\",";
     dataStr += "\"image1\":\"" + imgDbStr + img1.toString() + "\",";
-    dataStr += "\"winner\":\"" +  winVal.toString();
-    dataStr += "\"}";
+    dataStr += "\"winner\":\"" +  winVal.toString() + "\"";
+    
+    if (comment != ImageCompare.Feeder.defaultComment) {
+        dataStr += ",";
+        dataStr += "\"comment\":\"" + comment + "\"";
+    }
+    
+    dataStr += "}";
 
     $.ajax({
         url : 'http://127.0.0.1:5984/image_compare_results/'+ generateUUID(),
@@ -60,14 +66,19 @@ OnImage0 = function() {
     var img0 = ImageCompare.Feeder.Image0;
     var img1 = ImageCompare.Feeder.Image1;
     
-    createICResult(1, img0, img1);
+    var comment = $("#compare-comment").val();
+    
+    createICResult(1, img0, img1, comment);
 };
 
 OnImage1 = function() {
 
     var img0 = ImageCompare.Feeder.Image0;
     var img1 = ImageCompare.Feeder.Image1;
-    createICResult(-1, img0, img1);
+    
+    var comment = $("#compare-comment").val();
+    
+    createICResult(-1, img0, img1, comment);
 };
 
 // private utility

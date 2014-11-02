@@ -3,6 +3,8 @@ var ImageCompare = (function (IC) {
 
     IC.Feeder = {}; // this requires Feeder to only be defined here 
     
+    IC.Feeder.defaultComment = "<insert comment>";
+    
     IC.Feeder.GetImageByIdx = function(idx) {
         $.ajax({
             url : 'http://127.0.0.1:5984/rop_images/_design/basic_views/_view/count_docs',
@@ -25,7 +27,9 @@ var ImageCompare = (function (IC) {
     
     // consult results and image database to select two images to present to user
     IC.Feeder.SetImagePair = function() {
-                
+        
+        $("#compare-comment").val(this.defaultComment);
+        
         $.ajax({// count the documents 
             url : 'http://127.0.0.1:5984/rop_images/_design/basic_views/_view/count_docs',
             type : 'GET',
