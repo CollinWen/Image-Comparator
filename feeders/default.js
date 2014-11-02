@@ -38,14 +38,14 @@ var ImageCompare = (function (IC) {
                 var idx0 = Math.floor(Math.random() * count) +1; // the docs are indexed starting at 1
                 var img0 = document.getElementById("image0");
                 img0.src = "http://127.0.0.1:5984/rop_images/" + idx0.toString() + "/image";
-                img0.style.width = "550px";
-                img0.style.height = "400px";
+                //img0.style.width = "550px";
+                //img0.style.height = "400px";
                 
                 var idx1 = Math.floor(Math.random() * count) +1;
                 var img1 = document.getElementById("image1");
                 img1.src = "http://127.0.0.1:5984/rop_images/" + idx1.toString() + "/image"; 
-                img1.style.width = "550px";
-                img1.style.height = "400px";
+                //img1.style.width = "550px";
+                //img1.style.height = "400px";
                 
                 IC.Feeder.Image0 = idx0;
                 IC.Feeder.Image1 = idx1;
