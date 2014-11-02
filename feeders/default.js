@@ -5,7 +5,7 @@ var ImageCompare = (function (IC) {
     
     IC.Feeder.GetImageByIdx = function(idx) {
         $.ajax({
-            url : 'http://127.0.0.1:5984/rop_images/_design/all_docs/_view/count_docs',
+            url : 'http://127.0.0.1:5984/rop_images/_design/basic_views/_view/count_docs',
             type : 'GET',
             success : function(json) { 
                 //console.log ("get succeeded: " + JSON.stringify(json)); 
@@ -27,7 +27,7 @@ var ImageCompare = (function (IC) {
     IC.Feeder.SetImagePair = function() {
                 
         $.ajax({// count the documents 
-            url : 'http://127.0.0.1:5984/rop_images/_design/all_docs/_view/count_docs',
+            url : 'http://127.0.0.1:5984/rop_images/_design/basic_views/_view/count_docs',
             type : 'GET',
             success : function(json) { // find random doc image in documents
                 //console.log ("get succeeded: " + JSON.stringify(json)); 
