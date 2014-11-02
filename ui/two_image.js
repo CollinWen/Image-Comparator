@@ -5,9 +5,6 @@ $(document).ready(function() {
     
 });
 
-// global namespace pollution: todo - refactor 
-var ct=1089;
-
 
 // winVal is a number representing how much A is greater than B
 // In a situation where the user can pick one or the other or neither
@@ -43,13 +40,12 @@ createICResult = function(winVal, img0, img1) {
     dataStr += "\"}";
 
     $.ajax({
-        url : 'http://127.0.0.1:5984/image_compare_results/'+ct,
+        url : 'http://127.0.0.1:5984/image_compare_results/'+ generateUUID(),
         type : 'PUT',
         //dataType : "jsonp",
         data: dataStr,
         success : function(json) { 
             console.log ("put succeeded: " + JSON.stringify(json)); 
-            ct++;
             ImageCompare.Feeder.SetImagePair();
         },
         error: function (response) {

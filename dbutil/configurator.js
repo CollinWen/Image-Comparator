@@ -41,6 +41,23 @@ function generateUUID(){
 var dburl =  'http://127.0.0.1:5984/rop_images_1/';
 
 
+addAttachment = function(imgRes, img) {
+   
+   var urlstr = dburl + imgRes.id + "?rev=" + imgRes.rev + " --data-binary " + img.src;
+   
+   $.ajax({
+        url : urlstr,
+        type : 'PUT',
+        data: "",
+        success : function(json) { 
+            console.log("add attachment succeeded" + JSON.stringify(json));
+        },
+        error: function (response) {
+            console.log("put failed : " + JSON.stringify(response));
+        }
+    });
+};
+
 addImageToImageDb = function(img) {
 
     var dataStr = "{\"origin\":" + "\"configurator\"}";
@@ -50,7 +67,13 @@ addImageToImageDb = function(img) {
         type : 'PUT',
         data: dataStr,
         success : function(json) { 
-            console.log ("put succeeded: " + JSON.stringify(json)); 
+            
+            // since that worked, add the attachment 
+            console.log ("put succeeded: " + JSON.stringify(json));
+            var res = JSON.parse(json);
+            
+            addAttachment(res, img);
+    
         },
         error: function (response) {
             console.log("put failed : " + JSON.stringify(response));
