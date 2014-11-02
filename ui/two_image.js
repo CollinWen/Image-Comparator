@@ -81,4 +81,14 @@ OnImage1 = function() {
     createICResult(-1, img0, img1, comment);
 };
 
+OnNotSure = function() {
+
+    var img0 = ImageCompare.Feeder.Image0;
+    var img1 = ImageCompare.Feeder.Image1;
+    
+    var comment = $("#compare-comment").val();
+    
+    createICResult(0, img0, img1, comment);
+};
+
 // private utility
