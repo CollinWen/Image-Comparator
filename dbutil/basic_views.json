@@ -1,16 +1,12 @@
 {
-  "_id":"_design/basic_views",
-  "views": {
-        "all_docs" :  {
-            "map" : "function(doc) { 
-               emit(null, doc); 
-            }
-        }
-        "count_docs" : {
-            "map" : "function(doc) {
-                emit(null, doc);
-            }
-            "reduce" : "_count(keys, vals, rereduce)"
+    "_id": "_design/basic_views",
+    "views": {
+        "all_docs": {
+            "map": "function(doc) { emit(null, doc); }"
+        },
+        "count_docs": {
+            "map": "function(doc) { emit(null, doc); }",
+            "reduce": "_count(keys, vals, rereduce)"
         }
     }
 }
