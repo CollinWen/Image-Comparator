@@ -31,8 +31,9 @@ var ImageCompare = (function (IC) {
         $("#compare-comment").val(this.defaultComment);
         
         $.ajax({// count the documents 
-            url : 'http://ec2-54-152-40-100.compute-1.amazonaws.com/test2.php',
+            url : 'http://ec2-54-152-40-100.compute-1.amazonaws.com/test3.php',
             type : 'GET',
+            //dataType: jsonp,
             success : function(json) { // find random doc image in documents
                 //console.log ("get succeeded: " + JSON.stringify(json)); 
                 var result = jQuery.parseJSON( json );
