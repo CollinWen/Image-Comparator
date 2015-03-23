@@ -30,7 +30,7 @@ createICResult = function(winVal, img0, img1, comment) {
     
     var currentTime = new Date();
     var timeStr = currentTime.toString();
-    var imgDbStr = "http://127.0.0.1:5984/rop_images/";
+    var imgDbStr = "http://ec2-54-152-40-100.compute-1.amazonaws.com:5984/rop_images/";
     
     var dataStr = "{\"user\":\"anon\",";
     dataStr += "\"date\":\"" + timeStr + "\",";
@@ -46,7 +46,7 @@ createICResult = function(winVal, img0, img1, comment) {
     dataStr += "}";
 
     $.ajax({
-        url : 'http://127.0.0.1:5984/image_compare_results/'+ generateUUID(),
+        url : 'http://ec2-54-152-40-100.compute-1.amazonaws.com:5984/image_compare_results/'+ generateUUID(),
         type : 'PUT',
         //dataType : "jsonp",
         data: dataStr,
