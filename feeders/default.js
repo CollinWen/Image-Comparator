@@ -4,10 +4,17 @@ var ImageCompare = (function (IC) {
     IC.Feeder = {}; // this requires Feeder to only be defined here 
     
     IC.Feeder.defaultComment = "<insert comment>";
+    var  db_config_elem = document.getElementById("database");
+    IC.Feeder.db_config = db_config_elem.options[db_config_elem.selectedIndex].value;
+    IC.Feeder.hostname = IC.Feeder.db_config == "localhost" ?
+        "http:localhost:5984/" : 
+        "http://ec2-54-152-40-100.compute-1.amazonaws.com:5984/";
+    IC.Feeder.imageDbName = "rop_images/";
+    IC.Feeder.resultsDbName = "image_compare_results/";
     
     IC.Feeder.GetImageByIdx = function(idx) {
         $.ajax({
-            url : 'http://ec2-54-152-40-100.compute-1.amazonaws.com:5984/rop_images/_design/basic_views/_view/count_docs',
+            url : IC.Feeder.hostname + IC.Feeder.imageDbName + '_design/basic_views/_view/count_docs',
             type : 'GET',
             success : function(json) { 
                 //console.log ("get succeeded: " + JSON.stringify(json)); 
@@ -31,7 +38,7 @@ var ImageCompare = (function (IC) {
         $("#compare-comment").val(this.defaultComment);
         
         $.ajax({// count the documents 
-            url : 'http://ec2-54-152-40-100.compute-1.amazonaws.com:5984/rop_images/_design/basic_views/_view/count_docs',
+            url : IC.Feeder.hostname + IC.Feeder.imageDbName + '_design/basic_views/_view/count_docs',
             type : 'GET',
             success : function(json) { // find random doc image in documents
                 //console.log ("get succeeded: " + JSON.stringify(json)); 
@@ -41,13 +48,13 @@ var ImageCompare = (function (IC) {
                 
                 var idx0 = Math.floor(Math.random() * count) +1; // the docs are indexed starting at 1
                 var img0 = document.getElementById("image0");
-                img0.src = "http://ec2-54-152-40-100.compute-1.amazonaws.com:5984/rop_images/" + idx0.toString() + "/image";
+                img0.src = IC.Feeder.hostname + IC.Feeder.imageDbName + idx0.toString() + "/image";
                 //img0.style.width = "550px";
                 //img0.style.height = "400px";
                 
                 var idx1 = Math.floor(Math.random() * count) +1;
                 var img1 = document.getElementById("image1");
-                img1.src = "http://ec2-54-152-40-100.compute-1.amazonaws.com:5984/rop_images/" + idx1.toString() + "/image"; 
+                img1.src = IC.Feeder.hostname + IC.Feeder.imageDbName + idx1.toString() + "/image"; 
                 //img1.style.width = "550px";
                 //img1.style.height = "400px";
                 
