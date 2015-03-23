@@ -13,6 +13,14 @@ var ImageCompare = (function (IC) {
     IC.Feeder.resultsDbName = "image_compare_results/";
     
     IC.Feeder.GetImageByIdx = function(idx) {
+    
+        // update the dbconfig - guess this should be a function
+        var  db_config_elem = document.getElementById("database");
+        IC.Feeder.db_config = db_config_elem.options[db_config_elem.selectedIndex].value;
+        IC.Feeder.hostname = IC.Feeder.db_config == "localhost" ?
+            "http:localhost:5984/" : 
+            "http://ec2-54-152-40-100.compute-1.amazonaws.com:5984/";
+    
         $.ajax({
             url : IC.Feeder.hostname + IC.Feeder.imageDbName + '_design/basic_views/_view/count_docs',
             type : 'GET',
@@ -36,6 +44,13 @@ var ImageCompare = (function (IC) {
     IC.Feeder.SetImagePair = function() {
         
         $("#compare-comment").val(this.defaultComment);
+        
+        // update the dbconfig - guess this should be a function
+        var  db_config_elem = document.getElementById("database");
+        IC.Feeder.db_config = db_config_elem.options[db_config_elem.selectedIndex].value;
+        IC.Feeder.hostname = IC.Feeder.db_config == "localhost" ?
+            "http:localhost:5984/" : 
+            "http://ec2-54-152-40-100.compute-1.amazonaws.com:5984/";
         
         $.ajax({// count the documents 
             url : IC.Feeder.hostname + IC.Feeder.imageDbName + '_design/basic_views/_view/count_docs',
