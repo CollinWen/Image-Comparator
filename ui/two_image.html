@@ -44,7 +44,7 @@
                         <a href="#">Contact</a>
                     </li>
                     <li>
-                        <select id="database"> 
+                        <select id="database" onchange="ImageCompare.Feeder.SetImagePair()"> 
                             <option value="localhost">Localhost</option>
                             <option value="ec2">AWS EC2 AMI</option>
                         </select>
