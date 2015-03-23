@@ -35,7 +35,7 @@ var ImageCompare = (function (IC) {
                 
             },
             error: function (response) {
-                alert("get failed : " + JSON.stringify(response));
+                console.log("get failed : " + JSON.stringify(response));
             }
         });
     };
@@ -77,7 +77,7 @@ var ImageCompare = (function (IC) {
                 IC.Feeder.Image1 = idx1;
             },
             error: function (response) {
-                alert("get failed : " + JSON.stringify(response));
+                console.log("get failed : " + JSON.stringify(response));
             }
         });
         
