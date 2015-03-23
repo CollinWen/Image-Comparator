@@ -16,7 +16,7 @@ createICResult = function(winVal, img0, img1, comment) {
     var db_config_elem = document.getElementById("database");
     var db_config = db_config_elem.options[db_config_elem.selectedIndex].value;
     var hostname = db_config === "localhost" ?
-        "http:localhost:5984/" : 
+        "http://localhost:5984/" : 
         "http://ec2-54-152-40-100.compute-1.amazonaws.com:5984/";
     var imageDbName = "rop_images/";
     var resultsDbName = "image_compare_results/";
