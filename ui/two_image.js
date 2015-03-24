@@ -10,7 +10,7 @@ $(document).ready(function() {
 // In a situation where the user can pick one or the other or neither
 // winVal will be -1, 0, or 1. This can support other values for UIs 
 // where the user can say "A five times more than B"
-createICResult = function(winVal, img0, img1, comment) {
+createICResult = function(winVal, img0, img1, user, comment) {
 
     // todo - this configuration should be external to this function
     var db_config_elem = document.getElementById("database");
@@ -25,7 +25,7 @@ createICResult = function(winVal, img0, img1, comment) {
     var timeStr = currentTime.toString();
     var imgDbStr = hostname + imageDbName;
     
-    var dataStr = "{\"user\":\"anon\",";
+    var dataStr = "{\"user\":\"" + user + "\",";
     dataStr += "\"date\":\"" + timeStr + "\",";
     dataStr += "\"image0\":\"" + imgDbStr + img0.toString() + "\",";
     dataStr += "\"image1\":\"" + imgDbStr + img1.toString() + "\",";
@@ -54,14 +54,21 @@ createICResult = function(winVal, img0, img1, comment) {
     
 };
 
+OnSetUser = function(sel) {
+
+    console.log ("User changed to: " + sel.value);
+    
+}
+
 OnImage0 = function() {
 
     var img0 = ImageCompare.Feeder.Image0;
     var img1 = ImageCompare.Feeder.Image1;
     
     var comment = $("#compare-comment").val();
+    var user = $("#username").val();
     
-    createICResult(1, img0, img1, comment);
+    createICResult(1, img0, img1, user, comment);
 };
 
 OnImage1 = function() {
@@ -70,8 +77,9 @@ OnImage1 = function() {
     var img1 = ImageCompare.Feeder.Image1;
     
     var comment = $("#compare-comment").val();
+    var user = $("#username").val();
     
-    createICResult(-1, img0, img1, comment);
+    createICResult(-1, img0, img1, user, comment);
 };
 
 OnNotSure = function() {
@@ -80,8 +88,9 @@ OnNotSure = function() {
     var img1 = ImageCompare.Feeder.Image1;
     
     var comment = $("#compare-comment").val();
+    var user = $("#username").val();
     
-    createICResult(0, img0, img1, comment);
+    createICResult(0, img0, img1, user, comment);
 };
 
 // private utility
