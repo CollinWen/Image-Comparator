@@ -5,7 +5,7 @@
 #  first create database rop_images
 #  find ../../images -type f
 # add tmp view with reduce function _count(keys, vals, rereduce) and save as count_docs under basic views
-i=0
+i=8
 curlcmd="curl -X PUT http://127.0.0.1:5984/rop_images/"
 for arg in $*
 do
@@ -20,7 +20,7 @@ do
    IFS='"' read -a array <<< "$res"
    rev=${array[9]}
    imagename="image"
-   cmd="$curlcmd$i/$imagename?rev=$rev --data-binary @$arg -H \"Content-Type: image/jpg\""
+   cmd="$curlcmd$i/$imagename?rev=$rev --data-binary @$arg -H \"Content-Type: image/bmp\""
    echo $cmd  
    res=$($cmd)
 done

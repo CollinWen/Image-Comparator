@@ -10,29 +10,22 @@ $(document).ready(function() {
 // In a situation where the user can pick one or the other or neither
 // winVal will be -1, 0, or 1. This can support other values for UIs 
 // where the user can say "A five times more than B"
-createICResult = function(winVal, img0, img1, comment) {
-    // todo get uuid
-    // $.ajax({
-        // url : 'http://127.0.0.1:5984/image_compare_results/0001',
-        // type : 'GET',
-        // success : function(json) { 
-            // console.log ("get succeeded: " + JSON.stringify(json)); 
-        // },
-        // error: function (response) {
-            // console.log("get failed : " + JSON.stringify(response));
-        // }
-    // });
-  
-    // var couchURL = 'http://127.0.0.1:5984/';
-    // var dbname = "image_compare_results/";
-    // var couchDocId = "004";    
-    // var url= couchURL + dbname + couchDocId;
+createICResult = function(winVal, img0, img1, user, comment) {
+
+    // todo - this configuration should be external to this function
+    var db_config_elem = document.getElementById("database");
+    var db_config = db_config_elem.options[db_config_elem.selectedIndex].value;
+    var hostname = db_config === "localhost" ?
+        "http://localhost:5984/" : 
+        "http://ec2-54-152-40-100.compute-1.amazonaws.com:5984/";
+    var imageDbName = "rop_images/";
+    var resultsDbName = "image_compare_results/";
     
     var currentTime = new Date();
     var timeStr = currentTime.toString();
-    var imgDbStr = "http://ec2-54-152-40-100.compute-1.amazonaws.com:5984/rop_images/";
+    var imgDbStr = hostname + imageDbName;
     
-    var dataStr = "{\"user\":\"anon\",";
+    var dataStr = "{\"user\":\"" + user + "\",";
     dataStr += "\"date\":\"" + timeStr + "\",";
     dataStr += "\"image0\":\"" + imgDbStr + img0.toString() + "\",";
     dataStr += "\"image1\":\"" + imgDbStr + img1.toString() + "\",";
@@ -46,7 +39,7 @@ createICResult = function(winVal, img0, img1, comment) {
     dataStr += "}";
 
     $.ajax({
-        url : 'http://ec2-54-152-40-100.compute-1.amazonaws.com:5984/image_compare_results/'+ generateUUID(),
+        url : hostname + resultsDbName + generateUUID(),
         type : 'PUT',
         //dataType : "jsonp",
         data: dataStr,
@@ -61,14 +54,21 @@ createICResult = function(winVal, img0, img1, comment) {
     
 };
 
+OnSetUser = function(sel) {
+
+    console.log ("User changed to: " + sel.value);
+    
+}
+
 OnImage0 = function() {
 
     var img0 = ImageCompare.Feeder.Image0;
     var img1 = ImageCompare.Feeder.Image1;
     
     var comment = $("#compare-comment").val();
+    var user = $("#username").val();
     
-    createICResult(1, img0, img1, comment);
+    createICResult(1, img0, img1, user, comment);
 };
 
 OnImage1 = function() {
@@ -77,8 +77,9 @@ OnImage1 = function() {
     var img1 = ImageCompare.Feeder.Image1;
     
     var comment = $("#compare-comment").val();
+    var user = $("#username").val();
     
-    createICResult(-1, img0, img1, comment);
+    createICResult(-1, img0, img1, user, comment);
 };
 
 OnNotSure = function() {
@@ -87,8 +88,9 @@ OnNotSure = function() {
     var img1 = ImageCompare.Feeder.Image1;
     
     var comment = $("#compare-comment").val();
+    var user = $("#username").val();
     
-    createICResult(0, img0, img1, comment);
+    createICResult(0, img0, img1, user, comment);
 };
 
 // private utility
