@@ -68,6 +68,10 @@ var ImageCompare = (function (IC) {
                 //img0.style.height = "400px";
                 
                 var idx1 = Math.floor(Math.random() * count) +1;
+				
+				while (idx1==idx0) {
+					idx1 = Math.floor(Math.random() * count) +1;
+				}
                 var img1 = document.getElementById("image1");
                 img1.src = IC.Feeder.hostname + IC.Feeder.imageDbName + idx1.toString() + "/image"; 
                 //img1.style.width = "550px";
