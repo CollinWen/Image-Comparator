@@ -53,12 +53,19 @@ var ImageCompare = (function (IC) {
             "http://ec2-54-152-40-100.compute-1.amazonaws.com:5984/";
         
         $.ajax({// count the documents 
-            url : IC.Feeder.hostname + IC.Feeder.imageDbName + '_design/basic_views/_view/count_docs',
+            url : IC.Feeder.hostname + IC.Feeder.imageDbName + '_design/basic_views/_view/count_image_docs',
             type : 'GET',
             success : function(json) { // find random doc image in documents
                 //console.log ("get succeeded: " + JSON.stringify(json)); 
                 var result = jQuery.parseJSON( json );
                 var count = result.rows[0].value;
+                
+                if (count === undefined || count < 3)
+                { 
+                    alert("Found " + count.toString() + " docs in database. Aborting.");
+                    return;
+                }
+                
                 //console.log ("doc count : " + count);
                 
                 var idx0 = Math.floor(Math.random() * count) +1; // the docs are indexed starting at 1
