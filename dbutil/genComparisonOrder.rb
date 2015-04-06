@@ -45,6 +45,11 @@ end
 puts pairs.inspect
 puts pairs.size
 
+obj = { type:"task",
+        count:pairs.size, 
+        order:pairs}
+puts obj.inspect
+puts obj.to_json
 
 # put the results in the database
 dbname = "rop_images/"
@@ -55,7 +60,7 @@ uri = URI.parse(url)
 http = Net::HTTP.new(uri.host, uri.port)
 request = Net::HTTP::Put.new(uri.path)
 
-resp = http.request(request, "{\"type\" : \"task\", \"count\" : \"#{pairs.size}\", \"idx order\": \"#{pairs}\"}") 
+resp = http.request(request, obj.to_json) 
 puts resp.body
 
 
