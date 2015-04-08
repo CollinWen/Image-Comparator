@@ -4,13 +4,17 @@ require 'json'
 
 # get the number of documents as a command line arg
 ARGV.each { |arg| puts "Argument: #{arg}" }
-# todo - error checking on inputs
 numDocs = ARGV[0].to_i
-puts numDocs.inspect
+name = ARGV[1]
+
+if (ARGV.size != 2) then
+    puts "Usage: ruby makeImageCompareList.rb <num docs> <task name>";
+    exit
+end
 
 if (numDocs < 2) then 
     puts "Must specify the number of documents to consider. ";
-    puts "For example: ruby genComparisonOrder.rb 6 ";
+    puts "For example: ruby makeImageCompareList.rb 6 ";
     exit
 end
 
@@ -45,15 +49,15 @@ end
 puts pairs.inspect
 puts pairs.size
 
-obj = { type:"task",
+obj = { type:"image_compare_list",
         count:pairs.size, 
-        order:pairs}
+        list:pairs}
 puts obj.inspect
 puts obj.to_json
 
 # put the results in the database
 dbname = "rop_images/"
-docname = "task1"
+docname = name
 url = 'http://localhost:5984/' + dbname + docname
 uri = URI.parse(url)
  
