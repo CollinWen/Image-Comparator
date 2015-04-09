@@ -1,4 +1,5 @@
 
+// ImageCompare is the namespace
 var ImageCompare = (function (IC) {
 
     IC.TaskFeeder = {}; // this requires TaskFeeder to only be defined here 
@@ -17,6 +18,17 @@ var ImageCompare = (function (IC) {
     IC.TaskFeeder.current_task_idx = -1; 
     IC.TaskFeeder.current_icl = ""; // image_compare_list
     
+    
+    IC.TaskFeeder.GetImageDbUrl = function () {
+    
+        var  db_config_elem = document.getElementById("database");
+        IC.TaskFeeder.db_config = db_config_elem.options[db_config_elem.selectedIndex].value;
+        IC.TaskFeeder.hostname = IC.TaskFeeder.db_config == "localhost" ?
+            "http://localhost:5984/" : 
+            "http://ec2-54-152-40-100.compute-1.amazonaws.com:5984/";
+            
+        return IC.TaskFeeder.hostname + IC.TaskFeeder.imageDbName;
+    };
     
     // consult results and image database to select two images to present to user
     IC.TaskFeeder.SetImagePair = function(username) {

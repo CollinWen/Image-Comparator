@@ -44,7 +44,7 @@
                         <a href="#">Contact</a>
                     </li>
                     <li>
-                        <select id="database" onchange="ImageCompare.Feeder.SetImagePair()"> 
+                        <select id="database" onchange="OnSetDB(this)"> 
                             <option value="localhost">Localhost</option>
                             <option value="ec2">AWS EC2 AMI</option>
                         </select>
@@ -60,14 +60,24 @@
                 </ul>
             </div>
             <!-- /.navbar-collapse -->
+
         </div>
         <!-- /.container -->
     </nav>
 
 
+
     <!-- Page Content -->
     <div class="container">
 
+        <div class="row">
+            <h3>Status Info</h3>
+            <div><span id="si_user_label" class="label label-primary">User</span>         <span id="si_user">Bubba                  </span></div>
+            <div><span id="si_db_label" class="label label-primary">Database</span>     <span id="si_db">Localhost                </span></div>
+            <div><span id="si_task_label" class="label label-primary">Tasks</span>        <span id="si_tasks">2 unfinished tasks     </span></div>
+            <div><span id="si_curtask_label" class="label label-primary">Current Task</span> <span id="si_curtask">Comparison 27 of 56 </span></div> 
+        </div>
+    
         <!-- Page Header -->
         <div class="row">
             <div class="col-lg-12">

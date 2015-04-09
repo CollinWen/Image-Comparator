@@ -8,13 +8,13 @@ numDocs = ARGV[0].to_i
 name = ARGV[1]
 
 if (ARGV.size != 2) then
-    puts "Usage: ruby makeImageCompareList.rb <num docs> <task name>";
+    puts "Usage: ruby : #{$PROGRAM_NAME} <num docs> <list name>";
     exit
 end
 
 if (numDocs < 2) then 
     puts "Must specify the number of documents to consider. ";
-    puts "For example: ruby makeImageCompareList.rb 6 ";
+    puts "For example: ruby : #{$PROGRAM_NAME} 6 ";
     exit
 end
 

@@ -11,14 +11,15 @@ user = ARGV[0]
 image_compare_list = ARGV[1]
 
 if (ARGV.size != 2) then
-    puts "Usage: ruby makeTask.rb <user> <image compare list>";
+    puts "Usage: ruby : #{$PROGRAM_NAME}.rb <user> <image-compare-list name>";
     exit
 end
 
 obj = { type:"task",
         user:user,
         image_compare_list:image_compare_list,
-        current_idx:0}
+        current_idx:0,
+        completed:false}
 
 puts obj.inspect
 puts obj.to_json
