@@ -54,11 +54,16 @@ updateStatInfoTasks = function(json) {
     
     var elem = document.getElementById("si_tasks");
     elem.textContent = "You have " + tasks.length + " unfinished tasks.";
-    
+   
+    // this is to be updated - hide it if there are no pending tasks 
+    var curTaskElem = document.getElementById("si_curtask");   
+   
     if (tasks.length > 0) {
+        curTaskElem.hidden = false;
+    
         var firstTask = tasks[0].value;
         var icl_id = firstTask.image_compare_list;
-            
+
         var dburl = ImageCompare.TaskFeeder.GetImageDbUrl();
         var fullurl = dburl + "_design/basic_views/_view/image_compare_lists?key=\"" + icl_id + "\"";  
         
@@ -68,9 +73,9 @@ updateStatInfoTasks = function(json) {
             success : function (json) {
                 console.log("get succeeded : " + JSON.stringify(json));
                 var result = jQuery.parseJSON( json );
-                var elem = document.getElementById("si_curtask");
+
                 var curIdx = firstTask.current_idx + 1; // because humans usually don't use zero based indexing
-                elem.textContent = "You are on comparison " + curIdx + " of " + result.rows[0].value.count;
+                curTaskElem.textContent = "You are on comparison " + curIdx + " of " + result.rows[0].value.count;
                 
             },
             error: function (response) {
@@ -78,13 +83,16 @@ updateStatInfoTasks = function(json) {
             }
         });
     }
+    else {
+        curTaskElem.hidden = true;
+    }
 };
 
 
 var getTasks = function(username, successFn) {
 
     var dburl = ImageCompare.TaskFeeder.GetImageDbUrl();
-    var fullurl = dburl + "_design/basic_views/_view/tasks?key=\"" + username + "\"";
+    var fullurl = dburl + "_design/basic_views/_view/incomplete_tasks?key=\"" + username + "\"";
     
     $.ajax({  
         url : fullurl,
@@ -133,7 +141,7 @@ createICResult = function(winVal, img0, img1, user, comment, task, task_idx) {
     
     dataStr += "}";
 
-    $.ajax({
+    var def = $.ajax({
         url : hostname + resultsDbName + generateUUID(),
         type : 'PUT',
         //dataType : "jsonp",
@@ -146,6 +154,7 @@ createICResult = function(winVal, img0, img1, user, comment, task, task_idx) {
         }
     });
     
+    return def;
 };
 
 // THIS IS A DB PUT 
@@ -159,11 +168,15 @@ updateTask = function(task, user) {
     var fullurl = dburl + "_design/basic_views/_view/icl_lengths?key=\"" + task.image_compare_list + "\""; 
     var icl_count = -1;
     
-    $.ajax({
+    
+    var defered = $.ajax({
         url : fullurl,
         type : 'GET',
         success : function(json) { 
-        
+                                            
+            var result = jQuery.parseJSON( json );
+            icl_count = result.rows[0].value;
+            
             // now that that worked, update the task
             var dburl = ImageCompare.TaskFeeder.GetImageDbUrl();
             var fullurl = dburl + task._id;    
@@ -181,6 +194,7 @@ updateTask = function(task, user) {
                 success : function(json) { 
                     console.log ("put succeeded: " + JSON.stringify(json)); 
                     ImageCompare.TaskFeeder.SetImagePair(user);
+                    updateStatusInfo(); // really this is redundant, but I need to return a deferred for this ajax call - how?
                 },
                 error: function (response) {
                     console.log("put failed : " + JSON.stringify(response));
@@ -192,7 +206,7 @@ updateTask = function(task, user) {
         }
     });    
 
-
+    return defered;
 };
 
 OnSetDB = function(sel) {
@@ -219,14 +233,16 @@ saveResultSetImages = function (winnerId) {
     var comment = $("#compare-comment").val();
     var user = $("#username").val();
     
-    createICResult(1, img0, img1, user, comment, task, task_idx);
-    updateTask(task, user);
+    // these two are like a transaction - how to ensure both or neither?
+    var d1 = createICResult(1, img0, img1, user, comment, task, task_idx);
+    var d2 = updateTask(task, user);
     // update happens asynchronously, so this would be wrong:
     // ImageCompare.TaskFeeder.SetImagePair(user);
     // instead it has to happen inside the updateTask success
     // Todo: maybe better would be to pass it in.
     
-    updateStatusInfo();
+    // same here - this needs to happen after the previous two 
+    $.when(d1, d2).then(updateStatusInfo());
 }
 
 OnImage0 = function() {

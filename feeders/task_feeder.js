@@ -42,8 +42,9 @@ var ImageCompare = (function (IC) {
             "http://localhost:5984/" : 
             "http://ec2-54-152-40-100.compute-1.amazonaws.com:5984/";
         
+        var fullurl = IC.TaskFeeder.hostname + IC.TaskFeeder.imageDbName + '_design/basic_views/_view/incomplete_tasks?key=\"' + username+ "\"";
         $.ajax({  
-            url : IC.TaskFeeder.hostname + IC.TaskFeeder.imageDbName + '_design/basic_views/_view/tasks',
+            url : fullurl,
             type : 'GET',
             success : function(json) { 
                             
@@ -79,8 +80,17 @@ var ImageCompare = (function (IC) {
                             if (res.id === curICL) {
                                 found = true;                                
                                 nextpair = res.value.list[curTaskIdx];
+                                
+                                if (!nextpair)
+                                    debugger;
                             }
                         }
+                        
+                        if (!found) {
+                            alert("No pending tasks");
+                            return;
+                        }
+                        
                         var idx0 = nextpair[0];
                         var img0 = document.getElementById("image0");
                         img0.src = IC.TaskFeeder.hostname + IC.TaskFeeder.imageDbName + idx0.toString() + "/image";
