@@ -11,6 +11,12 @@ h1,h2,h3,h4 { clear: both; }
   -webkit-user-drag: element;
 }
 
+img {
+  width:200px;
+  height:160px;
+
+}
+
 .column {
   height: 200px;
   width: 200px;
@@ -72,11 +78,12 @@ h1,h2,h3,h4 { clear: both; }
 
 #columns-almostFinal{
     width: 800px;
-    height: 300px;
+    height: 400px;
     white-space: nowrap;
     display: inline-block;
-    background-color: lightcoral;
+    background-color: #ccc;
     -webkit-box-sizing:border-box;
     overflow:auto;
+
 }
 
