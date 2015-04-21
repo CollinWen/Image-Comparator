@@ -1,12 +1,30 @@
 {
-    "_id": "_design/basic_views",
-    "views": {
-        "all_docs": {
-            "map": "function(doc) { emit(null, doc); }"
-        },
-        "count_docs": {
-            "map": "function(doc) { emit(null, doc); }",
-            "reduce": "_count(keys, vals, rereduce)"
-        }
-    }
+   "_id": "_design/basic_views",
+   "_rev": "25-4072b52e19a093bcb27716872263c435",
+   "language": "javascript",
+   "views": {
+       "count_docs": {
+           "map": "function(doc) {\n  emit(null, doc);\n}",
+           "reduce": "_count(keys, vals, rereduce)"
+       },
+       "count_image_docs": {
+           "map": "function(doc) {\n  if (doc._attachments && doc._attachments.image)\n    emit (doc.id);\n}",
+           "reduce": "_count(keys, vals, rereduce)"
+       },
+       "tasks": {
+           "map": "function(doc) {\n  if (doc.type === \"task\") {\n    emit (doc.user, doc);\n  }\n}"
+       },
+       "image_compare_lists": {
+           "map": "function(doc) {\n  if (doc.type === \"image_compare_list\") {\n\n     emit(doc._id, doc);\n  }\n}"
+       },
+       "incomplete_tasks": {
+           "map": "function(doc) {\n  if (doc.type === \"task\" && doc.completed === false) {\n    emit (doc.user, doc);\n  }\n}"
+       },
+       "completed_tasks": {
+           "map": "function(doc) {\n  if (doc.type === \"task\" && doc.completed === true) {\n    emit (doc.user, doc);\n  }\n}"
+       },
+       "icl_lengths": {
+           "map": "function(doc) {\n  if (doc.type === \"image_compare_list\") {\n    emit (doc._id, doc.count);\n  }\n}"
+       }
+   }
 }
