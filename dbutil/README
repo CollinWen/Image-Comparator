@@ -6,6 +6,11 @@ To use addImagesToDb.sh:
     Then run the script e.g.
     find ../images -name *.jpg | xargs addImagesToDb.sh
 
+New method addImagesToDb_jkc
+    install couchrest gem (sudo gem install couchrest)
+    edit script: change baseDir location on line 6
+    edit script: change dbname    
+
 Configurator files are (unfinished!) web based tool to add images and other functionality
 
 basic_views.json is the code for the views of the couchdb - handy for when recreating a db.
@@ -13,9 +18,3 @@ basic_views.json is the code for the views of the couchdb - handy for when recre
 genComparisonOrder.rb
     This is a script that takes a number (which represents the number of docs) then generates a shuffled order of that many numbers.
     Maybe it can also put this document into the db. If so, it should take a name.
-    
-    
-    
-
-
-

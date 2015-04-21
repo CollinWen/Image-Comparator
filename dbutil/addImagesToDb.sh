@@ -1,10 +1,11 @@
 #!/bin/bash
 
-# Typical Usage: 
+# Typical Usage:
 #    find ../images -name *.jpg | xargs ./addImagesToDb.sh
 #  first create database rop_images
 #  find ../../images -type f
-# add tmp view with reduce function _count(keys, vals, rereduce) and save as count_docs under basic views
+# add tmp view with reduce function _count(keys, vals, rereduce)
+# and save as count_docs under basic views
 i=8
 curlcmd="curl -X PUT http://127.0.0.1:5984/rop_images/"
 for arg in $*
@@ -15,12 +16,12 @@ do
    curldata="{\"origin\":\"$filename\"}"
    cmd="$curlcmd$i -d $curldata"
    echo $cmd
-   res=$($cmd) 
+   res=$($cmd)
    echo $res
    IFS='"' read -a array <<< "$res"
    rev=${array[9]}
    imagename="image"
    cmd="$curlcmd$i/$imagename?rev=$rev --data-binary @$arg -H \"Content-Type: image/bmp\""
-   echo $cmd  
+   echo $cmd
    res=$($cmd)
 done
