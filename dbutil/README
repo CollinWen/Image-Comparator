@@ -9,7 +9,15 @@ To use addImagesToDb.sh:
 New method addImagesToDb_jkc
     install couchrest gem (sudo gem install couchrest)
     edit script: change baseDir location on line 6
-    edit script: change dbname    
+    edit script: change dbname
+
+Create a database called image_compare_results
+
+create a image compare list
+
+create a task for each user
+
+
 
 Configurator files are (unfinished!) web based tool to add images and other functionality
 
