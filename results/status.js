@@ -31,7 +31,8 @@ sortResults = function(resultArray) {
     if (!numTimesWon[res.image1])
         numTimesWon[res.image1] = 0;
 
-    if (res.winner === "0")
+    //if (res.winner === "0")
+    if (res.winner === "-1")
        numTimesWon[res.image0]++;
 
     if (res.winner === "1")
@@ -79,7 +80,7 @@ displayStatus=function(){
       var results = jQuery.parseJSON( json );
 
       var mikeResults = results.rows.filter(function(result){
-        return result.value.user === 'susan'; });
+        return result.value.user === 'paul'; });
 
       var mikeSortedRes = sortResults(mikeResults);
 

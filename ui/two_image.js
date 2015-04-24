@@ -126,6 +126,7 @@ createICResult = function(winVal, img0, img1, user, comment, task, task_idx) {
     var imgDbStr = hostname + imageDbName;
 
     var dataStr = "{\"user\":\"" + user + "\",";
+    dataStr += "\"type\":\"" + "imageCompareResult" + "\",";
     dataStr += "\"date\":\"" + timeStr + "\",";
     dataStr += "\"image0\":\"" + imgDbStr + img0.toString() + "\",";
     dataStr += "\"image1\":\"" + imgDbStr + img1.toString() + "\",";
@@ -233,7 +234,11 @@ saveResultSetImages = function (winnerId) {
     var user = $("#username").val();
 
     // these two are like a transaction - how to ensure both or neither?
-    var d1 = createICResult(1, img0, img1, user, comment, task, task_idx);
+
+    // not sure why the result is being created with winval of 1
+    //var d1 = createICResult(1, img0, img1, user, comment, task, task_idx);
+
+    var d1 = createICResult(winnerId, img0, img1, user, comment, task, task_idx);
     var d2 = updateTask(task, user);
     // update happens asynchronously, so this would be wrong:
     // ImageCompare.TaskFeeder.SetImagePair(user);
