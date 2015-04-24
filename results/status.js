@@ -40,9 +40,35 @@ sortResults = function(resultArray) {
   }
 
   var images = Object.keys(numTimesShown);
-  var sortedImages = images.sort(function(a, b) {
-    return numTimesWon[a]/numTimesShown[a] < numTimesWon[b]/numTimesShown[b];
-  });
+  var sortedImages = images.sort(winSort);
+
+  function winSort(a, b) {
+    winRateA=numTimesWon[a]/numTimesShown[a];
+    winRateB=numTimesWon[b]/numTimesShown[b];
+
+    if (winRateA===winRateB){
+        console.log(a,b);
+        var aRes = resultArray.filter(function(result){
+          return result.value.image0 === a && result.value.image1===b; });
+        var bRes = resultArray.filter(function(result){
+          return result.value.image0 === b && result.value.image1===a; });
+          console.log(aRes);
+          console.log(bRes);
+      }
+
+    if (winRateA < winRateB)
+      return 1;
+  //  if (winRateA > winRateB)
+    //  return -1;
+    else
+      return -1;
+
+  //  if (winRateA===winRateB)
+    //  console.log(a)
+
+  };
+
+//  return numTimesWon[a]/numTimesShown[a] < numTimesWon[b]/numTimesShown[b];
 
   return sortedImages;
 
