@@ -1,9 +1,21 @@
 require 'couchrest'
 require 'securerandom'
-uuid = SecureRandom.uuid
+
 
 baseDir="/Users/jkc/Documents/retinalImaging/website/Image-Comparator/"
+
+
 imageFolder=ARGV[0]
+imageSetName=ARGV[1]
+
+if (ARGV.size != 2) then
+  puts "Usage: ruby : #{$PROGRAM_NAME}.rb <imageFolder> <imageSetName>";
+  puts "where imageFolder is the folder/directory where the images are located."
+  puts "And imageSetName can be used by makeImageCompareList"
+  exit
+end
+
+# add warning if imageSetName already exists
 
 ims=Dir.glob("#{baseDir}#{imageFolder}/*")
 
@@ -11,7 +23,15 @@ dbname = "rop_images"
 
 #connect to db, create if does not exist
 @db = CouchRest.database!("http://127.0.0.1:5984/#{dbname}")
-#database = Relaxo.connect("http://localhost:5984/#{dbname}")
+
+res= @db.view('basic_views/count_image_docs')#.to_yaml
+puts res
+imgCount= res["rows"].size
+if imgCount >0
+#sleep 10000
+  imgCount= res["rows"][0]["value"].to_i
+end
+
 
 ims.each_with_index  do |im, idx|
   puts im
@@ -20,24 +40,21 @@ ims.each_with_index  do |im, idx|
   imClass=thisIm.split('.').last
   puts thisIm
   puts imClass
-=begin
-  obj = { :_id => uuid,
-          :origin => "#{thisIm}",
-          :id => uuid,
-          :timeAdded => Time.now()
+  uuid = SecureRandom.uuid
 
-          }
-=end
   obj = { :origin => "#{thisIm}",
-          :id => uuid,
-          :timeAdded => Time.now()
+  :id => uuid,
+  :type => "imageDoc",
+  :imageSetName => imageSetName,
+  :timeAdded => Time.now()
 
-        }
-  obj['_id']=(idx+1).to_s
-  response =@db.save_doc(obj)
+}
+obj['_id']=(idx+imgCount+1).to_s
+#puts obj
+response =@db.save_doc(obj)
 
-  @db.put_attachment(obj, "image", File.open(im), :content_type => "image/#{imClass}")
+@db.put_attachment(obj, "image", File.open(im), :content_type => "image/#{imClass}")
 
-  #@db.save_doc(obj)
+#@db.save_doc(obj)
 
 end
