@@ -32,10 +32,10 @@ sortResults = function(resultArray) {
         numTimesWon[res.image1] = 0;
 
     //if (res.winner === "0")
-    if (res.winner === "-1")
+    if (res.winner === "1")
        numTimesWon[res.image0]++;
 
-    if (res.winner === "1")
+    if (res.winner === "-1")
         numTimesWon[res.image1]++;
   }
 
@@ -43,8 +43,8 @@ sortResults = function(resultArray) {
   var sortedImages = images.sort(winSort);
 
   function winSort(a, b) {
-    winRateA=numTimesWon[a]/numTimesShown[a];
-    winRateB=numTimesWon[b]/numTimesShown[b];
+    var winRateA=numTimesWon[a]/numTimesShown[a];
+    var winRateB=numTimesWon[b]/numTimesShown[b];
 
     if (winRateA===winRateB){
         console.log(a,b);
@@ -59,9 +59,11 @@ sortResults = function(resultArray) {
     if (winRateA < winRateB)
       return 1;
   //  if (winRateA > winRateB)
-    //  return -1;
+  //    return -1;
     else
       return -1;
+
+  //   return (winRateA < winRateB) ? 1:-1;
 
   //  if (winRateA===winRateB)
     //  console.log(a)
