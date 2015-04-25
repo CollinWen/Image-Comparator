@@ -4,19 +4,24 @@ require 'json'
 
 # get the number of documents as a command line arg
 ARGV.each { |arg| puts "Argument: #{arg}" }
-numDocs = ARGV[0].to_i
-name = ARGV[1]
+rangeStr = ARGV[0]
+nameStr = ARGV[1]
+puts rangeStr
+puts rangeStr.class
+rangeBnds = rangeStr.split("..").map{|d| Integer(d)}
+puts rangeBnds[0]
+puts rangeBnds[1]
+range = Range.new(rangeBnds[0], rangeBnds[1]);
+#puts range.to_a
 
 if (ARGV.size != 2) then
-    puts "Usage: ruby : #{$PROGRAM_NAME} <num docs> <list name>";
+    puts "Usage: ruby : #{$PROGRAM_NAME} <doc range> <list name>";
+    puts "  where doc range is a ruby style range in quotations, e.g., \"10..20\" ";
+    puts "  full example: ruby #{$PROGRAM_NAME} \"10..20\" bub";  
     exit
 end
 
-if (numDocs < 2) then 
-    puts "Must specify the number of documents to consider. ";
-    puts "For example: ruby : #{$PROGRAM_NAME} 6 ";
-    exit
-end
+exit
 
 # create pairs
 pairs = []
