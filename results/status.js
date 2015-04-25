@@ -40,7 +40,9 @@ sortResults = function(resultArray) {
   }
 
   var images = Object.keys(numTimesShown);
+  console.log(images);
   var sortedImages = images.sort(winSort);
+  console.log(sortedImages);
 
   function winSort(a, b) {
     var winRateA=numTimesWon[a]/numTimesShown[a];
@@ -56,14 +58,8 @@ sortResults = function(resultArray) {
           console.log(bRes);
       }
 
-    if (winRateA < winRateB)
-      return 1;
-  //  if (winRateA > winRateB)
-  //    return -1;
-    else
-      return -1;
 
-  //   return (winRateA < winRateB) ? 1:-1;
+   return (winRateA < winRateB) ? 1:-1;
 
   //  if (winRateA===winRateB)
     //  console.log(a)
@@ -79,19 +75,30 @@ sortResults = function(resultArray) {
 // add a bunch of images
 displayResults=function(resArray){
 
-
+  console.log(resArray);
   resArray.forEach(function(res){
     var img = new Image();
     var div = document.getElementById('image-container');
 
     img.onload = function() {
-      div.appendChild(img);
+    //  div.appendChild(img);
     };
 
     img.src = res + "/image";
+    img.className="thumbnail";
+
+    img.onclick=onclickthumbnail;
+//    img.onclick=(function(){
+  //    return onclickthumbnail;
+  //  })();
+    div.appendChild(img);
   });
 }
 
+onclickthumbnail=function(){
+  var elem=document.getElementById("full-size-image");
+  elem.src=this.currentSrc;
+}
 
 displayStatus=function(){
 
