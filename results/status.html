@@ -8,11 +8,84 @@
     <script src="../vendor/jquery/jquery-2.1.0.min.js"></script>
     <script src="status.js"></script>
     <link rel="stylesheet" href="status.css" type="text/css">
+    <!-- Bootstrap Core CSS -->
+    <link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="../vendor/bootstrap/css/2-col-portfolio.css" rel="stylesheet">
+
 </head>
 <body>
+  <!-- Navigation -->
+  <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+      <div class="container">
+          <!-- Brand and toggle get grouped for better mobile display -->
+          <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                  <span class="sr-only">Toggle navigation</span>
+                  <span class="icon-bar"></span>
+                  <span class="icon-bar"></span>
+                  <span class="icon-bar"></span>
+              </button>
+              <a class="navbar-brand" href="#">Home</a>
+          </div>
+          <!-- Collect the nav links, forms, and other content for toggling -->
+          <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+              <ul class="nav navbar-nav">
+                  <li>
+                      <a href="#">About</a>
+                  </li>
+                  <li>
+                      <a href="#">Contact</a>
+                  </li>
+                  <li>
+                      <select id="database" onchange="OnSetDB(this)">
+                          <option value="localhost">Localhost</option>
+                          <option value="ec2">AWS EC2 AMI</option>
+                      </select>
+                  </li>
+                  <li>
+                      <select id="username" onchange="OnSetUser(this)">
+                          <option value="testuser">Test User</option>
+                          <option value="mike">Mike</option>
+                          <option value="susan">Susan</option>
+                          <option value="paul">Paul</option>
+                          <option value="karyn">Kayrn</option>
 
-      <h1 id= "rowCt"> not yet </h1>
-      <div id="image-container">
+                      </select>
+                  </li>
+              </ul>
+          </div>
+          <!-- /.navbar-collapse -->
+
       </div>
-      <img id="full-size-image" width="640" height= "480" >
+      <!-- /.container -->
+  </nav>
+
+  <!-- Page Content -->
+  <div class="container">
+
+      <div class="row">
+          <h3>Status Info</h3>
+          <div><span id="si_user_label" class="label label-primary">User</span>         <span id="si_user">Bubba                  </span></div>
+          <div><span id="si_db_label" class="label label-primary">Database</span>     <span id="si_db">Localhost                </span></div>
+          <div><span id="si_task_label" class="label label-primary">Tasks</span>        <span id="si_tasks">2 unfinished tasks     </span></div>
+          <div><span id="si_curtask_label" class="label label-primary">Current Task</span> <span id="si_curtask">Comparison 27 of 56 </span></div>
+      </div>
+  </div>
+
+
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-sm-3 col-md-6 col-lg-4" id="left" style="background-color:lavender;">
+        <h1 id= "rowCt"> not yet </h1>
+        <div id="image-container">
+        </div>
+      </div>
+      <div class="col-sm-9 col-md-6 col-lg-8" id="right" style="background-color:lavenderblush;">
+        <img id="full-size-image" width="640" height= "480" >
+      </div>
+    </div>
+
+  </div>
 </body>
