@@ -130,8 +130,10 @@ onclickthumbnail=function(){
 
 displayStatus=function(user, taskId){
 
-  var hostname="http://localhost:5984/";
+  //var hostname="http://localhost:5984/";
+  var hostname="http://ec2-54-152-40-100.compute-1.amazonaws.com:5984/";
   var imageDbName = "rop_images/";
+
   var resultsDbName = "rop_images/";
 
   var fullurl = hostname + imageDbName + '_design/basic_views/_view/taskresults';

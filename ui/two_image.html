@@ -16,7 +16,7 @@
 
     <!-- Custom CSS -->
     <link href="../vendor/bootstrap/css/2-col-portfolio.css" rel="stylesheet">
-    
+
 </head>
 
 <body>
@@ -44,17 +44,19 @@
                         <a href="#">Contact</a>
                     </li>
                     <li>
-                        <select id="database" onchange="OnSetDB(this)"> 
+                        <select id="database" onchange="OnSetDB(this)">
                             <option value="localhost">Localhost</option>
                             <option value="ec2">AWS EC2 AMI</option>
                         </select>
                     </li>
                     <li>
-                        <select id="username" onchange="OnSetUser(this)"> 
+                        <select id="username" onchange="OnSetUser(this)">
                             <option value="testuser">Test User</option>
                             <option value="mike">Mike</option>
                             <option value="susan">Susan</option>
                             <option value="paul">Paul</option>
+                            <option value="karyn">Kayrn</option>
+
                         </select>
                     </li>
                 </ul>
@@ -75,9 +77,9 @@
             <div><span id="si_user_label" class="label label-primary">User</span>         <span id="si_user">Bubba                  </span></div>
             <div><span id="si_db_label" class="label label-primary">Database</span>     <span id="si_db">Localhost                </span></div>
             <div><span id="si_task_label" class="label label-primary">Tasks</span>        <span id="si_tasks">2 unfinished tasks     </span></div>
-            <div><span id="si_curtask_label" class="label label-primary">Current Task</span> <span id="si_curtask">Comparison 27 of 56 </span></div> 
+            <div><span id="si_curtask_label" class="label label-primary">Current Task</span> <span id="si_curtask">Comparison 27 of 56 </span></div>
         </div>
-    
+
         <!-- Page Header -->
         <div class="row">
             <div class="col-lg-12">
@@ -106,7 +108,7 @@
         </div>
         <!-- /.row -->
 
- 
+
 
         <hr>
         <div class="row text-center">
@@ -114,10 +116,10 @@
             Optional Comments
             </div>
             <div class="col-lg-12">
-                 <textarea id="compare-comment" rows="2" cols="80">Write something here</textarea>               
+                 <textarea id="compare-comment" rows="2" cols="80">Write something here</textarea>
             </div>
         </div>
-        
+
         <!-- Pagination -->
         <div class="row text-center">
             <div class="col-lg-12">
@@ -148,15 +150,15 @@
 
     <!-- Bootstrap Core JavaScript -->
     <script src="../vendor/bootstrap/js/bootstrap.min.js"></script>
-    
+
     <!-- Feeder reference -->
     <script src="../feeders/default.js"></script>
     <script src="../feeders/task_feeder.js"></script>
-        
+
     <!-- document ready behavior and handlers -->
     <script src="two_image.js"></script>
-    
-    <script src="../util/uuidutil.js"></script> 
+
+    <script src="../util/uuidutil.js"></script>
 
 </body>
 
