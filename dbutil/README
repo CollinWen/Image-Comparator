@@ -11,7 +11,7 @@ New method addImagesToDb_jkc
     edit script: change baseDir location on line 6
     edit script: change dbname
 
-Create a database called image_compare_results
+not longer (Create a database called image_compare_results )
 
 create a image compare list
 

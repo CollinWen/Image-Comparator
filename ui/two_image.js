@@ -119,7 +119,7 @@ createICResult = function(winVal, img0, img1, user, comment, task, task_idx) {
         "http://localhost:5984/" :
         "http://ec2-54-152-40-100.compute-1.amazonaws.com:5984/";
     var imageDbName = "rop_images/";
-    var resultsDbName = "image_compare_results/";
+    var resultsDbName = "rop_images/";
 
     var currentTime = new Date();
     var timeStr = currentTime.toString();

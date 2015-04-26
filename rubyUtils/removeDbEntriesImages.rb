@@ -28,7 +28,7 @@ db.save_doc({"_id" => "_design/test",:views => {:test => {:map =>
 =end
 
 
-res= db.view('findDocsOrigin/findDocsOrigin')#.to_yaml
+res= db.view('badRes/badRes')#.to_yaml
 rows= res["rows"]
 
 rows.each do |r|

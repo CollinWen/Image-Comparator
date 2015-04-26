@@ -10,9 +10,9 @@ var ImageCompare = (function (IC) {
         "http://localhost:5984/" :
         "http://ec2-54-152-40-100.compute-1.amazonaws.com:5984/";
     IC.Feeder.imageDbName = "rop_images/";
-    IC.Feeder.resultsDbName = "image_compare_results/";
+    IC.Feeder.resultsDbName = "rop_images/";
 
-    
+
 
     // consult results and image database to select two images to present to user
     IC.Feeder.SetImagePair = function() {
