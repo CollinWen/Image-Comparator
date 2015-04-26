@@ -2,7 +2,7 @@ require 'couchrest'
 require 'securerandom'
 
 
-baseDir="/Users/jkc/Documents/retinalImaging/website/Image-Comparator/"
+#baseDir="/Users/jkc/Documents/retinalImaging/website/Image-Comparator/"
 
 
 imageFolder=ARGV[0]
@@ -10,14 +10,14 @@ imageSetName=ARGV[1]
 
 if (ARGV.size != 2) then
   puts "Usage: ruby : #{$PROGRAM_NAME}.rb <imageFolder> <imageSetName>";
-  puts "where imageFolder is the folder/directory where the images are located."
+  puts "where imageFolder is the full path to folder/directory where the images are located."
   puts "And imageSetName can be used by makeImageCompareList"
   exit
 end
 
 # add warning if imageSetName already exists
 
-ims=Dir.glob("#{baseDir}#{imageFolder}/*")
+ims=Dir.glob("#{imageFolder}/*")
 
 dbname = "rop_images"
 

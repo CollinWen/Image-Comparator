@@ -1,5 +1,5 @@
 $(document).ready(function(){
-  displayStatus();
+  displayStatus("mike","icl_1_4_rev4");
 });
 
 
@@ -128,7 +128,7 @@ onclickthumbnail=function(){
   elem.src=this.currentSrc;
 }
 
-displayStatus=function(){
+displayStatus=function(user, taskId){
 
   var hostname="http://localhost:5984/";
   var imageDbName = "rop_images/";
@@ -142,14 +142,15 @@ displayStatus=function(){
       //console.log(json);
       var results = jQuery.parseJSON( json );
 
-      var mikeResults = results.rows.filter(function(result){
-        return result.value.user === 'mike'; });
-        console.log("num records mike " + mikeResults.length);
+      var userResults = results.rows.filter(function(result){
+        return (result.value.user === user); });
+        console.log("num records user " + userResults.length);
 
-      var mikeSortedRes = sortResults(mikeResults);
-      console.log(mikeSortedRes);
 
-      displayResults(mikeSortedRes);
+      var userSortedRes = sortResults(userResults);
+      console.log(userSortedRes);
+
+      displayResults(userSortedRes);
 
       var rc=document.getElementById("rowCt");
       rc.textContent=results.total_rows;

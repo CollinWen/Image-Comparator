@@ -25,6 +25,9 @@
        },
        "icl_lengths": {
            "map": "function(doc) {\n  if (doc.type === \"image_compare_list\") {\n    emit (doc._id, doc.count);\n  }\n}"
+       },
+       "taskresults": {
+           "map": "function(doc) {if (doc.type===\"imageCompareResult\")\n  emit(doc.task, doc);\n}"
        }
    }
 }
