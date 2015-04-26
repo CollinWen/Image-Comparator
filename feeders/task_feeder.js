@@ -93,12 +93,26 @@ var ImageCompare = (function (IC) {
                         
                         var idx0 = nextpair[0];
                         var img0 = document.getElementById("image0");
-                        img0.src = IC.TaskFeeder.hostname + IC.TaskFeeder.imageDbName + idx0.toString() + "/image";
+                        $("#image0").fadeOut(400, function() {
+                            var newSrc = IC.TaskFeeder.hostname + IC.TaskFeeder.imageDbName + idx0.toString() + "/image";
+                             img0.onload = function() { 
+                                 $(this).fadeIn() 
+                             };
+                             $(this).attr("src",newSrc);//.fadeIn(400);
+                        });
+                        
+ 
                         
                         var idx1 = nextpair[1];
                         var img1 = document.getElementById("image1");
-
-                        img1.src = IC.TaskFeeder.hostname + IC.TaskFeeder.imageDbName + idx1.toString() + "/image"; 
+                        //$(#image0).fadeOut();
+                        $("#image1").fadeOut(400, function() {
+                            var newSrc = IC.TaskFeeder.hostname + IC.TaskFeeder.imageDbName + idx1.toString() + "/image";
+                             img1.onload = function() { 
+                                 $(this).fadeIn() 
+                             };
+                             $(this).attr("src",newSrc);//.fadeIn(400);
+                        });
                         
                         IC.TaskFeeder.Image0 = idx0;
                         IC.TaskFeeder.Image1 = idx1;
