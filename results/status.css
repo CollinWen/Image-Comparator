@@ -1,11 +1,22 @@
 .thumbnail{
-  width:100px;
+  width:120px;
   height:auto;
-  margin:20px;
+  /*margin-left:100px;*/
+  margin: 0 auto;
+
 }
 
 
 .thumbnail:hover{
-  -webkit-transform:scale(2.0 );
+  -webkit-transform:scale(2.5 );
 
 }
+
+
+#left {
+
+  /*  overflow-y: scroll;*/
+  height:480px;
+    overflow:auto;
+
+  }
