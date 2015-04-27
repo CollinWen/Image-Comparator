@@ -13,6 +13,12 @@
 }
 
 
+.fsImg{
+  /*margin-left:100px;*/
+  margin: 0 auto;
+
+}
+
 #left {
 
   /*  overflow-y: scroll;*/
@@ -20,3 +26,11 @@
     overflow:auto;
 
   }
+
+#right {
+
+    /*  overflow-y: scroll;*/
+    height:600px;
+      overflow:auto;
+
+    }
