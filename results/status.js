@@ -1,6 +1,59 @@
 $(document).ready(function(){
-  displayStatus("mike","icl_1_4_rev4");
+
+    updateStatusInfo();
+    var user = $("#username").val();
+    displayStatus("mike","icl_1_4_rev4");
 });
+
+
+// TODO - remove duplication! I'm talking to YOU!
+
+// labels can be either primary or danger
+// just for controlling the color through bootstrap
+setLabelDanger = function(isDanger, label) {
+
+    if (isDanger) {
+        label.removeClass("label-primary");
+        label.addClass("label-danger");
+    } else {
+        label.removeClass("label-danger");
+        label.addClass("label-primary");
+    }
+};
+
+updateStatusInfo = function() {
+
+    // update user
+    var elem = document.getElementById("si_user");
+    var user_elem = document.getElementById("username");
+    var selUser = user_elem.options[ user_elem.selectedIndex ];
+    elem.textContent = selUser.text;
+    var label = $("#si_user_label");
+    var isDanger = (selUser.value === "testuser");
+    setLabelDanger(isDanger, label);
+
+    // update database
+    var elem = document.getElementById("si_db");
+    var db_elem = document.getElementById("database");
+    var seldb = db_elem.options[ db_elem.selectedIndex ];
+    elem.textContent = seldb.text;
+    var label = $("#si_db_label");
+    var isDanger = (seldb.value === "localhost");
+    setLabelDanger(isDanger, label);
+
+
+};
+
+OnSetDB = function(sel) {
+    console.log ("Database changed to: " + sel.value);
+    updateStatusInfo();
+}
+
+OnSetUser = function(sel) {
+
+    console.log ("User changed to: " + sel.value);
+    updateStatusInfo();
+}
 
 
 sortResults = function(resultArray) {
