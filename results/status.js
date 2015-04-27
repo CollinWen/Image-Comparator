@@ -54,7 +54,8 @@ updateStatusInfo = function() {
     var isDanger = (seldb.value === "localhost");
     setLabelDanger(isDanger, label);
 
-    // create list of tasks
+    var myDiv = document.getElementById("si_icl_list");
+    myDiv.innerHTML = "";
     getTasks(selUser.value, updateTaskDropdown);
     
 };
@@ -72,13 +73,13 @@ updateTaskDropdown = function(json) {
     var curTaskElem = document.getElementById("si_curtask");
 
     if (tasks.length > 0) {
-        curTaskElem.hidden = false;
 
         var firstTask = tasks[0].value;
+        var user = firstTask.user; // all the tasks belong to the same user
         var icl_id = firstTask.image_compare_list;
 
         var dburl = getSelectedDbUrl();
-        var fullurl = dburl + "_design/basic_views/_view/image_compare_lists?key=\"" + icl_id + "\"";
+        var fullurl = dburl + "_design/basic_views/_view/task2icl";
 
         $.ajax({
             url : fullurl,
@@ -86,9 +87,21 @@ updateTaskDropdown = function(json) {
             success : function (json) {
                 console.log("get succeeded : " + JSON.stringify(json));
                 var result = jQuery.parseJSON( json );
+                
+                //filter by user
+                var userIcls = result.rows.filter(function(task) { return task.key === user; } );
+                
+                var myDiv = document.getElementById("si_icl_list");
 
-                var curIdx = firstTask.current_idx + 1; // because humans usually don't use zero based indexing
-                curTaskElem.textContent = "You are on comparison " + curIdx + " of " + result.rows[0].value.count;
+                userIcls.forEach(function(task) { 
+                    var sel = document.createElement("input"); 
+                    sel.setAttribute("type", "radio");
+                    sel.setAttribute("name", "iclIdx"); 
+                    sel.setAttribute("value", task.value);
+                    sel.addEventListener('click', OnSetTaskIdx, false);
+                    
+                    myDiv.appendChild(sel); 
+                });
 
             },
             error: function (response) {
@@ -96,13 +109,16 @@ updateTaskDropdown = function(json) {
             }
         });
     }
-    else {
-        curTaskElem.hidden = true;
-    }
 };
 
 
-
+OnSetTaskIdx = function() {
+    var selIcl = document.querySelector('input[name="iclIdx"]:checked').value;
+    
+    var user = $("#username").val();
+    
+    displayStatus(user, selIcl);
+};
 
 // TODO - remove duplication! I'm talking to YOU!
 OnSetDB = function(sel) {
@@ -132,6 +148,9 @@ var getTasks = function(username, successFn) {
         }
     });
 }
+
+
+
 
 
 
@@ -237,10 +256,13 @@ sortResults = function(resultArray) {
 displayResults=function(resArray){
 
   console.log(resArray);
+  var div = document.getElementById('image-container');
+  div.innerHTML = ""; // clear any existing results
+  
   resArray.forEach(function(res){
     var img = new Image();
     var div = document.getElementById('image-container');
-
+    
     img.onload = function() {
     //  div.appendChild(img);
     };
