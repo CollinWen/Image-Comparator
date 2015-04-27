@@ -95,23 +95,24 @@ var ImageCompare = (function (IC) {
                         var img0 = document.getElementById("image0");
                         $("#image0").fadeOut(400, function() {
                             var newSrc = IC.TaskFeeder.hostname + IC.TaskFeeder.imageDbName + idx0.toString() + "/image";
-                             img0.onload = function() { 
-                                 $(this).fadeIn() 
-                             };
-                             $(this).attr("src",newSrc);//.fadeIn(400);
+                            var newImg = new Image(); // by having a new image, onload is called even if the image is already cached
+                            newImg.onload = function() {
+                                $("#image0").attr("src", newImg.src);
+                                $("#image0").fadeIn();
+                            };
+                            newImg.src = newSrc;//.fadeIn(400);
                         });
-                        
- 
-                        
+
                         var idx1 = nextpair[1];
                         var img1 = document.getElementById("image1");
-                        //$(#image0).fadeOut();
                         $("#image1").fadeOut(400, function() {
                             var newSrc = IC.TaskFeeder.hostname + IC.TaskFeeder.imageDbName + idx1.toString() + "/image";
-                             img1.onload = function() { 
-                                 $(this).fadeIn() 
-                             };
-                             $(this).attr("src",newSrc);//.fadeIn(400);
+                            var newImg = new Image(); // by having a new image, onload is called even if the image is already cached
+                            newImg.onload = function() {
+                                $("#image1").attr("src", newImg.src);
+                                $("#image1").fadeIn();
+                            };
+                            newImg.src = newSrc;//.fadeIn(400);
                         });
                         
                         IC.TaskFeeder.Image0 = idx0;
