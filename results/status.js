@@ -5,6 +5,17 @@ $(document).ready(function(){
     displayStatus("mike","icl_1_4_rev4");
 });
 
+getSelectedDbUrl = function() {
+
+    var imageDbName = "rop_images/";
+    var db_config_elem = document.getElementById("database");
+    var db_config = db_config_elem.options[db_config_elem.selectedIndex].value;
+    var hostname = db_config == "localhost" ?
+        "http://localhost:5984/" : 
+        "http://ec2-54-152-40-100.compute-1.amazonaws.com:5984/";
+            
+    return hostname + imageDbName;
+}
 
 // TODO - remove duplication! I'm talking to YOU!
 
@@ -20,6 +31,8 @@ setLabelDanger = function(isDanger, label) {
         label.addClass("label-primary");
     }
 };
+
+// TODO - remove duplication! I'm talking to YOU!
 
 updateStatusInfo = function() {
 
@@ -41,19 +54,86 @@ updateStatusInfo = function() {
     var isDanger = (seldb.value === "localhost");
     setLabelDanger(isDanger, label);
 
-
+    // create list of tasks
+    getTasks(selUser.value, updateTaskDropdown);
+    
 };
 
+// called on getTasks success, input are the rows from the view
+// todo: should not be global
+updateTaskDropdown = function(json) {
+    var result = jQuery.parseJSON( json );
+    var tasks = result.rows;
+
+    var elem = document.getElementById("si_tasks");
+    elem.textContent = "You have " + tasks.length + " tasks.";
+
+    // this is to be updated - hide it if there are no pending tasks
+    var curTaskElem = document.getElementById("si_curtask");
+
+    if (tasks.length > 0) {
+        curTaskElem.hidden = false;
+
+        var firstTask = tasks[0].value;
+        var icl_id = firstTask.image_compare_list;
+
+        var dburl = getSelectedDbUrl();
+        var fullurl = dburl + "_design/basic_views/_view/image_compare_lists?key=\"" + icl_id + "\"";
+
+        $.ajax({
+            url : fullurl,
+            type : 'GET',
+            success : function (json) {
+                console.log("get succeeded : " + JSON.stringify(json));
+                var result = jQuery.parseJSON( json );
+
+                var curIdx = firstTask.current_idx + 1; // because humans usually don't use zero based indexing
+                curTaskElem.textContent = "You are on comparison " + curIdx + " of " + result.rows[0].value.count;
+
+            },
+            error: function (response) {
+                console.log("get failed : " + JSON.stringify(response));
+            }
+        });
+    }
+    else {
+        curTaskElem.hidden = true;
+    }
+};
+
+
+
+
+// TODO - remove duplication! I'm talking to YOU!
 OnSetDB = function(sel) {
     console.log ("Database changed to: " + sel.value);
     updateStatusInfo();
 }
 
+// TODO - remove duplication! I'm talking to YOU!
 OnSetUser = function(sel) {
 
     console.log ("User changed to: " + sel.value);
     updateStatusInfo();
 }
+
+// TODO - remove duplication! I'm talking to YOU!
+var getTasks = function(username, successFn) {
+
+    var dburl = getSelectedDbUrl();
+    var fullurl = dburl + "_design/basic_views/_view/tasks?key=\"" + username + "\"";
+
+    $.ajax({
+        url : fullurl,
+        type : 'GET',
+        success : successFn,
+        error: function (response) {
+            console.log("get failed : " + JSON.stringify(response));
+        }
+    });
+}
+
+
 
 
 sortResults = function(resultArray) {
