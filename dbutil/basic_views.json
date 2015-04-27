@@ -29,5 +29,8 @@
        "taskresults": {
            "map": "function(doc) {if (doc.type===\"imageCompareResult\")\n  emit(doc.task, doc);\n}"
        }
+       "task2icl": {
+           "map": "function(doc) {\n  if (doc.type === \"task\")\n    emit(doc.user, doc.image_compare_list);\n}"
+       }
    }
 }
