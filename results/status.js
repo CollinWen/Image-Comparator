@@ -2,7 +2,7 @@ $(document).ready(function(){
 
     updateStatusInfo();
     var user = $("#username").val();
-    displayStatus("mike","icl_1_4_rev4");
+
 });
 
 getSelectedDbUrl = function() {
@@ -76,48 +76,27 @@ updateTaskDropdown = function(json) {
 
         var firstTask = tasks[0].value;
         var user = firstTask.user; // all the tasks belong to the same user
-        var icl_id = firstTask.image_compare_list;
+        var myDiv = document.getElementById("si_icl_list");
 
-        var dburl = getSelectedDbUrl();
-        var fullurl = dburl + "_design/basic_views/_view/task2icl";
-
-        $.ajax({
-            url : fullurl,
-            type : 'GET',
-            success : function (json) {
-                console.log("get succeeded : " + JSON.stringify(json));
-                var result = jQuery.parseJSON( json );
-                
-                //filter by user
-                var userIcls = result.rows.filter(function(task) { return task.key === user; } );
-                
-                var myDiv = document.getElementById("si_icl_list");
-
-                userIcls.forEach(function(task) { 
-                    var sel = document.createElement("input"); 
-                    sel.setAttribute("type", "radio");
-                    sel.setAttribute("name", "iclIdx"); 
-                    sel.setAttribute("value", task.value);
-                    sel.addEventListener('click', OnSetTaskIdx, false);
-                    
-                    myDiv.appendChild(sel); 
-                });
-
-            },
-            error: function (response) {
-                console.log("get failed : " + JSON.stringify(response));
-            }
+        tasks.forEach(function(task) { 
+            var sel = document.createElement("input"); 
+            sel.setAttribute("type", "radio");
+            sel.setAttribute("name", "taskId"); 
+            sel.setAttribute("value", task.id);
+            sel.addEventListener('click', OnSetTaskIdx, false);
+            
+            myDiv.appendChild(sel); 
         });
     }
 };
 
 
 OnSetTaskIdx = function() {
-    var selIcl = document.querySelector('input[name="iclIdx"]:checked').value;
+    var taskId = document.querySelector('input[name="taskId"]:checked').value;
     
     var user = $("#username").val();
     
-    displayStatus(user, selIcl);
+    displayStatus(user, taskId);
 };
 
 // TODO - remove duplication! I'm talking to YOU!
@@ -150,7 +129,39 @@ var getTasks = function(username, successFn) {
 }
 
 
+// var getTaskToIcl = function(username) {
+   
+    // var dburl = getSelectedDbUrl();
+    // var fullurl = dburl + "_design/basic_views/_view/task2icl";
 
+    // $.ajax({
+        // url : fullurl,
+        // type : 'GET',
+        // success : function (json) {
+            // console.log("get succeeded : " + JSON.stringify(json));
+            // var result = jQuery.parseJSON( json );
+            
+            // //filter by user
+            // var userIcls = result.rows.filter(function(task) { return task.key === user; } );
+            
+            // var myDiv = document.getElementById("si_icl_list");
+
+            // userIcls.forEach(function(task) { 
+                // var sel = document.createElement("input"); 
+                // sel.setAttribute("type", "radio");
+                // sel.setAttribute("name", "iclIdx"); 
+                // sel.setAttribute("value", task.key);
+                // sel.addEventListener('click', OnSetTaskIdx, false);
+                
+                // myDiv.appendChild(sel); 
+            // });
+
+        // },
+        // error: function (response) {
+            // console.log("get failed : " + JSON.stringify(response));
+        // }
+    // });
+// }
 
 
 
@@ -285,13 +296,10 @@ onclickthumbnail=function(){
 
 displayStatus=function(user, taskId){
 
-  //var hostname="http://localhost:5984/";
-  var hostname="http://ec2-54-152-40-100.compute-1.amazonaws.com:5984/";
-  var imageDbName = "rop_images/";
+  var dbname = getSelectedDbUrl();
 
-  var resultsDbName = "rop_images/";
-
-  var fullurl = hostname + imageDbName + '_design/basic_views/_view/taskresults';
+  // get the task results for this taskId 
+  var fullurl = dbname + '_design/basic_views/_view/taskresults?key=\"' + taskId + '\"';
   $.ajax({
     url : fullurl,
     type : 'GET',
@@ -299,18 +307,16 @@ displayStatus=function(user, taskId){
       //console.log(json);
       var results = jQuery.parseJSON( json );
 
-      var userResults = results.rows.filter(function(result){
-        return (result.value.user === user); });
-        console.log("num records user " + userResults.length);
+      var sortedRes = sortResults(results.rows);
+      //console.log(sortedRes);
 
-
-      var userSortedRes = sortResults(userResults);
-      console.log(userSortedRes);
-
-      displayResults(userSortedRes);
+      displayResults(sortedRes);
 
       var rc=document.getElementById("rowCt");
-      rc.textContent=results.total_rows;
+      rc.textContent=
+        results.total_rows + " total results, " + 
+        results.rows.length + " results for this task, and " + 
+        sortedRes.length + " images in sorted order:";
     },
     error: function (response) {
       console.log("get failed : " + JSON.stringify(response));
