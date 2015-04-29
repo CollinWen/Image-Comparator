@@ -71,7 +71,7 @@ updateStatInfoTasks = function(json) {
             url : fullurl,
             type : 'GET',
             success : function (json) {
-                console.log("get succeeded : " + JSON.stringify(json));
+                //console.log("get succeeded : " + JSON.stringify(json));
                 var result = jQuery.parseJSON( json );
 
                 var curIdx = firstTask.current_idx + 1; // because humans usually don't use zero based indexing
@@ -193,7 +193,7 @@ updateTask = function(task, user) {
                 data: JSON.stringify(task),
                 contentType: "application/json",
                 success : function(json) {
-                    console.log ("put succeeded: " + JSON.stringify(json));
+                    //console.log ("put succeeded: " + JSON.stringify(json));
                     ImageCompare.TaskFeeder.SetImagePair(user);
                     updateStatusInfo(); // really this is redundant, but I need to return a deferred for this ajax call - how?
                 },
