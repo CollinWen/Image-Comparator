@@ -130,7 +130,7 @@ createICResult = function(winVal, img0, img1, user, comment, task, task_idx) {
     dataStr += "\"date\":\"" + timeStr + "\",";
     dataStr += "\"image0\":\"" + imgDbStr + img0.toString() + "\",";
     dataStr += "\"image1\":\"" + imgDbStr + img1.toString() + "\",";
-    dataStr += "\"winner\":\"" +  winVal.toString(); // + "\",";
+    dataStr += "\"winner\":\"" +  winVal.toString() + "\",";
 
 //    if (comment != ImageCompare.TaskFeeder.defaultComment) {/
 //        dataStr += ",";
