@@ -1,13 +1,13 @@
 require 'json'
 require 'csv'
 
-file = File.read('/Users/jkc/Documents/retinalImaging/website/data/rop_images_4_27_2015.json')
-
+#file = File.read('/Users/jkc/Documents/retinalImaging/website/data/rop_images_4_27_2015.json')
+file = File.read('/Users/jayashreekalpathy-cramer/Documents/rop/website/Image-Comparator/data/rop_images_4_27_2015.json')
 contents = JSON.parse(file)
 
 iclDocs = contents['rows'].select{|x| x['doc']['type'] === "image_compare_list"}
 
-
+#puts iclDocs
 
 # print the icl names
 #iclDocs.each{|x| puts x['key']}
@@ -49,6 +49,7 @@ output = []
 output2=[]
 
 icResults.each do |x|
+  puts "here"
   row = Hash.new()
   #row['task'] = x['task']
   row['task_idx'] = x['task_idx']
@@ -65,11 +66,10 @@ icResults.each do |x|
   output.push(row)
 end
 
-CSV.open("results2.txt", "w") do |csv|
-#  csv << output2
+CSV.open("results3.csv", "w") do |csv|
+  csv << output2
 end
 
-thisF.close
 #puts output.class
 
 #a=File.open('results1.txt','w')
