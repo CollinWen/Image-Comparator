@@ -1,8 +1,9 @@
 require 'json'
 require 'csv'
 
+file = File.read('rop_images_4_27_2015.json')
 #file = File.read('/Users/jkc/Documents/retinalImaging/website/data/rop_images_4_27_2015.json')
-file = File.read('/Users/jayashreekalpathy-cramer/Documents/rop/website/Image-Comparator/data/rop_images_4_27_2015.json')
+#file = File.read('/Users/jayashreekalpathy-cramer/Documents/rop/website/Image-Comparator/data/rop_images_4_27_2015.json')
 contents = JSON.parse(file)
 
 iclDocs = contents['rows'].select{|x| x['doc']['type'] === "image_compare_list"}
@@ -48,8 +49,9 @@ icResults.sort!{|a,b| a['task_idx'] <=> b['task_idx']}
 output = []
 output2=[]
 
+CSV.open("results3.csv", "w") do |csv|
 icResults.each do |x|
-  puts "here"
+  #puts "here"
   row = Hash.new()
   #row['task'] = x['task']
   row['task_idx'] = x['task_idx']
@@ -62,12 +64,9 @@ icResults.each do |x|
   row['icl']=task2icl[thisTask]
   thisLine="#{x['task_idx']}, #{x['image0'].split('/').last}, #{x['image1'].split('/').last}, #{x['winner']}, #{x['user']}, #{x['date']}, #{row['icl']}"
   puts thisLine
-  output2 << thisLine
+  csv << [x['task_idx'], x['image0'].split('/').last, x['image1'].split('/').last, x['winner'], x['user'], x['date'], row['icl']]
   output.push(row)
 end
-
-CSV.open("results3.csv", "w") do |csv|
-  csv << output2
 end
 
 #puts output.class
