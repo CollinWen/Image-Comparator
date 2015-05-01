@@ -1,0 +1,3 @@
+curl -X GET http://localhost:5984/rop_images/_all_docs?include_docs=true >rop_images_1800_4_29_2015.json
+
+ssh -i aws-alan-laptop.pem ec2-user@ec2-54-152-40-100.compute-1.amazonaws.com
