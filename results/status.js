@@ -11,9 +11,9 @@ getSelectedDbUrl = function() {
     var db_config_elem = document.getElementById("database");
     var db_config = db_config_elem.options[db_config_elem.selectedIndex].value;
     var hostname = db_config == "localhost" ?
-        "http://localhost:5984/" : 
+        "http://localhost:5984/" :
         "http://ec2-54-152-40-100.compute-1.amazonaws.com:5984/";
-            
+
     return hostname + imageDbName;
 }
 
@@ -57,7 +57,7 @@ updateStatusInfo = function() {
     var myDiv = document.getElementById("si_icl_list");
     myDiv.innerHTML = "";
     getTasks(selUser.value, updateTaskDropdown);
-    
+
 };
 
 // called on getTasks success, input are the rows from the view
@@ -78,14 +78,14 @@ updateTaskDropdown = function(json) {
         var user = firstTask.user; // all the tasks belong to the same user
         var myDiv = document.getElementById("si_icl_list");
 
-        tasks.forEach(function(task) { 
-            var sel = document.createElement("input"); 
+        tasks.forEach(function(task) {
+            var sel = document.createElement("input");
             sel.setAttribute("type", "radio");
-            sel.setAttribute("name", "taskId"); 
+            sel.setAttribute("name", "taskId");
             sel.setAttribute("value", task.id);
             sel.addEventListener('click', OnSetTaskIdx, false);
-            
-            myDiv.appendChild(sel); 
+
+            myDiv.appendChild(sel);
         });
     }
 };
@@ -93,9 +93,9 @@ updateTaskDropdown = function(json) {
 
 OnSetTaskIdx = function() {
     var taskId = document.querySelector('input[name="taskId"]:checked').value;
-    
+
     var user = $("#username").val();
-    
+
     displayStatus(user, taskId);
 };
 
@@ -130,7 +130,7 @@ var getTasks = function(username, successFn) {
 
 
 // var getTaskToIcl = function(username) {
-   
+
     // var dburl = getSelectedDbUrl();
     // var fullurl = dburl + "_design/basic_views/_view/task2icl";
 
@@ -140,20 +140,20 @@ var getTasks = function(username, successFn) {
         // success : function (json) {
             // console.log("get succeeded : " + JSON.stringify(json));
             // var result = jQuery.parseJSON( json );
-            
+
             // //filter by user
             // var userIcls = result.rows.filter(function(task) { return task.key === user; } );
-            
+
             // var myDiv = document.getElementById("si_icl_list");
 
-            // userIcls.forEach(function(task) { 
-                // var sel = document.createElement("input"); 
+            // userIcls.forEach(function(task) {
+                // var sel = document.createElement("input");
                 // sel.setAttribute("type", "radio");
-                // sel.setAttribute("name", "iclIdx"); 
+                // sel.setAttribute("name", "iclIdx");
                 // sel.setAttribute("value", task.key);
                 // sel.addEventListener('click', OnSetTaskIdx, false);
-                
-                // myDiv.appendChild(sel); 
+
+                // myDiv.appendChild(sel);
             // });
 
         // },
@@ -171,13 +171,13 @@ function winSort(a, b, numTimesWon, numTimesShown, resultArray) {
     if (winRateA===winRateB) {
         console.log(a,b);
         var aRes = resultArray.filter(function(result){
-            return result.value.image0 === a && result.value.image1===b; 
+            return result.value.image0 === a && result.value.image1===b;
         });
-        
+
         var bRes = resultArray.filter(function(result){
-            return result.value.image0 === b && result.value.image1===a; 
+            return result.value.image0 === b && result.value.image1===a;
         });
-        
+
         //console.log(aRes);
         //console.log(bRes);
 
@@ -208,7 +208,7 @@ function winSort(a, b, numTimesWon, numTimesShown, resultArray) {
 
         return  (aWins < bWins) ? 1 : -1;
     }
-    
+
     return (winRateA < winRateB) ? 1:-1;
 }
 
@@ -249,12 +249,67 @@ sortResults = function(resultArray) {
     }
 
     var images = Object.keys(numTimesShown);
+
+    var images2 = [
+      "http://localhost:5984/rop_images/1",
+      "http://localhost:5984/rop_images/2",
+      "http://localhost:5984/rop_images/3",
+      "http://localhost:5984/rop_images/4"
+    ]
+
     //console.log(images);
-    var sortedImages = images.sort(function (ntw, nts, ra) { 
-        return function(a,b) { 
-            winSort(a,b, ntw, nts, ra); }
-        }(numTimesWon, numTimesShown, resultArray)
-    );
+
+
+    var sortedImages = images.sort(function (a, b) {
+      var winRateA=numTimesWon[a]/numTimesShown[a];
+      var winRateB=numTimesWon[b]/numTimesShown[b];
+
+      if (winRateA===winRateB) {
+          console.log(a,b);
+          var aRes = resultArray.filter(function(result){
+              return result.value.image0 === a && result.value.image1===b;
+          });
+
+          var bRes = resultArray.filter(function(result){
+              return result.value.image0 === b && result.value.image1===a;
+          });
+
+          //console.log(aRes);
+          //console.log(bRes);
+
+          var tieRes = resultArray.filter(function(result){
+              return  ((result.value.image0 === a && result.value.image1===b) ||
+                      (result.value.image0 === b && result.value.image1===a));
+          });
+
+          var aWins = 0;
+          var bWins = 0;
+
+          tieRes.forEach(function(res) {
+              if (res.value.winner ===1) {
+                  if (result.value.image0 === a) {
+                    aWins++;
+                  } else {
+                    bWins++;
+                  }
+              }
+              if (res.value.winner === -1 ) {
+                  if (res.value.image0 === a) {
+                    bWins++;
+                  } else {
+                    aWins++;
+                  }
+              }
+          });
+
+          return  (aWins < bWins) ? 1 : -1;
+      }
+
+      return (winRateA < winRateB) ? 1:-1;
+
+    });
+
+
     //console.log(sortedImages);
     return sortedImages;
 }
@@ -265,11 +320,11 @@ displayResults=function(resArray){
   console.log(resArray);
   var div = document.getElementById('image-container');
   div.innerHTML = ""; // clear any existing results
-  
+
   resArray.forEach(function(res){
     var img = new Image();
     var div = document.getElementById('image-container');
-    
+
     img.onload = function() {
     //  div.appendChild(img);
     };
@@ -294,7 +349,7 @@ displayStatus=function(user, taskId){
 
   var dbname = getSelectedDbUrl();
 
-  // get the task results for this taskId 
+  // get the task results for this taskId
   var fullurl = dbname + '_design/basic_views/_view/taskresults?key=\"' + taskId + '\"';
   $.ajax({
     url : fullurl,
@@ -310,8 +365,8 @@ displayStatus=function(user, taskId){
 
       var rc=document.getElementById("rowCt");
       rc.textContent=
-        results.total_rows + " total results, " + 
-        results.rows.length + " results for this task, and " + 
+        results.total_rows + " total results, " +
+        results.rows.length + " results for this task, and " +
         sortedRes.length + " images in sorted order:";
     },
     error: function (response) {
