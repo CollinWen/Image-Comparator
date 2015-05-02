@@ -164,104 +164,100 @@ var getTasks = function(username, successFn) {
 // }
 
 
-
-
-sortResults = function(resultArray) {
-
-  // first build hash, one entry per image, counting #times shown
-  var numTimesShown = {};
-  for (var ires = 0 ; ires < resultArray.length; ++ires) {
-    var res = resultArray[ires].value;
-
-    if (!numTimesShown[res.image0])
-    numTimesShown[res.image0] = 0;
-
-    if (!numTimesShown[res.image1])
-    numTimesShown[res.image1] = 0;
-
-    numTimesShown[res.image0]++;
-    numTimesShown[res.image1]++;
-  }
-
-  // next build hash, one entry per image, counting #times winner
-  var numTimesWon = {};
-  for (var ires = 0 ; ires < resultArray.length; ++ires) {
-    var res = resultArray[ires].value;
-
-    if (!numTimesWon[res.image0])
-    numTimesWon[res.image0] = 0;
-
-    if (!numTimesWon[res.image1])
-    numTimesWon[res.image1] = 0;
-
-    //if (res.winner === "0")
-    if (res.winner === "1")
-    numTimesWon[res.image0]++;
-
-    if (res.winner === "-1")
-    numTimesWon[res.image1]++;
-  }
-
-  var images = Object.keys(numTimesShown);
-  console.log(images);
-  var sortedImages = images.sort(winSort);
-  console.log(sortedImages);
-
-  function winSort(a, b) {
+function winSort(a, b, numTimesWon, numTimesShown, resultArray) {
     var winRateA=numTimesWon[a]/numTimesShown[a];
     var winRateB=numTimesWon[b]/numTimesShown[b];
 
-    if (winRateA===winRateB){
-      console.log(a,b);
-      var aRes = resultArray.filter(function(result){
-        return result.value.image0 === a && result.value.image1===b; });
+    if (winRateA===winRateB) {
+        console.log(a,b);
+        var aRes = resultArray.filter(function(result){
+            return result.value.image0 === a && result.value.image1===b; 
+        });
+        
         var bRes = resultArray.filter(function(result){
-          return result.value.image0 === b && result.value.image1===a; });
-          console.log(aRes);
-          console.log(bRes);
+            return result.value.image0 === b && result.value.image1===a; 
+        });
+        
+        //console.log(aRes);
+        //console.log(bRes);
 
-          var tieRes = resultArray.filter(function(result){
+        var tieRes = resultArray.filter(function(result){
             return  ((result.value.image0 === a && result.value.image1===b) ||
                     (result.value.image0 === b && result.value.image1===a));
-            });
+        });
 
-            var aWins = 0;
-            var bWins = 0;
+        var aWins = 0;
+        var bWins = 0;
 
-            tieRes.forEach(function(res) {
-              if (res.value.winner ===1) {
+        tieRes.forEach(function(res) {
+            if (res.value.winner ===1) {
                 if (result.value.image0 === a) {
                   aWins++;
                 } else {
                   bWins++;
                 }
-              }
-              if (res.value.winner === -1 ) {
+            }
+            if (res.value.winner === -1 ) {
                 if (res.value.image0 === a) {
                   bWins++;
                 } else {
                   aWins++;
                 }
+            }
+        });
 
-              }
-            });
+        return  (aWins < bWins) ? 1 : -1;
+    }
+    
+    return (winRateA < winRateB) ? 1:-1;
+}
 
-            return  (aWins < bWins) ? 1 : -1;
-          }
+sortResults = function(resultArray) {
 
+    // first build hash, one entry per image, counting #times shown
+    var numTimesShown = {};
+    for (var ires = 0 ; ires < resultArray.length; ++ires) {
+        var res = resultArray[ires].value;
 
-          return (winRateA < winRateB) ? 1:-1;
+        if (!numTimesShown[res.image0])
+            numTimesShown[res.image0] = 0;
 
-          //  if (winRateA===winRateB)
-          //  console.log(a)
+        if (!numTimesShown[res.image1])
+            numTimesShown[res.image1] = 0;
 
-        };
+        numTimesShown[res.image0]++;
+        numTimesShown[res.image1]++;
+    }
 
-        //  return numTimesWon[a]/numTimesShown[a] < numTimesWon[b]/numTimesShown[b];
+    // next build hash, one entry per image, counting #times winner
+    var numTimesWon = {};
+    for (var ires = 0 ; ires < resultArray.length; ++ires) {
+        var res = resultArray[ires].value;
 
-        return sortedImages;
+        if (!numTimesWon[res.image0])
+            numTimesWon[res.image0] = 0;
 
-      };
+        if (!numTimesWon[res.image1])
+            numTimesWon[res.image1] = 0;
+
+        //if (res.winner === "0")
+        if (res.winner === "1")
+            numTimesWon[res.image0]++;
+
+        if (res.winner === "-1")
+            numTimesWon[res.image1]++;
+    }
+
+    var images = Object.keys(numTimesShown);
+    //console.log(images);
+    var sortedImages = images.sort(function (ntw, nts, ra) { 
+        return function(a,b) { 
+            winSort(a,b, ntw, nts, ra); }
+        }(numTimesWon, numTimesShown, resultArray)
+    );
+    //console.log(sortedImages);
+    return sortedImages;
+}
 
 // add a bunch of images
 displayResults=function(resArray){

@@ -84,7 +84,17 @@ updateStatInfoTasks = function(json) {
         });
     }
     else {
+    
+        // reformat ui
         curTaskElem.hidden = true;
+        var imagesDiv = document.getElementById("image-row");
+        imagesDiv.style.display = "none";
+        var toDoMsg = document.getElementById("to-do-message");
+        toDoMsg.textContent = "All tasks are complete."
+        
+        // save results doc
+        
+        
     }
 };
 
