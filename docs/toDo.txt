@@ -1,0 +1,10 @@
+to do:
+
+1. create ordered list by user
+2. create consensus ordered list
+3. select 25 images (every 4th)
+4. generate folder with 25 images
+5. upload new set into db with imagesetname 'arvo_25'
+5. create icl with imagesetname (all 25 images) with 20% repeats (should be 360 comps)
+6. create tasks for all users with icl including testuser
+7. verify works :)

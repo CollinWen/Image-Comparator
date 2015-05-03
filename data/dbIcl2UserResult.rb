@@ -2,7 +2,9 @@ require 'json'
 require 'time'
 require 'csv'
 
+#file = File.read('rop_images_1100_5_2_2015.json')
 file = File.read('rop_images_1100_5_2_2015.json')
+#file = File.read('rop_images_laptop1.json')
 #file = File.read('rop_images_4_27_2015.json')
 
 #file = File.read('/Users/jkc/Documents/retinalImaging/website/data/rop_images_4_27_2015.json')
@@ -43,6 +45,9 @@ icResultRows = contents['rows'].select{|x| x['doc']['type'] === "imageCompareRes
 #icResultRows2 = icResultRows.select{|x| task2icl[x['doc']['task']] === "icl_1_10_rev1"}
 icResultRows2 = icResultRows.select{|x| task2icl[x['doc']['task']] === "ICL_third_set_hundred_r2"}
 
+#icResultRows2 = icResultRows.select{|x| task2icl[x['doc']['task']] === "icl_9"}
+
+
 #puts icResultRows2.size
 
 icResults = []
@@ -54,7 +59,7 @@ icResults.sort_by!{|a| [a['user'], a['task_idx'], Time.parse(a['date'])]}
 
 
 #icResults.sort!{|a,b| a['task_idx'] <=> b['task_idx']}
-puts icResults.size
+#puts icResults.size
 
 #puts icResults
 prevUser=''
@@ -63,7 +68,7 @@ prevTaskIdx=''
 output = []
 
 
-CSV.open("results_100_rev2.csv", "w") do |csv|
+CSV.open("results_set100_r3.csv", "w") do |csv|
   csv << ['task_id', 'image0', 'image1', 'winner', 'user', 'date', 'icl']
 #CSV.open("results_100_rev1.csv", "w") do |csv|
 icResults.each do |x|
@@ -90,9 +95,9 @@ icResults.each do |x|
       csv << [x['task_idx'], x['image0'].split('/').last, x['image1'].split('/').last, x['winner'], x['user'], x['date'], row['icl']]
       output.push(row)
     else
-      puts thisUser
-      puts thisTask
-    
+    #  puts thisUser
+    #  puts thisTask
+
   end
   prevUser=thisUser
   prevTaskIdx=thisTaskIdx

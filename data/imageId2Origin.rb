@@ -10,3 +10,5 @@ contents = JSON.parse(file)
 imageDocs = contents['rows'].select{|x| x['doc']['type'] === "imageDoc"}
 
 imageDocs.each{|x| puts x['key'] + "\t" + x['doc']['origin']}
+
+#puts imageDocs
