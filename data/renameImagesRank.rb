@@ -1,8 +1,8 @@
 
 require 'csv'
 
-baseDir="/Users/jayashreekalpathy-cramer/Documents/rop/website/images/"
-
+#baseDir="/Users/jayashreekalpathy-cramer/Documents/rop/website/images/"
+baseDir="/c/Users/Alan/Documents/ROP_keepers/"
 
 #CSV.foreach("im_1_10_sorted.csv") do |row|
 #CSV.foreach("imgId_set100.csv") do |row|
@@ -13,7 +13,7 @@ CSV.foreach("rank100_select25.csv") do |row|
   use=row[3].to_i
   if use ==1
     cmd= "cp #{baseDir}#{im} #{baseDir}sorted2/#{rank}_#{im}"
-  #  puts cmd
+    #puts cmd
     `#{cmd}`
   end
 end
