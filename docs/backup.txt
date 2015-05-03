@@ -9,4 +9,10 @@ scp -rp -i aws-alan-laptop.pem ec2-user@ec2-54-152-40-100.compute-1.amazonaws.co
 scp -rp -i /Users/jkc/Documents/retinalImaging/aws-alan-laptop.pem ec2-user@ec2-54-152-40-100.compute-1.amazonaws.com:/home/ec2-user/backups/rop_images_1100_5_2_2015.json .
 
 
+scp -rp -i /Users/jayashreekalpathy-cramer/Documents/rop/website/aws-alan-laptop.pem ec2-user@ec2-54-152-40-100.compute-1.amazonaws.com:/home/ec2-user/backups/rop_images_1650_5_2_2015.json 
+
 scp -rp -i mykey.pem ec2-user@mydomain.com:/srv/www/myapp/ .
+
+
+
+curl -X GET http://localhost:5984/rop_images/_all_docs?include_docs=true >rop_images_1650_5_2_2015.json
