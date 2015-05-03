@@ -65,6 +65,7 @@ puts "icReultsNoDups count: " + icResultsNoDups.size.to_s
 users = ['mike', 'paul', 'susan', 'karyn', 'pete']
 userToSortedImages = Hash.new();
 
+
 users.each do |user| 
     # do an each loop to get all the users sorted lists
     userResults = icResultsNoDups.select { |x| x['user'] == user }
@@ -133,34 +134,25 @@ users.each do |user|
     userToSortedImages[user] = images
 end
 
-puts userToSortedImages
+#puts userToSortedImages
 
 
 
 # spit out the results here
+images = userToSortedImages['mike']
 
-
-# CSV.open("results_100_rev2.csv", "w") do |csv|
+#CSV.open("image_to_user_list.csv", "w") do |csv|
   # csv << ['task_id', 'image0', 'image1', 'winner', 'user', 'date', 'icl']
 # # CSV.open("results_100_rev1.csv", "w") do |csv|
-# icResults.each do |x|
-  # #puts "here"
-  # row = Hash.new()
+  images.each do |x|
 
-  # #row['task'] = x['task']
-  # row['task_idx'] = x['task_idx']
-  # row['image0'] = x['image0'] #.split('/').last
-  # row['image1'] = x['image1'].split('/').last
-  # row['winner'] = x['winner']
-  # row['user'] = x['user']
-  # row['date']=x['date']
-
-  # thisUser= x['user']
-  # thisTaskIdx=x['task_idx']
-  # thisTask=x['task']
-  # row['icl']=task2icl[thisTask]
-
-  # thisLine="#{x['task_idx']}, #{x['image0'].split('/').last}, #{x['image1'].split('/').last}, #{x['winner']}, #{x['user']}, #{x['date']}, #{row['icl']}"
+      thisLine = x + ", " 
+      users.each do |user|
+        thisLine = thisLine + userToSortedImages[user].index(x).to_s + ", "
+      end
+      puts thisLine
+   end
+   
 
 # end
 # end
