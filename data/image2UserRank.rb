@@ -2,6 +2,11 @@ require 'json'
 require 'time'
 require 'csv'
 
+def compareResults(a, b)
+
+end
+
+
 #file = File.read('rop_images_1100_5_2_2015.json')
 file = File.read('rop_images_4_27_2015.json')
 
@@ -45,11 +50,12 @@ output = []
 #remove duplicates
 icResultsNoDups=[]
 icResults.each do |x|  
-    if (x['user'] != prevUser || x['task_idx'] != prevTaskId })
+    if (x['user'] != prevUser or x['task_idx'] != prevTaskIdx)
         icResultsNoDups.push(x);
-        
+    end
+    
     prevUser=x['user']
-    prevTaskId=x['task_idx']
+    prevTaskIdx=x['task_idx']
 end        
 puts "icResult count: " + icResults.size.to_s
 puts "icReultsNoDups count: " + icResultsNoDups.size.to_s
@@ -57,12 +63,78 @@ puts "icReultsNoDups count: " + icResultsNoDups.size.to_s
 # now filter by user and then sort by normalized comparison
 # todo, scan results for the usernames, for now, hard coded
 users = ['mike', 'paul', 'susan', 'karyn', 'pete']
+userToSortedImages = Hash.new();
 
-# do an each loop to get all the users sorted lists
-userResults = icResultsNoDups.select { |x| x['user'] == 'mike' }
-puts "Mike has " + userResults.size.to_s + " results"
+users.each do |user| 
+    # do an each loop to get all the users sorted lists
+    userResults = icResultsNoDups.select { |x| x['user'] == user }
+    puts user + " has " + userResults.size.to_s + " results"
+    puts "the first is " + userResults[0].to_s
 
-# sort with comparitor function
+
+    # sort with compare function
+    #generate numTimesWon and numTimesShown
+    numTimesShown = Hash.new()
+
+    userResults.each do |x|
+        if (!numTimesShown[ x['image0'] ])
+            numTimesShown[ x['image0'] ] = 0
+        end
+        if (!numTimesShown[ x['image1'] ])
+            numTimesShown[ x['image1'] ] = 0
+        end
+        
+        numTimesShown[ x['image0'] ] = numTimesShown[ x['image0'] ] +1
+        numTimesShown[ x['image1'] ] = numTimesShown[ x['image1'] ] +1
+    end
+
+    numTimesWon = Hash.new()   
+    userResults.each do |x|
+        if (!numTimesWon[ x['image0'] ])
+            numTimesWon[ x['image0'] ] = 0
+        end
+        if (!numTimesWon[ x['image1'] ])
+            numTimesWon[ x['image1'] ] = 0
+        end
+        
+        if (x['winner'] == "1")
+            numTimesWon[ x['image0'] ] = numTimesWon[ x['image0'] ] +1
+        end
+        
+        if (x['winner'] == "-1")
+            numTimesWon[ x['image1'] ] = numTimesWon[ x['image1'] ] +1
+        end
+    end
+
+    #puts numTimesWon.to_s
+    images = numTimesShown.keys
+    puts images.to_s
+    images.sort!{|a,b|
+        winRateA = numTimesWon[a]/numTimesShown[a]
+        winRateB = numTimesWon[b]/numTimesShown[b]
+        c = winRateA <=> winRateB 
+        #ignoring ties for now!!
+            # puts "c is " + c.to_s        
+            # if c != 0 
+                # puts "c is " + c.to_s
+                # next
+            # end
+            # # handle ties
+            # tieRes = userResults.select { |x| (x['image0'] == a and x['image1'] == b) or (x['image1'] == a and x['image0'] == b) }
+            # puts tieRes.size.to_s
+            # aWins = 0
+            # bWins = 0
+            # tieRes.each do |x| 
+                # puts "here"
+            # end
+
+    }
+#    puts images.to_s
+    userToSortedImages[user] = images
+end
+
+puts userToSortedImages
+
 
 
 # spit out the results here
