@@ -374,3 +374,13 @@ displayStatus=function(user, taskId){
     }
   });
 }
+
+OnCalcInternCons= function(){
+    
+    var taskId = document.querySelector('input[name="taskId"]:checked').value;
+    var user = $("#username").val();
+    
+    var res = getInternalConsistencyMeasure(user, taskId);
+    var infoElem = document.getElementById("intConMeasInfo");
+    infoElem.textContent = "oh yeah";
+};
