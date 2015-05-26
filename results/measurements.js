@@ -50,8 +50,49 @@ getInternalConsistencyMeasure = function(user, taskId) {
              
              // ok, whew, we have the data - 
              // taskResults for this task id is in a closure
+             // here's the duplist
              var duplist = results.rows[0].value.list;
-             debugger;
+             
+             // now, for each element in the task list
+             // look to see if the task_idx is one of the duplist entries
+             // if so, look for the other entry in the task list
+             // if both are there, we can compare them.
+             // must be more efficient way ... sort dups first (?)
+             var dupTaskResults = [];
+             taskResults.forEach(function(res) {
+                var taskIdx = res.task_idx;
+                duplist.forEach(function(dup) {
+                    if (dup[0] === taskIdx || dup[1] === taskIdx) {
+                       var other = (dup[0] === taskIdx) ? dup[1] : dup[0]; 
+                       taskResults.forEach(function(res2) {
+                           if (res2.task_idx === other) {
+                                // we found a match!
+                                dupTaskResults.push([res, res2]);
+                           }
+                       });
+                    }
+                });
+             });
+             
+            var sames = 0;
+            var diffs = 0;
+            dupTaskResults.forEach(function(dupTaskResult){
+
+                if (dupTaskResult[0]["image0"] === dupTaskResult[1]["image0"]) {
+                    dupTaskResult[0]["winner"] === dupTaskResult[1]["winner"] ? sames++ : diffs++;
+                }
+                else if (dupTaskResult[0]["image0"] === dupTaskResult[1]["image1"]) {
+                    dupTaskResult[0]["winner"] != dupTaskResult[1]["winner"] ? sames++ : diffs++;
+                }
+                else {
+                    alert ("dup list defect");
+                }
+             });
+             
+             // finally, put the data on the page
+             var measureText = document.getElementById("intConMeasInfo");
+             measureText.textContent= "Of the " + duplist.length.toString() + " duplicates in this task, " + 
+                    sames.toString() + " were evaluated the same and " + diffs + " were evaluated oppositely."
             },
             error: function (response) {
               console.log("get failed : " + JSON.stringify(response));
