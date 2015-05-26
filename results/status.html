@@ -6,7 +6,9 @@
     <title>Status of tasks</title>
 
     <script src="../vendor/jquery/jquery-2.1.0.min.js"></script>
+    <script src="../vendor/d3/d3.min.js"></script>
     <script src="status.js"></script>
+    <script src="charts.js"></script>
     <script src="measurements.js"></script>
 
     <link rel="stylesheet" href="status.css" type="text/css">
@@ -87,10 +89,15 @@
   </div>
 
   <div>
+    <svg class="iclDistChart"></svg> 
+  </div>
+  <br> <!-- this should be a margin styling -->
+  
+  <div>
     <button onclick="OnCalcInternCons()"> Calculate Internal Consistency </button> 
     <span id="intConMeasInfo">Info Goes Here</span> 
   </div>
-  <br>
+  <br> <!-- this should be a margin styling -->
 
   <div class="container-fluid">
     <div class="row">

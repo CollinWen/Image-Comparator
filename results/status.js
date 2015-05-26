@@ -97,6 +97,7 @@ OnSetTaskIdx = function() {
     var user = $("#username").val();
 
     displayStatus(user, taskId);
+    chartIclDistribution(user, taskId);
 };
 
 // TODO - remove duplication! I'm talking to YOU!
