@@ -43,12 +43,14 @@ for i in (0..icl_list.length-1)
    pair = icl_list[i]
    for j in ((i+1)..icl_list.length-1)
       otherPair = icl_list[j]
-      if ( (pair[0] == otherPair[0] && pair[1] == otherPair[1]) ||
-           (pair[0] == otherPair[1] && pair[1] == otherPair[0]))
-         puts "found " + i.to_s() + " matches " + j.to_s()
-         duplist.push([i,j]);
+      if (pair[0] == otherPair[0] && pair[1] == otherPair[1])
+        puts "found " + i.to_s() + " matches " + j.to_s()
+        duplist.push([i,j,1]);
+      elsif ( pair[0] == otherPair[1] && pair[1] == otherPair[0])
+        puts "found " + i.to_s() + " matches " + j.to_s()
+        duplist.push([i,j,-1]);
       end     
-   end
+   end 
 end
 
 puts "to repeat:"
