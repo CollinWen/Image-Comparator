@@ -51,6 +51,9 @@ chartIclDistribution = function(user, taskId, sucFn) {
                 var cmpList = results.rows[0].value.list;
                 var ci = setUpChart(".iclDistChart",  cmpList);
                 
+                var domain = ci.xscale.domain();
+                var rangeOfDomain = domain[1] - domain[0];
+                
                 var squares = ci.chart.selectAll(".dots")
                   .data(cmpList)
                 .enter().append("rect")
@@ -61,8 +64,8 @@ chartIclDistribution = function(user, taskId, sucFn) {
                   .attr("y", function(d) { 
                       return ci.yscale(d[1]);
                       })
-                  .attr("width", 3)
-                  .attr("height", 3)
+                  .attr("width", 400/(rangeOfDomain+1)) // 400 should be width from setUpChart
+                  .attr("height", 400/(rangeOfDomain+1))
                   .attr("fill", "steelblue")
                   .attr("opacity", .5);
             },
@@ -82,9 +85,6 @@ chartTaskRes = function(jsonTaskRes) {
     var resRows = results.rows;
     var taskResults = [];
     resRows.forEach(function(row) {taskResults.push(row.value);}); 
-
-    
-    
 
 }
 
