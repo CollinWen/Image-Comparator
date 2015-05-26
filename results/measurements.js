@@ -44,9 +44,12 @@ getInternalConsistencyMeasure = function(user, taskId) {
              var results = jQuery.parseJSON( json );
              if (results.rows.length == 0) {
                // icl does not have a dup list doc
-               alert("icl, " + iclName + " is missing a dup list doc. Run \"ruby makeIclDupList " + iclName + "\"" );
+               alert("The image_compare_list with name \"" + iclName + "\" is missing an icl_dup_list doc. Run \"ruby makeIclDupList " + iclName + "\"" );
              }
              // assert if more than one.
+             
+             var measureText = document.getElementById("intConMeasInfo");
+             measureText.textContent= "calculating ... ";
              
              // ok, whew, we have the data - 
              // taskResults for this task id is in a closure
@@ -74,6 +77,7 @@ getInternalConsistencyMeasure = function(user, taskId) {
                 });
              });
              
+             
             var sames = 0;
             var diffs = 0;
             dupTaskResults.forEach(function(dupTaskResult){
@@ -90,7 +94,6 @@ getInternalConsistencyMeasure = function(user, taskId) {
              });
              
              // finally, put the data on the page
-             var measureText = document.getElementById("intConMeasInfo");
              measureText.textContent= "Of the " + duplist.length.toString() + " duplicates in this task, " + 
                     sames.toString() + " were evaluated the same and " + diffs + " were evaluated oppositely."
             },

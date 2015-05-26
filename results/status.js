@@ -382,5 +382,5 @@ OnCalcInternCons= function(){
     
     var res = getInternalConsistencyMeasure(user, taskId);
     var infoElem = document.getElementById("intConMeasInfo");
-    infoElem.textContent = "oh yeah";
+    infoElem.textContent = "querying ...";
 };
