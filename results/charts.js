@@ -49,6 +49,8 @@ chartIclDistribution = function(user, taskId, sucFn) {
                 }
                 
                 var cmpList = results.rows[0].value.list;
+                d3.select(".iclDistChart").selectAll("g").remove(); // clean up the old chart
+                
                 var ci = setUpChart(".iclDistChart",  cmpList);
                 
                 var domain = ci.xscale.domain();
@@ -68,6 +70,9 @@ chartIclDistribution = function(user, taskId, sucFn) {
                   .attr("height", 400/(rangeOfDomain+1))
                   .attr("fill", "steelblue")
                   .attr("opacity", .5);
+                  
+                // if there is a dup list, this might be useful for debugging  
+                // addDupListToChart(ci, iclName, cmpList);  
             },
             error: standardAjaxError
         });
@@ -87,6 +92,43 @@ chartTaskRes = function(jsonTaskRes) {
     resRows.forEach(function(row) {taskResults.push(row.value);}); 
 
 }
+
+addDupListToChart = function(ci, iclName, iclList) {
+      
+    var dbname = getSelectedDbUrl();  
+    var fullurl = dbname + '_design/basic_views/_view/icl_dup_lists?key=\"' + iclName + '\"';
+    $.ajax({
+        url : fullurl,
+        type : 'GET',
+        success : function(json) {
+            var results = jQuery.parseJSON( json );
+            if (results.rows.length != 1) {
+                alert("zero or multiple icl_dup_lists for this iclName. Contact Jayashree");
+            }
+            var duplist = results.rows[0].value.list;
+            
+            var domain = ci.xscale.domain();
+            var rangeOfDomain = domain[1] - domain[0];
+            
+            var squares = ci.chart.selectAll(".dupDots")
+                  .data(duplist)
+                .enter().append("rect")
+                  .attr("class", "dupDots")
+                  .attr("x", function(d) { 
+                      return ci.xscale(iclList[d[0]][0]);
+                      })
+                  .attr("y", function(d) { 
+                      return ci.yscale(iclList[d[0]][1]);
+                      })
+                  .attr("width", 400/(rangeOfDomain+1)) // 400 should be width from setUpChart
+                  .attr("height", 400/(rangeOfDomain+1))
+                  .attr("fill", "red")
+                  .attr("opacity", .5);
+        },
+        error: standardAjaxError
+    });
+}
+
 
 setUpChart = function(chartname, data) {
 
