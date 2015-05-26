@@ -61,9 +61,10 @@ chartIclDistribution = function(user, taskId, sucFn) {
                   .attr("y", function(d) { 
                       return ci.yscale(d[1]);
                       })
-                  .attr("width", 10)
-                  .attr("height", 10)
-                  .attr("fill", "steelblue");
+                  .attr("width", 3)
+                  .attr("height", 3)
+                  .attr("fill", "steelblue")
+                  .attr("opacity", .5);
             },
             error: standardAjaxError
         });
@@ -89,8 +90,8 @@ chartTaskRes = function(jsonTaskRes) {
 
 setUpChart = function(chartname, data) {
 
-    var margin = {top: 20, right: 20, bottom: 30, left: 60},
-        width = 450 - margin.left - margin.right,
+    var margin = {top: 20, right: 20, bottom: 30, left: 80},
+        width = 500 - margin.left - margin.right,
         height = 450 - margin.top - margin.bottom;
     
     var chart = d3.select(chartname)
