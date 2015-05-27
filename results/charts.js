@@ -132,9 +132,9 @@ addDupListToChart = function(ci, iclName, iclList) {
 
 setUpChart = function(chartname, data) {
 
-    var margin = {top: 20, right: 20, bottom: 30, left: 80},
-        width = 500 - margin.left - margin.right,
-        height = 450 - margin.top - margin.bottom;
+    var margin = {top: 20, right: 30, bottom: 50, left: 30},
+        width = 460 - margin.left - margin.right,
+        height = 470 - margin.top - margin.bottom;
     
     var chart = d3.select(chartname)
         .attr("width", width + margin.left + margin.right)
@@ -143,22 +143,24 @@ setUpChart = function(chartname, data) {
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
         
     var x = d3.scale.linear()
-        .domain([d3.min(data, function(d) { return d[0]; }), d3.max(data, function(d) { return d[0]; })])
+        .domain([d3.min(data, function(d) { return d[0]; }), d3.max(data, function(d) { return d[0]; })+1])
         .range([0, width]);
 
     var y = d3.scale.linear()
-        .domain([d3.min(data, function(d) { return d[1]; }), d3.max(data, function(d) { return d[1]; })])
+        .domain([d3.min(data, function(d) { return d[1]; }) -1, d3.max(data, function(d) { return d[1]; })])
         .range([height, 0]);
 
     var xAxis = d3.svg.axis()
         .scale(x)
         .orient("bottom")
-        .tickSize([6]);
+        .tickSize([6])
+        .tickFormat(d3.format("d"));
 
     var yAxis = d3.svg.axis()
         .scale(y)
         .orient("left")
-        .ticks(10);
+        .ticks(10)
+        .tickFormat(d3.format("d"));
     
     chart.append("g")
       .attr("class", "x axis")
@@ -169,7 +171,7 @@ setUpChart = function(chartname, data) {
       .attr("x", width)
       .attr("dx", ".71em")
       .style("text-anchor", "end")
-      .text("xlabel");
+      .text("image id");
 
     chart.append("g")
       .attr("class", "y axis")
@@ -179,7 +181,7 @@ setUpChart = function(chartname, data) {
       .attr("y", 6)
       .attr("dy", ".71em")
       .style("text-anchor", "end")
-      .text("ylabel");
+      .text("image id");
 
     return {chart:chart, xscale:x, yscale:y};
 };
