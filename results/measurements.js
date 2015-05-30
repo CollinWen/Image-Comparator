@@ -63,12 +63,13 @@ getInternalConsistencyMeasure = function(user, taskId) {
              // must be more efficient way ... sort dups first (?)
              var dupTaskResults = [];
              taskResults.forEach(function(res) {
-                var taskIdx = res.task_idx;
+                var taskIdx = parseInt(res.task_idx);
                 duplist.forEach(function(dup) {
                     if (dup[0] === taskIdx || dup[1] === taskIdx) {
                        var other = (dup[0] === taskIdx) ? dup[1] : dup[0]; 
                        taskResults.forEach(function(res2) {
-                           if (res2.task_idx === other) {
+                           var otherIdx = parseInt(res2.task_idx);
+                           if (otherIdx === other) {
                                 // we found a match!
                                 dupTaskResults.push([res, res2]);
                            }
@@ -93,9 +94,15 @@ getInternalConsistencyMeasure = function(user, taskId) {
                 }
              });
              
+             // this will count everything twice - divide by 2
+             var sames = sames/2;
+             var diffs = diffs/2;
+             
              // finally, put the data on the page
+             var samesVerb = (sames === 1) ? "was" : "were";
+             var diffsVerb = (diffs === 1) ? "was" : "were";
              measureText.textContent= "Of the " + duplist.length.toString() + " duplicates in this task, " + 
-                    sames.toString() + " were evaluated the same and " + diffs + " were evaluated oppositely."
+                    sames.toString() + " " + samesVerb +" evaluated the same and " + diffs + " " + diffsVerb + " evaluated oppositely."
             },
             error: function (response) {
               console.log("get failed : " + JSON.stringify(response));
