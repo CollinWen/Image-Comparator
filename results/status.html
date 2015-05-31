@@ -9,6 +9,7 @@
     <script src="../vendor/d3/d3.min.js"></script>
     <script src="status.js"></script>
     <script src="charts.js"></script>
+    <script src="tables.js"></script>
     <script src="measurements.js"></script>
 
     <link rel="stylesheet" href="status.css" type="text/css">
@@ -92,6 +93,27 @@
     <h2> ICL Distribution Map </h2>
     <svg class="iclDistChart"></svg> 
   </div>
+      
+  <div style="margin-left: 40px">
+    <h2> Duplicate Info Table </h2>
+    <table id="dupInfoTable" class="table table-striped">
+    <thead>
+        <tr>
+           <th>User</th>
+           <th>ICL Name</th>
+           <th># Results</th>
+           <th># Dups</th>
+           <th># Same</th>
+           <th># Diff</th>
+        </tr>
+    </thead>
+    <tbody id="dupInfoTableBody"></tbody>
+    </table> 
+  </div>
+
+
+
+  
   <br> <!-- this should be a margin styling -->
   
   <div>

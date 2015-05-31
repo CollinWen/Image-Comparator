@@ -1,7 +1,27 @@
+
+var Users = [                        
+    "testuser" ,
+    "mike"     ,
+    "susan"    ,
+    "paul"     ,
+    "karyn"    ,
+    "paul"     ,
+    "tom"      ,
+    "nina"     ,
+    "jason"    ,
+    "maria"    ,
+    "kim"      ,
+    "tony"     ,
+    "anton"    ];
+                        
+
+
 $(document).ready(function(){
 
     updateStatusInfo();
     var user = $("#username").val();
+
+    populateDuplicateTableInfo();
 
 });
 
@@ -104,6 +124,7 @@ OnSetTaskIdx = function() {
 OnSetDB = function(sel) {
     console.log ("Database changed to: " + sel.value);
     updateStatusInfo();
+    populateDuplicateTableInfo();
 }
 
 // TODO - remove duplication! I'm talking to YOU!
@@ -116,8 +137,11 @@ OnSetUser = function(sel) {
 // TODO - remove duplication! I'm talking to YOU!
 var getTasks = function(username, successFn) {
 
+    var keyStr = username ? "?key=\"" + username + "\"" : "";
+    
     var dburl = getSelectedDbUrl();
-    var fullurl = dburl + "_design/basic_views/_view/tasks?key=\"" + username + "\"";
+    var taskViewUrl = dburl + "_design/basic_views/_view/tasks";
+    var fullurl = taskViewUrl + keyStr;
 
     $.ajax({
         url : fullurl,
@@ -128,6 +152,29 @@ var getTasks = function(username, successFn) {
         }
     });
 }
+
+// the extra variable will be passed to the successFn
+var getResults = function(taskId, successFn, extra) {
+
+    var keyStr = taskId ? "?key=\"" + taskId + "\"" : "";
+    
+    var dburl = getSelectedDbUrl();
+    var resultsViewUrl = dburl + "_design/basic_views/_view/taskresults";
+    var fullurl = resultsViewUrl + keyStr;
+    
+    $.ajax({
+        url : fullurl,
+        type : 'GET',
+        success : function(json) {
+            // immediate function to get the closure
+            successFn(json, extra);
+        },
+        error: function (response) {
+            console.log("get failed : " + JSON.stringify(response));
+        }
+    });
+}
+
 
 
 // var getTaskToIcl = function(username) {
