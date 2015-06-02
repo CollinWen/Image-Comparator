@@ -10,9 +10,9 @@ dupInfoColumns = {
     sameAv  :  6, // average of the difference between ranks of the images
     sameMd  :  7, // median 
     sameSd  :  8, // standard deviation
-    diffAv  :  6, // average of the difference between ranks of the images
-    diffMd  :  7, // median 
-    diffSd  :  8, // standard deviation
+    diffAv  :  9, // average of the difference between ranks of the images
+    diffMd  :  10, // median 
+    diffSd  :  11, // standard deviation
 };
 
 
