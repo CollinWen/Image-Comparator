@@ -6,7 +6,13 @@ dupInfoColumns = {
     numRes  :  2,
     numDups :  3,
     numSame :  4,
-    numDiff :  5
+    numDiff :  5,
+    sameAv  :  6, // average of the difference between ranks of the images
+    sameMd  :  7, // median 
+    sameSd  :  8, // standard deviation
+    diffAv  :  6, // average of the difference between ranks of the images
+    diffMd  :  7, // median 
+    diffSd  :  8, // standard deviation
 };
 
 
@@ -66,12 +72,18 @@ addDupInfoToTableRow = function(json, tableRow) {
 
     // pour through results looking for duplicates
     var noDupList = [];
+    var sameList = [];
+    var diffList = [];
     var numDups = 0;
     var numSame = 0;
     var numDiff = 0; // == numDups - numSame
+    var resWinner, nodupWinner;
     
     results.forEach(function (res) {    
     
+        resWinner = null;
+        nodupWinner = null;
+        
         var found = false;
         noDupList.forEach(function(nodup) {
             
@@ -81,17 +93,28 @@ addDupInfoToTableRow = function(json, tableRow) {
                 found = true;
                 numDups++;                
                 
-                var resWinner = (res.winner === "1") ? res.image0 : res.image1;
-                var nodupWinner = (nodup.winner === "1") ? nodup.image0 : nodup.image1;
+                resWinner = (res.winner === "1") ? res.image0 : res.image1;
+                nodupWinner = (nodup.winner === "1") ? nodup.image0 : nodup.image1;
                 
                 (resWinner === nodupWinner) ? numSame++ : numDiff++; 
+                (resWinner === nodupWinner) ? sameList.push(res) : diffList.push(res);
             }
         });
         
         if (!found) {
             noDupList.push(res);
-        }
+        }                
     });
+    
+    // need the sort order of the images
+    // for the same pairs, calc diff between ranks
+    //
+    // duplicated calculation- sortResults should do that, sort the results 
+    // clearly data formats need revisit
+    var sortedImages = sortResults(resultRows);
+    
+    // tag each result with the rank diff
+    addRankDiffToResults(sortedImages, results);    
     
     cell = tableRow.insertCell(dupInfoColumns.numDups);
     newTxt  = document.createTextNode(numDups.toString());
@@ -104,6 +127,79 @@ addDupInfoToTableRow = function(json, tableRow) {
     cell = tableRow.insertCell(dupInfoColumns.numDiff);
     newTxt  = document.createTextNode(numDiff.toString());
     cell.appendChild(newTxt); 
+    
+    // build a vector of rank diffs for sames to do some stats on
+    var rankDiffs = [];    
+    sameList.forEach(function(res) {
+        rankDiffs.push(res.rankDiff);
+    });
+    
+    // test jstat
+    var myVect = [2,6,4,7,2,7,4],
+    jObj = jStat( myVect );
+    var tot = jStat.sum(myVect);
+    console.log(tot);
+    var mean = jStat.mean(myVect);
+    var med = jStat.median(myVect);
+    var std = jStat.stdev(myVect);
+    console.log ("m, md, sd: " + mean.toFixed(2) + " " + med.toFixed(2) + " " + std.toFixed(2) );
+    
+    if (results.length > 0) {
+        var mean = jStat.mean(rankDiffs);
+        var med = jStat.median(rankDiffs);
+        var std = jStat.stdev(rankDiffs);
+        
+        cell = tableRow.insertCell(dupInfoColumns.sameAv);
+        newTxt  = document.createTextNode(mean.toFixed(2));
+        cell.appendChild(newTxt);
+
+        cell = tableRow.insertCell(dupInfoColumns.sameMd);
+        newTxt  = document.createTextNode(med.toFixed(2));
+        cell.appendChild(newTxt); 
+
+        cell = tableRow.insertCell(dupInfoColumns.sameSd);
+        newTxt  = document.createTextNode(std.toFixed(2));
+        cell.appendChild(newTxt); 
+        
+        rankDiffs = [];    
+        diffList.forEach(function(res) {
+            rankDiffs.push(res.rankDiff);
+        });
+        
+        mean = jStat.mean(rankDiffs);
+        med = jStat.median(rankDiffs);
+        std = jStat.stdev(rankDiffs);
+        
+        cell = tableRow.insertCell(dupInfoColumns.diffAv);
+        newTxt  = document.createTextNode(mean.toFixed(2));
+        cell.appendChild(newTxt);
+
+        cell = tableRow.insertCell(dupInfoColumns.diffMd);
+        newTxt  = document.createTextNode(med.toFixed(2));
+        cell.appendChild(newTxt); 
+
+        cell = tableRow.insertCell(dupInfoColumns.diffSd);
+        newTxt  = document.createTextNode(std.toFixed(2));
+        cell.appendChild(newTxt); 
+    }
+    
+};
+
+addRankDiffToResults = function(sortedImages, results){
+
+    var r0, r1;
+    
+    results.forEach(function(res) {
+        r0 = sortedImages.indexOf(res.image0);
+        r1 = sortedImages.indexOf(res.image1);
+
+        if (r0 === -1 || r1 === -1) {
+            alert("image not found");
+        }
+        
+        res.rankDiff = Math.abs(r0 - r1);
+        
+    });
 };
 
 
