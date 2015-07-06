@@ -91,6 +91,7 @@ updateStatInfoTasks = function(json) {
         imagesDiv.style.display = "none";
         var toDoMsg = document.getElementById("to-do-message");
         toDoMsg.textContent = "All tasks are complete."
+        $(".btn-group").hide();
 
         // save results doc
 

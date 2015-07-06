@@ -18,6 +18,16 @@
     <link href="../vendor/bootstrap/css/2-col-portfolio.css" rel="stylesheet">
 <!--    <link href="two_image.css" rel="stylesheet"> -->
 
+<!-- This is so wrong! First, css should be in another file
+     But worse, this is a hack to hide the focus highlight (used for accessibilty)
+     When buttons are pressed, they get the focus - and get highlighted to show it.
+     There is still a small black outline....
+     -->
+<style>
+.btn:focus {
+  background-color: #428bca;
+}
+</style>
 </head>
 
 <body>
@@ -102,6 +112,12 @@
             <div  class="col-md-6 portfolio-item">
                 <img id="image0" class="img-responsive portfolio-item " width="550" height="400" src="http://placehold.it/700x400" alt="">
             </div>
+        </div>
+
+        <div class="btn-group">
+          <button type="button" class="btn btn-primary"   id="Normal" onclick="OnClassify(this)">Item1</button>
+          <button type="button" class="btn btn-primary"   id="PrePlus" onclick="OnClassify(this)">Item2</button>
+          <button type="button" class="btn btn-primary"   id="Plus" onclick="OnClassify(this)">Item3</button>
         </div>
 
         <div class="btn-group" data-toggle="buttons">
