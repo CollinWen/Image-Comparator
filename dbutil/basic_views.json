@@ -40,6 +40,18 @@
        },
        "task2iclByTaskId": {
            "map": "function(doc) {\n  if (doc.type == \"task\") {\n    emit(doc._id, doc.image_compare_list);\n  }\n}"
-       }
+       },
+       "image_classify_lists": {
+          "map": "function(doc) {\n  if (doc.type===\"image_classify_list\")\n   emit(doc._id, doc);\n}"
+      },
+      "incomplete_compare_tasks": {
+          "map": "function(doc) {\n  if (doc.type === \"task\" && doc.task_type=== \"compare\" && doc.completed === false) {\n    emit (doc.user, doc);\n  }\n}"
+      },
+      "incomplete_classify_tasks": {
+          "map": "function(doc) {\n  if (doc.type === \"task\" && doc.task_type=== \"classify\" && doc.completed === false) {\n    emit (doc.user, doc);\n  }\n}"
+      },
+      "classifyResults": {
+          "map": "function(doc) {\n  if (doc.type===\"imageClassifyResult\")\n    emit(doc.task, doc);\n}"
+      }
    }
 }

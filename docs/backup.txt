@@ -22,4 +22,10 @@ curl -X GET http://localhost:5984/rop_images/_all_docs?include_docs=true >rop_im
 
 curl -X GET http://localhost:5984/rop_images/_all_docs?include_docs=true >rop_images_1715_5_4_2015.json
 
+curl -X GET http://localhost:5984/rop_images/_all_docs?include_docs=true >rop_images_1630_7_6_2015.json
+
+
 scp -rp -i /Users/jayashreekalpathy-cramer/Documents/rop/aws-alan-laptop.pem ec2-user@ec2-54-152-40-100.compute-1.amazonaws.com:/home/ec2-user/backups/rop_images_1715_5_4_2015.json
+
+
+scp -rp -i /Users/jkc/Documents/retinalImaging/aws-alan-laptop.pem ec2-user@ec2-54-152-40-100.compute-1.amazonaws.com:/home/ec2-user/backups/rop_images_1630_7_6_2015.json .
