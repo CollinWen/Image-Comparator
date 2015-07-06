@@ -40,7 +40,7 @@ rangeArray.shuffle!
 
 obj = { type:"image_classify_list",
         uniqueImageCount:sizeDocs,
-        imageCount:rangeArray.size,
+        count:rangeArray.size,
         list:rangeArray,
         timeAdded:Time.now()}
 #puts obj.inspect

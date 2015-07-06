@@ -4,7 +4,7 @@ $(document).ready(function() {
     updateStatusInfo();
 
     var user = $("#username").val();
-    ImageCompare.TaskFeeder.SetImagePair(user);
+    ImageCompare.TaskFeeder.SetImage(user);
 
 });
 
@@ -42,7 +42,7 @@ updateStatusInfo = function() {
     setLabelDanger(isDanger, label);
 
     // update tasks
-    getTasks(selUser.value, updateStatInfoTasks);
+    getIncompleteClassifyTasks(selUser.value, updateStatInfoTasks);
 
 };
 
@@ -62,10 +62,10 @@ updateStatInfoTasks = function(json) {
         curTaskElem.hidden = false;
 
         var firstTask = tasks[0].value;
-        var icl_id = firstTask.image_compare_list;
+        var icl_id = firstTask.image_classify_list;
 
         var dburl = ImageCompare.TaskFeeder.GetImageDbUrl();
-        var fullurl = dburl + "_design/basic_views/_view/image_compare_lists?key=\"" + icl_id + "\"";
+        var fullurl = dburl + "_design/basic_views/_view/image_classify_lists?key=\"" + icl_id + "\"";
 
         $.ajax({
             url : fullurl,
@@ -75,7 +75,7 @@ updateStatInfoTasks = function(json) {
                 var result = jQuery.parseJSON( json );
 
                 var curIdx = firstTask.current_idx + 1; // because humans usually don't use zero based indexing
-                curTaskElem.textContent = "You are on comparison " + curIdx + " of " + result.rows[0].value.count;
+                curTaskElem.textContent = "You are classifying image " + curIdx + " of " + result.rows[0].value.count;
 
             },
             error: function (response) {
@@ -84,25 +84,25 @@ updateStatInfoTasks = function(json) {
         });
     }
     else {
-    
+
         // reformat ui
         curTaskElem.hidden = true;
         var imagesDiv = document.getElementById("image-row");
         imagesDiv.style.display = "none";
         var toDoMsg = document.getElementById("to-do-message");
         toDoMsg.textContent = "All tasks are complete."
-        
+
         // save results doc
-        
-        
+
+
     }
 };
 
 
-var getTasks = function(username, successFn) {
+var getIncompleteClassifyTasks = function(username, successFn) {
 
     var dburl = ImageCompare.TaskFeeder.GetImageDbUrl();
-    var fullurl = dburl + "_design/basic_views/_view/incomplete_tasks?key=\"" + username + "\"";
+    var fullurl = dburl + "_design/basic_views/_view/incomplete_classify_tasks?key=\"" + username + "\"";
 
     $.ajax({
         url : fullurl,
@@ -120,7 +120,7 @@ var getTasks = function(username, successFn) {
 // winVal will be -1, 0, or 1. This can support other values for UIs
 // where the user can say "A five times more than B"
 // todo - this should not be global
-createICResult = function(winVal, img0, img1, user, comment, task, task_idx) {
+createICResult = function(diagnosis, img0, user, comment, task, task_idx) {
 
     // todo - this configuration should be external to this function
     var db_config_elem = document.getElementById("database");
@@ -136,11 +136,10 @@ createICResult = function(winVal, img0, img1, user, comment, task, task_idx) {
     var imgDbStr = hostname + imageDbName;
 
     var dataStr = "{\"user\":\"" + user + "\",";
-    dataStr += "\"type\":\"" + "imageCompareResult" + "\",";
+    dataStr += "\"type\":\"" + "imageClassifyResult" + "\",";
     dataStr += "\"date\":\"" + timeStr + "\",";
     dataStr += "\"image0\":\"" + imgDbStr + img0.toString() + "\",";
-    dataStr += "\"image1\":\"" + imgDbStr + img1.toString() + "\",";
-    dataStr += "\"winner\":\"" +  winVal.toString() + "\",";
+    dataStr += "\"diagnosis\":\"" +  diagnosis + "\",";
 
 //    if (comment != ImageCompare.TaskFeeder.defaultComment) {/
 //        dataStr += ",";
@@ -176,7 +175,7 @@ updateTask = function(task, user) {
 
     // first get the length of the icl for the task, (to see if the task is now complete)
     var dburl = ImageCompare.TaskFeeder.GetImageDbUrl();
-    var fullurl = dburl + "_design/basic_views/_view/icl_lengths?key=\"" + task.image_compare_list + "\"";
+    var fullurl = dburl + "_design/basic_views/_view/icl_lengths?key=\"" + task.image_classify_list + "\"";
     var icl_count = -1;
 
 
@@ -204,7 +203,7 @@ updateTask = function(task, user) {
                 contentType: "application/json",
                 success : function(json) {
                     //console.log ("put succeeded: " + JSON.stringify(json));
-                    ImageCompare.TaskFeeder.SetImagePair(user);
+                    ImageCompare.TaskFeeder.SetImage(user);
                     updateStatusInfo(); // really this is redundant, but I need to return a deferred for this ajax call - how?
                 },
                 error: function (response) {
@@ -223,20 +222,19 @@ updateTask = function(task, user) {
 OnSetDB = function(sel) {
     console.log ("Database changed to: " + sel.value);
     updateStatusInfo();
-    ImageCompare.TaskFeeder.SetImagePair(sel.value);
+    ImageCompare.TaskFeeder.SetImage(sel.value);
 }
 
 OnSetUser = function(sel) {
 
     console.log ("User changed to: " + sel.value);
     updateStatusInfo();
-    ImageCompare.TaskFeeder.SetImagePair(sel.value);
+    ImageCompare.TaskFeeder.SetImage(sel.value);
 }
 
 // really a private helper
-saveResultSetImages = function (winnerId) {
+saveResultSetImages = function (diagnosis) {
     var img0 = ImageCompare.TaskFeeder.Image0;
-    var img1 = ImageCompare.TaskFeeder.Image1;
     var task_idx = ImageCompare.TaskFeeder.current_task_idx;
     var task = ImageCompare.TaskFeeder.current_task;
 
@@ -248,7 +246,7 @@ saveResultSetImages = function (winnerId) {
     // not sure why the result is being created with winval of 1
     //var d1 = createICResult(1, img0, img1, user, comment, task, task_idx);
 
-    var d1 = createICResult(winnerId, img0, img1, user, comment, task, task_idx);
+    var d1 = createICResult(diagnosis, img0, user, comment, task, task_idx);
     var d2 = updateTask(task, user);
     // update happens asynchronously, so this would be wrong:
     // ImageCompare.TaskFeeder.SetImagePair(user);
@@ -259,19 +257,11 @@ saveResultSetImages = function (winnerId) {
     $.when(d1, d2).then(updateStatusInfo());
 }
 
-OnImage0 = function() {
+OnClassify = function(btn) {
 
-    saveResultSetImages(1);
+    saveResultSetImages(btn.id);
 };
 
-OnImage1 = function() {
 
-    saveResultSetImages(-1);
-};
-
-OnNotSure = function() {
-
-    saveResultSetImages(0);
-};
 
 // private utility

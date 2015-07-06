@@ -99,30 +99,23 @@
 
         <!-- Projects Row -->
         <div id="image-row" class="row" style="display:block;height:400px">
-            <div  class="col-md-6 portfolio-item" onclick="OnImage0()">
-
+            <div  class="col-md-6 portfolio-item">
                 <img id="image0" class="img-responsive portfolio-item " width="550" height="400" src="http://placehold.it/700x400" alt="">
-
-                <p></p>
-            </div>
-            <div  class="col-md-6 portfolio-item" onclick="OnImage1()">
-
-				<div class="radio">
-				  <label><input type="radio" name="optradio">Normal</label>
-				</div>
-				<div class="radio">
-				  <label><input type="radio" name="optradio">Pre-plus</label>
-				</div>
-				<div class="radio disabled">
-				  <label><input type="radio" name="optradio">Plus</label>
-				</div>
-
-                <p></p>
             </div>
         </div>
+
+        <div class="btn-group" data-toggle="buttons">
+          <label id="Normal" class="btn btn-primary"  onclick="OnClassify(this)">
+            <input type="radio"  name="optradio" >Normal</label>
+
+          <label id="PrePlus" class="btn btn-primary" onclick="OnClassify(this)">
+            <input type="radio"  name="optradio" >Pre-plus</label>
+
+          <label id="Plus" class="btn btn-primary"  onclick="OnClassify(this)">
+            <input type="radio"  name="optradio" >Plus</label>
+        </div>
+
         <!-- /.row -->
-
-
 
         <hr>
         <!--
@@ -173,10 +166,10 @@
 
     <!-- Feeder reference -->
     <script src="../feeders/default.js"></script>
-    <script src="../feeders/task_feeder.js"></script>
+    <script src="../feeders/classify_feeder.js"></script>
 
     <!-- document ready behavior and handlers -->
-    <script src="two_image.js"></script>
+    <script src="image_class.js"></script>
 
     <script src="../util/uuidutil.js"></script>
 

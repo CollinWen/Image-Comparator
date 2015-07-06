@@ -84,17 +84,17 @@ updateStatInfoTasks = function(json) {
         });
     }
     else {
-    
+
         // reformat ui
         curTaskElem.hidden = true;
         var imagesDiv = document.getElementById("image-row");
         imagesDiv.style.display = "none";
         var toDoMsg = document.getElementById("to-do-message");
         toDoMsg.textContent = "All tasks are complete."
-        
+
         // save results doc
-        
-        
+
+
     }
 };
 
@@ -102,7 +102,7 @@ updateStatInfoTasks = function(json) {
 var getTasks = function(username, successFn) {
 
     var dburl = ImageCompare.TaskFeeder.GetImageDbUrl();
-    var fullurl = dburl + "_design/basic_views/_view/incomplete_tasks?key=\"" + username + "\"";
+    var fullurl = dburl + "_design/basic_views/_view/incomplete_compare_tasks?key=\"" + username + "\"";
 
     $.ajax({
         url : fullurl,
