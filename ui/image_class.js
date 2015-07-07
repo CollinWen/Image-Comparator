@@ -223,7 +223,10 @@ updateTask = function(task, user) {
 OnSetDB = function(sel) {
     console.log ("Database changed to: " + sel.value);
     updateStatusInfo();
-    ImageCompare.TaskFeeder.SetImage(sel.value);
+
+    var user_elem = document.getElementById("username");
+    var selUserTxt = user_elem.options[ user_elem.selectedIndex ].value;
+    ImageCompare.TaskFeeder.SetImage(selUserTxt);
 }
 
 OnSetUser = function(sel) {
