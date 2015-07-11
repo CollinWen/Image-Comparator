@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Classify ROP images</title>
+    <title>Compare Two Images</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -18,18 +18,6 @@
     <link href="../vendor/bootstrap/css/2-col-portfolio.css" rel="stylesheet">
 <!--    <link href="two_image.css" rel="stylesheet"> -->
 
-<!-- This is so wrong! First, css should be in another file
-     But worse, this is a hack to hide the focus highlight (used for accessibilty)
-     When buttons are pressed, they get the focus - and get highlighted to show it.
-     There is still a small black outline....
-     Also! any other buttons will get this effect - incorrectly
-     -->
-<style>
-.btn:focus {
-  background-color: #428bca;
-}
-
-</style>
 </head>
 
 <body>
@@ -58,30 +46,23 @@
                     </li>
                     <li>
                         <select id="database" onchange="OnSetDB(this)">
-                            <option value="ec2">AWS EC2 AMI</option>
                             <option value="localhost">Localhost</option>
-
+                            <option value="ec2">AWS EC2 AMI</option>
                         </select>
                     </li>
                     <li>
                         <select id="username" onchange="OnSetUser(this)">
-                            <option value="testuser3">Test User3</option>
-                            <option value="tony">Tony</option>
-                            <option value="mikeS">Mike S</option>
-                            <option value="maria">Maria Ana</option>
-                            <option value="anand">Anand</option>
-                            <option value="phil">Phil</option>
-                            <option value="testuser4">Test User4</option>
-                            <option value="testuser5">Test User5</option>
-
-
-                <!--              <option value="tom">Tom</option>
+                            <option value="testuser">Test User</option>
+                            <option value="mike">Mike</option>
+                            <option value="susan">Susan</option>
+                            <option value="paul">Paul</option>
+                            <option value="karyn">Kayrn</option>
+                            <option value="pete">Pete</option>
                             <option value="nina">Nina</option>
-                            <option value="jason">Jason</option>
-                            <option value="maria">Maria Ana</option>
-                            <option value="kim">Kim</option>
-                            <option value="tony">Tony</option>
-                            <option value="anton">Anton</option>  -->
+                            <option value="testuser1">Test User1</option>
+                            <option value="testuser2">Test User2</option>
+
+
                         </select>
                     </li>
                 </ul>
@@ -108,27 +89,30 @@
         <!-- Page Header -->
         <div class="row">
             <div class="col-lg-12">
-                <h1 id="to-do-message" class="page-header">Please select:
+                <h1 id="to-do-message" class="page-header">Click on the image that represents more severe disease
                 </h1>
             </div>
         </div>
         <!-- /.row -->
 
         <!-- Projects Row -->
-        <div id="image-row" class="row" style="display:block;height:480px">
-            <div  class="col-md-6 portfolio-item">
+        <div id="image-row" class="row" style="display:block;height:400px">
+            <div  class="col-md-6 portfolio-item" onclick="OnImage0()">
+
                 <img id="image0" class="img-responsive portfolio-item " width="550" height="400" src="http://placehold.it/700x400" alt="">
+
+                <p></p>
+            </div>
+            <div  class="col-md-6 portfolio-item" onclick="OnImage1()">
+
+                <img id="image1" class="img-responsive" width="550" height="400" src="http://placehold.it/700x400" alt="">
+
+                <p></p>
             </div>
         </div>
-
-
-        <div class=" row btn-group">
-          <button type="button" class="btn btn-primary"   id="Normal" onclick="OnClassify(this)">Normal</button>
-          <button type="button" class="btn btn-primary"   id="PrePlus" onclick="OnClassify(this)">Pre-plus</button>
-          <button type="button" class="btn btn-primary"   id="Plus" onclick="OnClassify(this)">Plus</button>
-        </div>
-
         <!-- /.row -->
+
+
 
         <hr>
         <!--
@@ -179,10 +163,10 @@
 
     <!-- Feeder reference -->
     <script src="../feeders/default.js"></script>
-    <script src="../feeders/classify_feeder.js"></script>
+    <script src="../feeders/task_feeder.js"></script>
 
     <!-- document ready behavior and handlers -->
-    <script src="image_class.js"></script>
+    <script src="two_image.js"></script>
 
     <script src="../util/uuidutil.js"></script>
 
