@@ -1,12 +1,25 @@
 
 $(document).ready(function() {
 
+    handleUrlFilter(document.location.search);
     updateStatusInfo();
 
     var user = $("#username").val();
     ImageCompare.TaskFeeder.SetImage(user);
 
 });
+
+// 
+handleUrlFilter = function(urlSearchStr) {
+    
+    //alert(urlSearchStr);
+    qs= new QueryString(urlSearchStr);
+    var user = qs.value("username");
+    if (user) {
+        $("#username").val(user);
+        OnSetUser(user);
+    }
+}
 
 // labels can be either primary or danger
 // just for controlling the color through bootstrap

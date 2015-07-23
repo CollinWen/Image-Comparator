@@ -1,5 +1,10 @@
 
+
+
+
 $(document).ready(function() {
+
+    handleUrlFilter(document.location.search);
 
     updateStatusInfo();
 
@@ -7,6 +12,19 @@ $(document).ready(function() {
     ImageCompare.TaskFeeder.SetImagePair(user);
 
 });
+
+// 
+handleUrlFilter = function(urlSearchStr) {
+    
+    //alert(urlSearchStr);
+    qs= new QueryString(urlSearchStr);
+    var user = qs.value("username");
+    if (user) {
+        $("#username").val(user);
+        OnSetUser(user);
+    }
+}
+
 
 // labels can be either primary or danger
 // just for controlling the color through bootstrap
@@ -223,7 +241,10 @@ updateTask = function(task, user) {
 OnSetDB = function(sel) {
     console.log ("Database changed to: " + sel.value);
     updateStatusInfo();
-    ImageCompare.TaskFeeder.SetImagePair(sel.value);
+
+    var user_elem = document.getElementById("username");
+    var selUserTxt = user_elem.options[ user_elem.selectedIndex ].value;
+    ImageCompare.TaskFeeder.SetImage(selUserTxt);
 }
 
 OnSetUser = function(sel) {
