@@ -16,7 +16,19 @@
 
     <!-- Custom CSS -->
     <link href="../vendor/bootstrap/css/2-col-portfolio.css" rel="stylesheet">
-<!--    <link href="two_image.css" rel="stylesheet"> -->
+    <!--    <link href="two_image.css" rel="stylesheet"> -->
+
+    <!-- Google Analytics -->
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-65274027-2', 'auto');
+      ga('send', 'pageview');
+
+    </script>
 
 </head>
 
@@ -46,25 +58,20 @@
                     </li>
                     <li>
                         <select id="database" onchange="OnSetDB(this)">
-                            <option value="localhost">Localhost</option>
-                            <option value="ec2">AWS EC2 AMI</option>
+                          <option value="ec2">AWS EC2 AMI</option>
+                          <option value="localhost">Localhost</option>
                         </select>
                     </li>
                     <li>
                         <select id="username" onchange="OnSetUser(this)">
-                            <option value="testuser">Test User</option>
-                            <option value="mike">Mike</option>
-                            <option value="susan">Susan</option>
-                            <option value="paul">Paul</option>
-                            <option value="karyn">Kayrn</option>
-                            <option value="pete">Pete</option>
-                            <option value="tom">Tom</option>  
-                            <option value="nina">Nina</option>  
-                            <option value="jason">Jason</option>  
-                            <option value="maria">Maria Ana</option>  
-                            <option value="kim">Kim</option>  
-                            <option value="tony">Tony</option>  
-                            <option value="anton">Anton</option>  
+                            <option value="testuser3">Test User3</option>
+                            <option value="tony">Tony</option>
+                            <option value="mikeS">Mike S</option>
+                            <option value="maria">Maria Ana</option>
+                            <option value="anand">Anand</option>
+                            <option value="phil">Phil</option>
+                            <option value="testuser4">Test User4</option>
+                            <option value="testuser5">Test User5</option>
                         </select>
                     </li>
                 </ul>
@@ -168,8 +175,10 @@
     <script src="../feeders/task_feeder.js"></script>
 
     <!-- document ready behavior and handlers -->
+    <script src="queryStringParser.js"></script>
     <script src="two_image.js"></script>
 
+    
     <script src="../util/uuidutil.js"></script>
 
 </body>

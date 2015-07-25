@@ -16,7 +16,20 @@
 
     <!-- Custom CSS -->
     <link href="../vendor/bootstrap/css/2-col-portfolio.css" rel="stylesheet">
-<!--    <link href="two_image.css" rel="stylesheet"> -->
+    <!--    <link href="two_image.css" rel="stylesheet"> -->
+    
+    <!-- Google Analytics -->
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-65274027-2', 'auto');
+      ga('send', 'pageview');
+
+    </script>
+    
 
 <!-- This is so wrong! First, css should be in another file
      But worse, this is a hack to hide the focus highlight (used for accessibilty)
@@ -58,8 +71,9 @@
                     </li>
                     <li>
                         <select id="database" onchange="OnSetDB(this)">
-                            <option value="localhost">Localhost</option>
                             <option value="ec2">AWS EC2 AMI</option>
+                            <option value="localhost">Localhost</option>
+
                         </select>
                     </li>
                     <li>
@@ -67,7 +81,7 @@
                             <option value="testuser3">Test User3</option>
                             <option value="tony">Tony</option>
                             <option value="mikeS">Mike S</option>
-                            <option value="maria">maria</option>
+                            <option value="maria">Maria Ana</option>
                             <option value="anand">Anand</option>
                             <option value="phil">Phil</option>
                             <option value="testuser4">Test User4</option>
@@ -182,6 +196,7 @@
 
     <!-- document ready behavior and handlers -->
     <script src="image_class.js"></script>
+    <script src="queryStringParser.js"></script>
 
     <script src="../util/uuidutil.js"></script>
 
