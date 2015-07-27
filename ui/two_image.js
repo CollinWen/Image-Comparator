@@ -19,8 +19,8 @@ handleUrlFilter = function(urlSearchStr) {
     //alert(urlSearchStr);
     qs= new QueryString(urlSearchStr);
     var user = qs.value("username");
-    if (user) {
-        $("#username").val(user);
+    if (user) { 
+        $("#username").val(user); 
         OnSetUser(user);
     }
     
@@ -73,7 +73,10 @@ updateStatusInfo = function() {
     setLabelDanger(isDanger, label);
 
     // update tasks
-    getTasks(selUser.value, updateStatInfoTasks);
+    var user = $("#username").val();
+    if (user) { 
+        getTasks(user, updateStatInfoTasks);
+    }
 
 };
 
@@ -260,11 +263,11 @@ OnSetDB = function(sel) {
     ImageCompare.TaskFeeder.SetImage(selUserTxt);
 }
 
-OnSetUser = function(sel) {
+OnSetUser = function(username) {
 
-    console.log ("User changed to: " + sel.value);
+    console.log ("User changed to: " + username);
     updateStatusInfo();
-    ImageCompare.TaskFeeder.SetImagePair(sel.value);
+    ImageCompare.TaskFeeder.SetImagePair(username);
 }
 
 // really a private helper
