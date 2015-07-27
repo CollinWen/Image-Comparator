@@ -258,11 +258,11 @@ OnSetDB = function(sel) {
     ImageCompare.TaskFeeder.SetImage(selUserTxt);
 }
 
-OnSetUser = function(sel) {
+OnSetUser = function(username) {
 
-    console.log ("User changed to: " + sel.value);
+    console.log ("User changed to: " + username);
     updateStatusInfo();
-    ImageCompare.TaskFeeder.SetImage(sel.value);
+    ImageCompare.TaskFeeder.SetImage(username);
 }
 
 // really a private helper
