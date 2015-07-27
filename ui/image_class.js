@@ -69,8 +69,10 @@ updateStatusInfo = function() {
     setLabelDanger(isDanger, label);
 
     // update tasks
-    getIncompleteClassifyTasks(selUser.value, updateStatInfoTasks);
-
+    var user = $("#username").val();
+    if (user) { 
+        ggetIncompleteClassifyTasksetTasks(user, updateStatInfoTasks);
+    }
 };
 
 // called on getTasks success, input are the rows from the view

@@ -1,7 +1,4 @@
 
-
-
-
 $(document).ready(function() {
 
     handleUrlFilter(document.location.search);
