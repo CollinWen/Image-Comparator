@@ -37,13 +37,13 @@ setLabelDanger = function(isDanger, label) {
 updateStatusInfo = function() {
 
     // update user
-    var elem = document.getElementById("si_user");
-    var user_elem = document.getElementById("username");
-    var selUser = user_elem.options[ user_elem.selectedIndex ];
-    elem.textContent = selUser.text;
-    var label = $("#si_user_label");
-    var isDanger = (selUser.value === "testuser");
-    setLabelDanger(isDanger, label);
+    // var elem = document.getElementById("si_user");
+    // var user_elem = document.getElementById("username");
+    // var selUser = user_elem.options[ user_elem.selectedIndex ];
+    // elem.textContent = selUser.text;
+    // var label = $("#si_user_label");
+    // var isDanger = (selUser.value === "testuser");
+    // setLabelDanger(isDanger, label);
 
     // update database
     var elem = document.getElementById("si_db");
