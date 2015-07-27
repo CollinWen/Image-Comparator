@@ -4,8 +4,9 @@ $(document).ready(function() {
     handleUrlFilter(document.location.search);
     updateStatusInfo();
 
-    var user = $("#username").val();
-    ImageCompare.TaskFeeder.SetImage(user);
+    if (ImageCompare.username) {
+        ImageCompare.TaskFeeder.SetImage(ImageCompare.username);
+    }
 
 });
 
@@ -16,6 +17,9 @@ handleUrlFilter = function(urlSearchStr) {
     qs= new QueryString(urlSearchStr);
     var user = qs.value("username");
     if (user) {
+        
+        ImageCompare.username = user;
+        
         $("#username").val(user);
         OnSetUser(user);
     }
@@ -69,7 +73,7 @@ updateStatusInfo = function() {
     setLabelDanger(isDanger, label);
 
     // update tasks
-    var user = $("#username").val();
+    var user = ImageCompare.username;
     if (user) { 
         getIncompleteClassifyTasks(user, updateStatInfoTasks);
     }
