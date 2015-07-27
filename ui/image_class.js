@@ -71,7 +71,7 @@ updateStatusInfo = function() {
     // update tasks
     var user = $("#username").val();
     if (user) { 
-        ggetIncompleteClassifyTasksetTasks(user, updateStatInfoTasks);
+        getIncompleteClassifyTasks(user, updateStatInfoTasks);
     }
 };
 
