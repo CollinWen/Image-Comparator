@@ -265,6 +265,7 @@ OnSetDB = function(sel) {
 OnSetUser = function(username) {
 
     console.log ("User changed to: " + username);
+    ImageCompare.username = username;
     updateStatusInfo();
     ImageCompare.TaskFeeder.SetImage(username);
 }
