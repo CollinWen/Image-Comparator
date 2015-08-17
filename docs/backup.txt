@@ -6,9 +6,12 @@ on AWS, cd to backups (/home/ec2-user/backups)
 use a cmd similar to the following
 
 curl -X GET http://localhost:5984/rop_images/_all_docs?include_docs=true >rop_images_2140_25_7_2015.json
+curl -X GET http://localhost:5984/rop_images/_all_docs?include_docs=true >rop_images_1330_17_8_2015.json
 
 on local machine, from pem file dir
 
 scp -rp -i aws-alan-laptop.pem ec2-user@ec2-54-152-40-100.compute-1.amazonaws.com:/home/ec2-user/backups/rop_images_2140_7_26_2015.json .
+
+scp -rp -i aws-alan-laptop.pem ec2-user@ec2-54-152-40-100.compute-1.amazonaws.com:/home/ec2-user/backups/rop_images_1330_17_8_2015.json .
 
 move backup to the backups dir (e.g. /Users/jayashreekalpathy-cramer/Documents/retinalImaging/dbBackups)
