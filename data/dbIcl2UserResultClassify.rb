@@ -9,14 +9,16 @@ require 'csv'
 #file = File.read('/Users/jkc/Documents/retinalImaging/website/data/rop_images_4_27_2015.json')
 #file = File.read('/Users/jayashreekalpathy-cramer/Documents/rop/website/Image-Comparator/data/rop_images_4_27_2015.json')
 
-file = File.read('/Users/kalpathy/Documents/retinalImaging/website/rop_images_1330_17_8_2015.json')
+#file = File.read('/Users/kalpathy/Documents/retinalImaging/website/rop_images_1330_17_8_2015.json')
+
+file = File.read('/Users/jkc/Documents/retinalImaging/website/data/rop_images_1330_17_8_2015.json')
 contents = JSON.parse(file)
 #puts contents
 iclDocs = contents['rows'].select{|x| x['doc']['type'] === "image_classify_list"}
 
 #puts iclDocs
 
-iclResults = contents['rows'].select{|x| x['doc']['type'] === "imageClassifyResult" && x['doc']['user'] === "mike"}
+#iclResults = contents['rows'].select{|x| x['doc']['type'] === "imageClassifyResult" && x['doc']['user'] === "mike"}
 
 #puts iclResults.size
 
@@ -51,19 +53,26 @@ tasks.each{|x| task2user[x['_id']] = x["user"]}
 icResultRows = contents['rows'].select{|x| x['doc']['type'] === "imageClassifyResult"}
 #puts icResultRows.size
 #icResultRows2 = icResultRows.select{|x| task2icl[x['doc']['task']] === "icl_1_10_rev1"}
-icResultRows2 = icResultRows.select{|x| task2icl[x['doc']['task']] === "icsfy_set34_rev2"}
+#icResultRows2 = icResultRows.select{|x| task2icl[x['doc']['task']] === "icsfy_set34_rev2"}
+#icResultRows2 = icResultRows.select{|x| task2icl[x['doc']['task']] === "icsfy_100"}
+icResultRows2 = icResultRows.select{|x| task2icl[x['doc']['task']] === "icsfy_select25_rev1"}
+
+
+
 
 #icResultRows2 = icResultRows.select{|x| task2icl[x['doc']['task']] === "icl_9"}
 
 
 #puts icResultRows2.size
-=begin
+
 icResults = []
 icResultRows2.each{|x| icResults.push(x['doc'])}
 #puts icResultRows2[0]
 
 # sort by task_idx
 icResults.sort_by!{|a| [a['user'], a['task_idx'], Time.parse(a['date'])]}
+#puts icResults.size
+#puts icResults
 
 
 #icResults.sort!{|a,b| a['task_idx'] <=> b['task_idx']}
@@ -76,8 +85,8 @@ prevTaskIdx=''
 output = []
 
 
-CSV.open("results_set100_r3.csv", "w") do |csv|
-  csv << ['task_id', 'image0', 'image1', 'winner', 'user', 'date', 'icl']
+CSV.open("results_icsfy_select25_rev1.csv", "w") do |csv|
+  csv << ['task_id', 'image',  'diagnosis', 'user', 'date', 'icl']
 #CSV.open("results_100_rev1.csv", "w") do |csv|
 icResults.each do |x|
   #puts "here"
@@ -86,8 +95,7 @@ icResults.each do |x|
   #row['task'] = x['task']
   row['task_idx'] = x['task_idx']
   row['image0'] = x['image0'] #.split('/').last
-  row['image1'] = x['image1'].split('/').last
-  row['winner'] = x['winner']
+  row['diagnosis'] = x['diagnosis']
   row['user'] = x['user']
   row['date']=x['date']
 
@@ -96,8 +104,11 @@ icResults.each do |x|
   thisTask=x['task']
   row['icl']=task2icl[thisTask]
 
-  thisLine="#{x['task_idx']}, #{x['image0'].split('/').last}, #{x['image1'].split('/').last}, #{x['winner']}, #{x['user']}, #{x['date']}, #{row['icl']}"
-  #puts thisLine
+  thisLine="#{x['task_idx']}, #{x['image0'].split('/').last}, #{x['diagnosis']}, #{x['user']}, #{x['date']}, #{row['icl']} \n"
+  puts thisLine
+  csv << [x['task_idx'], x['image0'].split('/').last,  x['diagnosis'], x['user'], x['date'], row['icl']]
+
+=begin
   if(thisUser!=prevUser || thisTaskIdx!=prevTaskIdx)
 
       csv << [x['task_idx'], x['image0'].split('/').last, x['image1'].split('/').last, x['winner'], x['user'], x['date'], row['icl']]
@@ -109,11 +120,12 @@ icResults.each do |x|
   end
   prevUser=thisUser
   prevTaskIdx=thisTaskIdx
+=end
 
 end
 end
 
-puts output.size
+#puts output.size
 
 #b = output.group_by { |h| h['task_idx'] }.values.select { |a| a.size > 1 }.flatten
 #puts b.size
@@ -123,4 +135,4 @@ puts output.size
 #a=File.open('results1.txt','w')
 #a << output
 #a.close()
-=end
+#=end
