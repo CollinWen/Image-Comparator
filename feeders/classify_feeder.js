@@ -49,6 +49,7 @@ var ImageCompare = (function (IC) {
                 var curUser = username;
 
                 // of all pending tasks, are any assigned to this user?
+                // hmm ... we filter by user, so this should not be needed, right?
                 var newResRows = result.rows.filter(function(obj) {
                     return obj.value.user === username;
                 });
@@ -56,7 +57,20 @@ var ImageCompare = (function (IC) {
                 if (newResRows.length < 1)
                     return; // hmmm - some sort of message that there are no pending tasks?
 
+                // default next task
                 var task = newResRows[0].value;
+                
+                // now we want to find the task that has the lowest (positive?) task_order
+                var minTaskOrder = Number.POSITIVE_INFINITY;
+                for (var irow = 0; irow < newResRows.length; ++irow) {
+                    // old ones might not even have a task_order
+                    var rowVal = newResRows[irow].value;
+                    if (rowVal.task_order && rowVal.task_order < minTaskOrder) {
+                        task = rowVal;
+                        minTaskOrder = rowVal.task_order;
+                    }
+                }
+
                 var curICL = task.image_classify_list;
                 var curTaskIdx = task.current_idx;
 
