@@ -11,14 +11,24 @@ user = ARGV[0]
 i_list = ARGV[1]
 task_type=ARGV[2]
 
-if (ARGV.size != 3) then
-    puts "Usage: ruby : #{$PROGRAM_NAME}.rb <user> <image-list name> <image-list-type> where image-list-type is eihter compare or classify";
+
+if (ARGV.size <3) then
+    puts "Usage: ruby : #{$PROGRAM_NAME}.rb <user> <image-list name> <image-list-type> <task-order> where image-list-type is either compare or classify";
     exit
+end
+
+
+#if task order is provided, use it otherwise task order is set to arbitrarily high number so that it shows up last
+if (ARGV.size > 3)
+  task_order=ARGV[3].to_int
+else
+  task_order=100
 end
 
 
 obj = { type:"task",
         task_type:task_type,
+        task_order:task_order,
         user:user,
   #    image_compare_list:image_compare_list,
   #      image_classify_list:image_classify_list,
