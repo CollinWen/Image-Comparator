@@ -95,6 +95,18 @@ updateStatInfoTasks = function(json) {
         curTaskElem.hidden = false;
 
         var firstTask = tasks[0].value;
+        
+        // now we want to find the task that has the lowest (positive?) task_order
+        var minTaskOrder = Number.POSITIVE_INFINITY;
+        for (var irow = 0; irow < tasks.length; ++irow) {
+            // old ones might not even have a task_order
+            var rowVal = tasks[irow].value;
+            if (rowVal.task_order && rowVal.task_order < minTaskOrder) {
+                firstTask = rowVal;
+                minTaskOrder = rowVal.task_order;
+            }
+        }
+        
         var icl_id = firstTask.image_classify_list;
 
         var dburl = ImageCompare.TaskFeeder.GetImageDbUrl();
