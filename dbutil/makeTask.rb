@@ -20,7 +20,10 @@ end
 
 #if task order is provided, use it otherwise task order is set to arbitrarily high number so that it shows up last
 if (ARGV.size > 3)
-  task_order=ARGV[3].to_int
+  task_order=ARGV[3]#.to_int
+  task_order=task_order.strip.to_i
+  puts task_order
+  puts task_order.class
 else
   task_order=100
 end
