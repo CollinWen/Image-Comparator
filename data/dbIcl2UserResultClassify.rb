@@ -11,7 +11,10 @@ require 'csv'
 
 #file = File.read('/Users/kalpathy/Documents/retinalImaging/website/rop_images_1330_17_8_2015.json')
 
-file = File.read('/Users/jkc/Documents/retinalImaging/website/data/rop_images_1330_17_8_2015.json')
+#file = File.read('/Users/jkc/Documents/retinalImaging/website/data/rop_images_1330_17_8_2015.json')
+file = File.read('/Users/jkc/Documents/retinalImaging/website/data/rop_images_0900_09_14_2015.json')
+
+
 contents = JSON.parse(file)
 #puts contents
 iclDocs = contents['rows'].select{|x| x['doc']['type'] === "image_classify_list"}
@@ -53,9 +56,9 @@ tasks.each{|x| task2user[x['_id']] = x["user"]}
 icResultRows = contents['rows'].select{|x| x['doc']['type'] === "imageClassifyResult"}
 #puts icResultRows.size
 #icResultRows2 = icResultRows.select{|x| task2icl[x['doc']['task']] === "icl_1_10_rev1"}
-#icResultRows2 = icResultRows.select{|x| task2icl[x['doc']['task']] === "icsfy_set34_rev2"}
+icResultRows2 = icResultRows.select{|x| task2icl[x['doc']['task']] === "icsfy_set34_rev2"}
 #icResultRows2 = icResultRows.select{|x| task2icl[x['doc']['task']] === "icsfy_100"}
-icResultRows2 = icResultRows.select{|x| task2icl[x['doc']['task']] === "icsfy_select25_rev1"}
+#icResultRows2 = icResultRows.select{|x| task2icl[x['doc']['task']] === "icsfy_select25_rev1"}
 
 
 
@@ -85,7 +88,9 @@ prevTaskIdx=''
 output = []
 
 
-CSV.open("results_icsfy_select25_rev1.csv", "w") do |csv|
+CSV.open("results_icsfy_set34_rev2_9_14_15.csv", "w") do |csv|
+#  CSV.open("results_icsfy_select25_rev1.csv", "w") do |csv|
+
   csv << ['task_id', 'image',  'diagnosis', 'user', 'date', 'icl']
 #CSV.open("results_100_rev1.csv", "w") do |csv|
 icResults.each do |x|
