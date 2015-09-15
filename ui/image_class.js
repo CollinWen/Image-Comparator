@@ -17,9 +17,9 @@ handleUrlFilter = function(urlSearchStr) {
     qs= new QueryString(urlSearchStr);
     var user = qs.value("username");
     if (user) {
-        
+
         ImageCompare.username = user;
-        
+
         $("#username").val(user);
         OnSetUser(user);
     }
@@ -74,7 +74,7 @@ updateStatusInfo = function() {
 
     // update tasks
     var user = ImageCompare.username;
-    if (user) { 
+    if (user) {
         getIncompleteClassifyTasks(user, updateStatInfoTasks);
     }
 };
@@ -95,7 +95,7 @@ updateStatInfoTasks = function(json) {
         curTaskElem.hidden = false;
 
         var firstTask = tasks[0].value;
-        
+
         // now we want to find the task that has the lowest (positive?) task_order
         var minTaskOrder = Number.POSITIVE_INFINITY;
         for (var irow = 0; irow < tasks.length; ++irow) {
@@ -106,7 +106,7 @@ updateStatInfoTasks = function(json) {
                 minTaskOrder = rowVal.task_order;
             }
         }
-        
+
         var icl_id = firstTask.image_classify_list;
 
         var dburl = ImageCompare.TaskFeeder.GetImageDbUrl();

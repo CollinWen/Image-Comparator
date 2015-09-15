@@ -2,25 +2,28 @@
 $(document).ready(function() {
 
     handleUrlFilter(document.location.search);
-
     updateStatusInfo();
 
-    var user = $("#username").val();
-    ImageCompare.TaskFeeder.SetImagePair(user);
+    if (ImageCompare.username) {
+        ImageCompare.TaskFeeder.SetImagePair(ImageCompare.username);
+    }
 
 });
 
-// 
+//
 handleUrlFilter = function(urlSearchStr) {
-    
+
     //alert(urlSearchStr);
     qs= new QueryString(urlSearchStr);
     var user = qs.value("username");
-    if (user) { 
-        $("#username").val(user); 
-        OnSetUser(user);
+    if (user) {
+
+      ImageCompare.username = user;
+
+      $("#username").val(user);
+      OnSetUser(user);
     }
-    
+
     // if urlSearchStr is not empty, remove the dropdown (db and user options)
     if (urlSearchStr) {
         var elem;
@@ -28,7 +31,7 @@ handleUrlFilter = function(urlSearchStr) {
         elem.style.display='none'; // or ... style.visibility="hidden"; vis takes the same space, but is not shown
         elem = document.getElementById("username");
         elem.style.display='none';
-        
+
         // also remove the Status info about the db
         elem = document.getElementById("si_database");
         elem.style.display='none';
@@ -70,8 +73,8 @@ updateStatusInfo = function() {
     setLabelDanger(isDanger, label);
 
     // update tasks
-    var user = $("#username").val();
-    if (user) { 
+    var user = ImageCompare.username;
+    if (user) {
         getTasks(user, updateStatInfoTasks);
     }
 
@@ -93,6 +96,18 @@ updateStatInfoTasks = function(json) {
         curTaskElem.hidden = false;
 
         var firstTask = tasks[0].value;
+
+        // now we want to find the task that has the lowest (positive?) task_order
+        var minTaskOrder = Number.POSITIVE_INFINITY;
+        for (var irow = 0; irow < tasks.length; ++irow) {
+            // old ones might not even have a task_order
+            var rowVal = tasks[irow].value;
+            if (rowVal.task_order && rowVal.task_order < minTaskOrder) {
+                firstTask = rowVal;
+                minTaskOrder = rowVal.task_order;
+            }
+        }
+
         var icl_id = firstTask.image_compare_list;
 
         var dburl = ImageCompare.TaskFeeder.GetImageDbUrl();
