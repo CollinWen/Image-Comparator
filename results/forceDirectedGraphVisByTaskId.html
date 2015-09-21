@@ -57,6 +57,21 @@ newlinks.forEach(function(link) {
   link.target = nodes[link.target] || (nodes[link.target] = {name: link.target});
 });
 
+// for each of the nodes, go through the links and count how many times it's a src and how many times it's a tgt
+var srcTgtCts = {};
+for (var key in nodes) {
+    if (nodes.hasOwnProperty(key)) {
+        srcTgtCts [nodes[key].name] = {srcCt:0, tgtCt:0};
+        
+    }
+}
+newlinks.forEach(function(link) {
+    var srcCounter = srcTgtCts[link.source.name];
+    var tgtCounter = srcTgtCts[link.target.name];
+    srcCounter["srcCt"]++;
+    tgtCounter["tgtCt"]++;
+});
+
 var width = 960,
     height = 500;
 
