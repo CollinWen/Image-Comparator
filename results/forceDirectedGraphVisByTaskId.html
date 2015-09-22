@@ -7,7 +7,7 @@
 .link {
   fill: none;
   stroke: #666;
-  stroke-width: 1.5px;
+  stroke-width: .5px;
 }
 
 .node circle {
@@ -23,9 +23,13 @@ text {
 
 </style>
 <body>
+
 <script>
 
-var lnk = "http://ec2-54-152-40-100.compute-1.amazonaws.com:5984/rop_images/_design/basic_views/_view/taskresults?key=%2219ee606c-5929-4afe-a85e-a88825c0a5a6%22";
+var dbUrl = "http://ec2-54-152-40-100.compute-1.amazonaws.com:5984/rop_images/";
+var taskId = "a3367283-b94a-45d8-877b-55066051cee2";
+var lnk = dbUrl + "_design/basic_views/_view/taskresults?key=%22" + taskId + "%22";
+
 $.get( lnk, function( data ) {
   // json rows to links
   var obj = $.parseJSON(data);
@@ -86,7 +90,7 @@ var force = d3.layout.force()
     .nodes(d3.values(nodes))
     .links(newlinks)
     .size([width, height])
-    .linkDistance(250)
+    .linkDistance(300)
     .charge(-300)
     .on("tick", tick)
     .start();
@@ -102,8 +106,8 @@ svg.append("svg:defs").selectAll("marker")
     .attr("viewBox", "0 -5 10 10")
     .attr("refX", 15)
     .attr("refY", -1.5)
-    .attr("markerWidth", 6)
-    .attr("markerHeight", 6)
+    .attr("markerWidth", 18)
+    .attr("markerHeight", 18)
     .attr("orient", "auto")
   .append("svg:path")
     .attr("d", "M0,-5L10,0L0,5");
@@ -129,8 +133,18 @@ var node = svg.selectAll(".node")
     .on("mouseout", mouseout)
     .call(drag);
 
-node.append("circle")
-    .attr("r", 8);
+//node.append("circle")
+//    .attr("r", 8);
+    
+node.append("image")
+  .attr("xlink:href", function(d) {   
+        var imgId = d.name.split(" ").pop();
+        var imgUrl = dbUrl + imgId + "/image";
+        return imgUrl;})
+//  .attr("x", -8)
+//  .attr("y", -8)
+  .attr("width", 64)
+  .attr("height", 64);
 
 node.append("text")
     .attr("x", 12)
@@ -144,7 +158,7 @@ function tick() {
   for (var key in nodes) {
     if (nodes.hasOwnProperty(key)) {
         var cl_node = nodes[key];
-        var xoff = srcTgtCts[cl_node.name].tgtCt * 40 + 10;
+        var xoff = srcTgtCts[cl_node.name].tgtCt * 30 + 10;
         cl_node["x"] = xoff;
     }
   }
@@ -159,16 +173,21 @@ function tick() {
       .attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
 }
 
+
 function mouseover() {
-  d3.select(this).select("circle").transition()
+  d3.select(this).select("image").transition()
       .duration(750)
-      .attr("r", 16);
+      .attr("width", 256)
+      .attr("height", 256)
+      .attr("z-index", 2); 
 }
 
 function mouseout() {
-  d3.select(this).select("circle").transition()
+  d3.select(this).select("image").transition()
       .duration(750)
-      .attr("r", 8);
+      .attr("width", 64)
+      .attr("height", 64)
+      .attr("z-index", 0); 
 }
 
 });
