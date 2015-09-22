@@ -141,8 +141,8 @@ node.append("image")
         var imgId = d.name.split(" ").pop();
         var imgUrl = dbUrl + imgId + "/image";
         return imgUrl;})
-//  .attr("x", -8)
-//  .attr("y", -8)
+  .attr("x", 0)
+  .attr("y", 0)
   .attr("width", 64)
   .attr("height", 64);
 
@@ -179,7 +179,11 @@ function mouseover() {
       .duration(750)
       .attr("width", 256)
       .attr("height", 256)
-      .attr("z-index", 2); 
+      .attr("x", -128)
+      .attr("y", -128);
+      
+    
+    var hoveredImg = d3.select(this).select("image");
 }
 
 function mouseout() {
@@ -187,7 +191,8 @@ function mouseout() {
       .duration(750)
       .attr("width", 64)
       .attr("height", 64)
-      .attr("z-index", 0); 
+      .attr("x", 0)
+      .attr("y", 0); 
 }
 
 });
