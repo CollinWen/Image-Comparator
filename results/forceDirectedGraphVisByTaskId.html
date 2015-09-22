@@ -144,7 +144,7 @@ function tick() {
   for (var key in nodes) {
     if (nodes.hasOwnProperty(key)) {
         var cl_node = nodes[key];
-        var xoff = srcTgtCts[cl_node.name].tgtCt * 40;
+        var xoff = srcTgtCts[cl_node.name].tgtCt * 40 + 10;
         cl_node["x"] = xoff;
     }
   }
