@@ -133,8 +133,8 @@ var node = svg.selectAll(".node")
     .on("mouseout", mouseout)
     .call(drag);
 
-//node.append("circle")
-//    .attr("r", 8);
+node.append("circle")
+    .attr("r", 8);
     
 node.append("image")
   .attr("xlink:href", function(d) {   
