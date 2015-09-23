@@ -175,15 +175,21 @@ function tick() {
 
 
 function mouseover() {
+
+  // to get the hovered image to be on top, sort the svg node elements 
+  var g_node = d3.select(this);
+  var g_node_text = g_node.select("text")[0][0].textContent;
+  svg.selectAll("g").sort(function (a, b) { // select the parent and sort the path's
+      if (a.name != g_node_text) return -1;               // a is not the hovered element, send "a" to the back
+      else return 1;       
+  });
+  
   d3.select(this).select("image").transition()
       .duration(750)
       .attr("width", 256)
       .attr("height", 256)
       .attr("x", -128)
-      .attr("y", -128);
-      
-    
-    var hoveredImg = d3.select(this).select("image");
+      .attr("y", -128);    
 }
 
 function mouseout() {
