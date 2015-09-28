@@ -216,7 +216,10 @@
           for (var key in nodes) {
             if (nodes.hasOwnProperty(key)) {
               var cl_node = nodes[key];
-              var xoff = srcTgtCts[cl_node.name].tgtCt * 30 + 80;
+              var leftMargin=80;
+              var rightMargin=200;
+              var spacing =(width-leftMargin-rightMargin)/(node[0].length+1);
+              var xoff = srcTgtCts[cl_node.name].tgtCt * spacing + leftMargin;
               cl_node["x"] = xoff;
             }
           }
