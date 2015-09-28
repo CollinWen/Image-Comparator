@@ -36,7 +36,16 @@ tbody tr:hover rect {
   fill: brown;
 }
 
+#icldropdowndiv{
+    margin: 20px;
+}
+
 </style>
+
+<div id="icldropdowndiv">
+    <label id="icldropdownlabel" >Select an ICL</label>
+    <select id="icldropdown">Fetching ICL names....</select> 
+</div>
 
 <table>
   <thead>
@@ -59,9 +68,10 @@ tbody tr:hover rect {
 </table>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js"></script>
+<script src="../vendor/jquery/jquery-2.1.0.min.js"></script>
 <script>
 
-d3.csv("states.csv", function(error, states) {
+var handleCSV = function(error, states) {
   if (error) throw error;
 
   var ages = d3.keys(states[0]).filter(function(key) {
@@ -87,6 +97,45 @@ d3.csv("states.csv", function(error, states) {
     .append("rect")
       .attr("height", 12)
       .attr("width", function(d) { return d * 71; });
-});
+}
+
+var populateIclDropDown = function(namearray) {
+    var dd = document.getElementById("icldropdown");
+    
+    // empty the current options
+    var len = dd.options.length;
+    for (var i = 0; i < len ; ++i) {
+        dd.options[i] = null;
+    };
+    
+    // add the new ones
+    namearray.forEach(function(name){
+        dd.options[dd.options.length] = new Option(name, name);
+    });
+}
+
+var handleClassifyTasksJson = function(tasksJson) {
+
+    var result = jQuery.parseJSON(tasksJson);
+    var rows = result.rows;
+    var iclnames = [];
+    rows.forEach(function(row) {
+        // push unique icl names
+        if(iclnames.indexOf(row.value.image_classify_list) == -1) {
+            iclnames.push(row.value.image_classify_list);
+        }
+    });
+
+    populateIclDropDown(iclnames);
+}
+
+d3.csv("states_testData.csv", handleCSV);
+
+var dbviewUrl = "http://ec2-54-152-40-100.compute-1.amazonaws.com:5984/rop_images/_design/basic_views/_view/";
+var viewname = "classify_tasks";
+var fullurl = dbviewUrl+viewname;
+
+$.get(fullurl, handleClassifyTasksJson);
+
 
 </script>
