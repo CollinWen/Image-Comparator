@@ -44,7 +44,7 @@ tbody tr:hover rect {
 
 <div id="icldropdowndiv">
     <label id="icldropdownlabel" >Select an ICL</label>
-    <select id="icldropdown">Fetching ICL names....</select> 
+    <select id="icldropdown" onchange="OnSetICL(this)">Fetching ICL names....</select> 
 </div>
 
 <table>
@@ -99,7 +99,7 @@ var handleCSV = function(error, states) {
       .attr("width", function(d) { return d * 71; });
 }
 
-var populateIclDropDown = function(namearray) {
+var populateIclDropDown = function(iclToTaskIds) {
     var dd = document.getElementById("icldropdown");
     
     // empty the current options
@@ -109,33 +109,85 @@ var populateIclDropDown = function(namearray) {
     };
     
     // add the new ones
-    namearray.forEach(function(name){
-        dd.options[dd.options.length] = new Option(name, name);
+    Object.keys(iclToTaskIds).forEach(function(key){
+        dd.options[dd.options.length] = new Option(key, key);
     });
+}
+
+var populateTable = function(taskResultsJson) {
+
+    var result = jQuery.parseJSON(taskResultsJson);
+    var rows = result.rows;
+    
+    var testme = ["4","2","3","5"];
+    d3.selectAll("thead td").data(testme);
+
+    // create head
+//  d3.selectAll("thead td").data(ages).on("click", function(k) {
+//    tr.sort(function(a, b) { return (b[k] / b.Total) - (a[k] / a.Total); });
+//  });
+
+    // create rows
+//  var tr = d3.select("tbody").selectAll("tr")
+//      .data(states)
+//    .enter().append("tr");
+
+  //row labels
+//  tr.append("th")
+//      .text(function(d) { return d.State; });
+
+  // cells get a rect
+//  tr.selectAll("td")
+//      .data(function(d) { return ages.map(function(k) { return d[k] / d.Total; }); })
+//    .enter().append("td").append("svg")
+//      .attr("width", 71)
+//      .attr("height", 12)
+//    .append("rect")
+//      .attr("height", 12)
+//      .attr("width", function(d) { return d * 71; });
 }
 
 var handleClassifyTasksJson = function(tasksJson) {
 
     var result = jQuery.parseJSON(tasksJson);
     var rows = result.rows;
-    var iclnames = [];
+    
+    // build array of iclnames with associated array of all tasksIds that have that icl
     rows.forEach(function(row) {
-        // push unique icl names
-        if(iclnames.indexOf(row.value.image_classify_list) == -1) {
-            iclnames.push(row.value.image_classify_list);
-        }
+        
+        iclToTaskIds[row.value.image_classify_list] = iclToTaskIds[row.value.image_classify_list] || [];
+        iclToTaskIds[row.value.image_classify_list].push(row.value._id);
+        
+        taskIdToUser[row.value._id] = row.key;
     });
 
-    populateIclDropDown(iclnames);
+    populateIclDropDown(iclToTaskIds);
+}
+
+
+var OnSetICL=function(sel) {
+    console.log ("ICL changed to: " + sel.value);
+    
+    // for each task id, get the results and populate a row
+    // table: imageClassifyList are the rows, users (but really taskIds) are the columns
+    $.get(classifyResultsUrl, populateTable);
 }
 
 d3.csv("states_testData.csv", handleCSV);
 
 var dbviewUrl = "http://ec2-54-152-40-100.compute-1.amazonaws.com:5984/rop_images/_design/basic_views/_view/";
-var viewname = "classify_tasks";
-var fullurl = dbviewUrl+viewname;
 
-$.get(fullurl, handleClassifyTasksJson);
+var classifyTasksViewname = "classify_tasks";
+var classifyResultsViewname = "classifyResults";
+
+var classifyTasksUrl = dbviewUrl + classifyTasksViewname;
+var classifyResultsUrl = dbviewUrl + classifyResultsViewname;
+
+// hashes
+var iclToTaskIds = [];
+var taskIdToUser = [];
+
+$.get(classifyTasksUrl, handleClassifyTasksJson);
 
 
 </script>
