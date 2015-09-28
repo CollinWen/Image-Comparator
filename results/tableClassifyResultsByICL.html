@@ -17,6 +17,7 @@ th {
 
 thead td {
   cursor: s-resize;
+
 }
 
 tbody tr:first-child td {
@@ -47,57 +48,10 @@ tbody tr:hover rect {
     <select id="icldropdown" onchange="OnSetICL(this)">Fetching ICL names....</select> 
 </div>
 
-<table>
-  <thead>
-    <tr>
-      <th>State</th>
-      <td><5</td>
-      <td>5-13</td>
-      <td>14-17</td>
-      <td>18-24</td>
-      <td>≥16</td>
-      <td>≥18</td>
-      <td>15-44</td>
-      <td>45-64</td>
-      <td>≥65</td>
-      <td>≥85</td>
-    </tr>
-  </thead>
-  <tbody>
-  </tbody>
-</table>
-
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js"></script>
 <script src="../vendor/jquery/jquery-2.1.0.min.js"></script>
 <script>
 
-var handleCSV = function(error, states) {
-  if (error) throw error;
-
-  var ages = d3.keys(states[0]).filter(function(key) {
-    return key != "State" && key != "Total";
-  });
-
-  d3.selectAll("thead td").data(ages).on("click", function(k) {
-    tr.sort(function(a, b) { return (b[k] / b.Total) - (a[k] / a.Total); });
-  });
-
-  var tr = d3.select("tbody").selectAll("tr")
-      .data(states)
-    .enter().append("tr");
-
-  tr.append("th")
-      .text(function(d) { return d.State; });
-
-  tr.selectAll("td")
-      .data(function(d) { return ages.map(function(k) { return d[k] / d.Total; }); })
-    .enter().append("td").append("svg")
-      .attr("width", 71)
-      .attr("height", 12)
-    .append("rect")
-      .attr("height", 12)
-      .attr("width", function(d) { return d * 71; });
-}
 
 var populateIclDropDown = function(iclToTaskIds) {
     var dd = document.getElementById("icldropdown");
@@ -114,37 +68,43 @@ var populateIclDropDown = function(iclToTaskIds) {
     });
 }
 
-var populateTable = function(taskResultsJson) {
 
-    var result = jQuery.parseJSON(taskResultsJson);
-    var rows = result.rows;
+var populateTable = function(columnNames, objArr) {
     
-    var testme = ["4","2","3","5"];
-    d3.selectAll("thead td").data(testme);
+    var headerRow = d3.selectAll("thead tr")
+        .data(columnNames)
+        .enter()
+        .append("th")
+        .text(function(d) { return d; })
+        .on("click", function(k) {
+            // magic! sorts and redisplays the table
+            bodyRows.sort(function(a, b) { return a[k] - b[k]; });
+        });
+          
+    var bodyRows = d3.selectAll("tbody tr")
+        .data(objArr)
+        .enter()
+        .append("tr");
+        
+    bodyRows.selectAll("td")
+        .data(function(d) { return columnNames.map(function(k) { return d[k]; }) })
+        .enter()
+        .append("td")
+        .text(function(d) {return d;});
+}
 
-    // create head
-//  d3.selectAll("thead td").data(ages).on("click", function(k) {
-//    tr.sort(function(a, b) { return (b[k] / b.Total) - (a[k] / a.Total); });
-//  });
 
-    // create rows
-//  var tr = d3.select("tbody").selectAll("tr")
-//      .data(states)
-//    .enter().append("tr");
+var populateTestTable = function() {
 
-  //row labels
-//  tr.append("th")
-//      .text(function(d) { return d.State; });
-
-  // cells get a rect
-//  tr.selectAll("td")
-//      .data(function(d) { return ages.map(function(k) { return d[k] / d.Total; }); })
-//    .enter().append("td").append("svg")
-//      .attr("width", 71)
-//      .attr("height", 12)
-//    .append("rect")
-//      .attr("height", 12)
-//      .attr("width", function(d) { return d * 71; });
+    var columnNames = ["apples", "peaches", "pumpkin_pie"];
+    
+    var testme = [
+        { title:"quantity", apples: 5, peaches: 3, pumpkin_pie:12 },
+        { title:"volume", apples: 1, peaches:7, pumpkin_pie: 3},
+        { title:"hours", apples: 3, peaches:12, pumpkin_pie: 5},
+    ];
+    
+    populateTable(columnNames, testme);
 }
 
 var handleClassifyTasksJson = function(tasksJson) {
@@ -170,10 +130,9 @@ var OnSetICL=function(sel) {
     
     // for each task id, get the results and populate a row
     // table: imageClassifyList are the rows, users (but really taskIds) are the columns
-    $.get(classifyResultsUrl, populateTable);
+    //$.get(classifyResultsUrl, populateTable);
+    populateTestTable();
 }
-
-d3.csv("states_testData.csv", handleCSV);
 
 var dbviewUrl = "http://ec2-54-152-40-100.compute-1.amazonaws.com:5984/rop_images/_design/basic_views/_view/";
 
