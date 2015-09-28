@@ -1,12 +1,13 @@
+//type is currently "compare" or "classify"
 
-
-
-var getCompareTasks = function(username, successFn) {
+var getTasksByType = function(type, username, successFn) {
 
   var dburl = "http://ec2-54-152-40-100.compute-1.amazonaws.com:5984/rop_images/";
 
-//  var dburl = getSelectedDbUrl();
-  var taskViewUrl = dburl + "_design/basic_views/_view/compare_tasks";
+
+  //  var dburl = getSelectedDbUrl();
+  var taskViewUrl = dburl + "_design/basic_views/_view/";
+  taskViewUrl=taskViewUrl+(type==="compare"?"compare_tasks":"classify_tasks");
   var fullurl = taskViewUrl;
   if (username != null) {
     var keyStr = username ? "?key=\"" + username + "\"" : "";

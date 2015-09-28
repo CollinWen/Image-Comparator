@@ -276,7 +276,7 @@
     }
     var OnSetUser=function(sel) {
         console.log ("User changed to: " + sel.value);
-        getCompareTasks(sel.value,updateICLDropdown);
+        getTasksByType("compare", sel.value,updateICLDropdown);
     }
 
     var OnSetICL=function(sel) {
@@ -286,7 +286,7 @@
     }
 
     showResultsGraph();
-    getCompareTasks(null,updateUserDropdown);
+    getTasksByType("compare",null,updateUserDropdown);
   </script>
 </head>
 
