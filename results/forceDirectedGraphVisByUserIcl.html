@@ -2,6 +2,7 @@
 <meta charset="utf-8">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script src="taskUtil.js"></script>
 
 <head>
   <style>
@@ -27,59 +28,51 @@
   <script>
     var dbUrl = "http://ec2-54-152-40-100.compute-1.amazonaws.com:5984/rop_images/";
     var taskId = "a3367283-b94a-45d8-877b-55066051cee2";
-    var lnk = dbUrl + "_design/basic_views/_view/taskresults?key=%22" + taskId + "%22";
-
-    var getCompareTasks = function(username, successFn) {
+  //  var lnk = dbUrl + "_design/basic_views/_view/taskresults?key=%22" + taskId + "%22";
 
 
-      var dburl = getSelectedDbUrl();
-      var taskViewUrl = dburl + "_design/basic_views/_view/compare_tasks";
-      var fullurl = taskViewUrl;
-      if (username != null) {
-        var keyStr = username ? "?key=\"" + username + "\"" : "";
-        fullurl = taskViewUrl + keyStr;
-      }
-
-
-      $.ajax({
-        url: fullurl,
-        type: 'GET',
-        success: successFn,
-        error: function(response) {
-          console.log("get failed : " + JSON.stringify(response));
-        }
-      });
-    }
-
-    updateUserDropdown = function(json) {
+    var updateUserDropdown = function(json) {
       var result = jQuery.parseJSON(json);
       var tasks = result.rows;
+      var usernames = new Set();
+      result.rows.forEach(function(row){
+        usernames.add(row.key);
+      });
+      var userDropDown = document.getElementById("userDropDown");
+      usernames.forEach(function(username){
+        userDropDown.options[userDropDown.options.length]=new Option(username,username);
+      });
 
-      var elem = document.getElementById("userDropDown");
-      elem.textContent = "You have " + tasks.length + " tasks.";
+    };
 
-      // this is to be updated - hide it if there are no pending tasks
-      var curTaskElem = document.getElementById("si_curtask");
+    var updateICLDropdown = function(json) {
+      var result = jQuery.parseJSON(json);
+      var tasks = result.rows;
+      var iclNames = new Set();
+      result.rows.forEach(function(row){
+        iclNames.add({icl:row.value.image_compare_list, taskId:row.value._id});
+      });
+      var iclDropDown = document.getElementById("iclDropDown");
+      var curIclLength=iclDropDown.options.length;
+      for (var i =0; i < curIclLength; i++) {
+        iclDropDown.options[i]=null;
+      };
+        var iclArray=[];
+      iclNames.forEach(function(iclName){
+        iclDropDown.options[iclDropDown.options.length]=new Option(iclName.icl,iclName.taskId);
+        iclArray.push(iclName.taskId);
+      });
+      // need to fix for more than one task for the same icl/user combo
 
-      if (tasks.length > 0) {
+      showResultsGraph(iclArray[0]);
 
-        var firstTask = tasks[0].value;
-        var user = firstTask.user; // all the tasks belong to the same user
-        var myDiv = document.getElementById("si_icl_list");
 
-        tasks.forEach(function(task) {
-          var sel = document.createElement("input");
-          sel.setAttribute("type", "radio");
-          sel.setAttribute("name", "taskId");
-          sel.setAttribute("value", task.id);
-          sel.addEventListener('click', OnSetTaskIdx, false);
-
-          myDiv.appendChild(sel);
-        });
-      }
     };
 
     var showResultsGraph = function(taskIdStr) {
+      var lnk = dbUrl + "_design/basic_views/_view/taskresults?key=%22" + taskIdStr + "%22";
+      d3.select(".depGraph").remove();
+
       $.get(lnk, function(data) {
         // json rows to links
         var obj = $.parseJSON(data);
@@ -139,7 +132,7 @@
         // dump out the object
         for (var key in srcTgtCts) {
           if (srcTgtCts.hasOwnProperty(key)) {
-            console.log(key + ": src " + srcTgtCts[key].srcCt + ", tgt " + srcTgtCts[key].tgtCt);
+      //      console.log(key + ": src " + srcTgtCts[key].srcCt + ", tgt " + srcTgtCts[key].tgtCt);
           }
         }
 
@@ -157,7 +150,9 @@
 
         var svg = d3.select("body").append("svg")
           .attr("width", width)
-          .attr("height", height);
+          .attr("height", height)
+          .attr("class", "depGraph")
+          ;
 
         svg.append("svg:defs").selectAll("marker")
           .data(["end"]) // Different link/path types can be defined here
@@ -211,7 +206,7 @@
           .attr("x", 12)
           .attr("dy", ".35em")
           .text(function(d) {
-            return d.name+ " " + srcTgtCts[d.name].tgtCt + "/" +srcTgtCts[d.name].srcCt;
+            return d.name + " " + srcTgtCts[d.name].tgtCt + "/" + srcTgtCts[d.name].srcCt;
           });
 
 
@@ -276,14 +271,26 @@
 
       });
     }
+    var OnSetUser=function(sel) {
+        console.log ("User changed to: " + sel.value);
+        getCompareTasks(sel.value,updateICLDropdown);
+    }
+
+    var OnSetICL=function(sel) {
+        console.log ("ICL changed to: " + sel.value);
+        showResultsGraph(sel.value);
+
+    }
+
     showResultsGraph();
+    getCompareTasks(null,updateUserDropdown);
   </script>
 </head>
 
 <body>
   <div>
     <div>
-      <span id="si_task_label">Select a user</span>
+      <span id="si_user_label">Select a user</span>
     </div>
 
 
@@ -292,6 +299,16 @@
       <option value="bj">Bubba Jones</option>
 
     </select>
+
+    <div>
+      <span id="si_icl_label">Select an icl</span>
+    </div>
+
+    <select id="iclDropDown" onchange="OnSetICL(this)">
+      <option value="s">--select --</option>
+
+    </select>
+
 
   </div>
 
