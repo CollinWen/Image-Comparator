@@ -10,9 +10,9 @@ table {
 
 th {
   font-weight: normal;
-  text-align: right;
+  text-align: left;
   padding-right: 6px;
-  min-width: 43px;
+  min-width: 100px;
 }
 
 thead td {
@@ -88,9 +88,15 @@ var populateTable = function(columnNames, objArr) {
         .append("tr");
         
     bodyRows.selectAll("td")
-        .data(function(d) { return columnNames.map(function(k) { 
-            return d.task === k ? d.diag : null; }) 
-        })
+        .data(objArr.map(function(d, i) { 
+            if (d){
+                if(d[i]) {
+                    return d[i].diag;
+                }
+            }
+            
+            return 0;
+        }))
         .enter()
         .append("td")
         .text(function(d) {
@@ -127,7 +133,12 @@ var populateResultsTable = function(iclname) {
 //    userNames.forEach(function(unm) { console.log (unm);});
     
     var columnNames = iclToTaskIds[iclname];
-    populateTable(columnNames, taskResults);
+    var resultData = [];
+    columnNames.forEach(function(taskId) {
+        resultData.push(taskResults[taskId]);
+    });
+    
+    populateTable(columnNames, resultData);
     
 }
 
@@ -197,7 +208,9 @@ var appendResultsObj = function(resJson) {
         
         // recording images is redundant, todo - taskIdTaskIdxToImage
         taskIdToResults[task][taskIdx] = {image: imageUrl, user: user, diag: diag};
-        taskResults.push({task: task, taskIdx: taskIdx, image: imageUrl, user: user, diag: diag});
+        
+        taskResults[task] = taskResults[task] || [];
+        taskResults[task].push({taskIdx: taskIdx, image: imageUrl, user: user, diag: diag});
     });
     
 }
@@ -246,7 +259,7 @@ var iclToTaskIds = {};
 var iclToImageIdList = {};
 var taskIdToUser = {};
 var taskIdToResults = {};
-var taskResults = [];
+var taskResults = {};
 
 // find the list of icls from the DB and populate the drop down
 $.get(classifyTasksUrl, handleClassifyTasksJson);
