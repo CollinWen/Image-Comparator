@@ -75,7 +75,8 @@ var populateTable = function(columnNames, objArr) {
         .data(columnNames)
         .enter()
         .append("th")
-        .text(function(d) { return d; })
+        .text(function(d) { 
+            return taskIdToUser[d]; })
         .on("click", function(k) {
             // magic! sorts and redisplays the table
             bodyRows.sort(function(a, b) { return a[k] - b[k]; });
@@ -87,10 +88,13 @@ var populateTable = function(columnNames, objArr) {
         .append("tr");
         
     bodyRows.selectAll("td")
-        .data(function(d) { return columnNames.map(function(k) { return d[k]; }) })
+        .data(function(d) { return columnNames.map(function(k) { 
+            return d.task === k ? d.diag : null; }) 
+        })
         .enter()
         .append("td")
-        .text(function(d) {return d;});
+        .text(function(d) {
+            return d;});
 }
 
 
@@ -107,6 +111,41 @@ var populateTestTable = function() {
     populateTable(columnNames, testme);
 }
 
+
+var populateResultsTable = function(iclname) {
+
+    // build an array of objects 
+    // rows are images (for the moment indexes)
+    // columns are users
+    var userNames = [];
+    Object.keys(taskIdToUser).forEach(function(id) {
+        var unm = taskIdToUser[id];
+        if (userNames.indexOf(unm) === -1){
+            userNames.push(unm);
+        }      
+    }); 
+//    userNames.forEach(function(unm) { console.log (unm);});
+    
+    var columnNames = iclToTaskIds[iclname];
+    populateTable(columnNames, taskResults);
+    
+}
+
+var appendListsObj = function(listJson) {
+
+    var dbresult = jQuery.parseJSON(listJson);
+    
+    // assert we only got one row, that is, one and only one list per icl
+    if (dbresult.rows.length != 1) {
+        alert ("bad number of lists for icl");
+    }
+    
+    var dbresRow = dbresult.rows[0];
+    
+    iclToImageIdList[dbresRow.key] = dbresRow.value.list;
+    //console.log(dbresRow.key + " " + dbresRow.value.list.length);
+}
+
 var handleClassifyTasksJson = function(tasksJson) {
 
     var result = jQuery.parseJSON(tasksJson);
@@ -120,32 +159,96 @@ var handleClassifyTasksJson = function(tasksJson) {
         
         taskIdToUser[row.value._id] = row.key;
     });
+    
+    // for each icl, go get the actual list
+    Object.keys(iclToTaskIds).forEach(function(iclname) {
+        var listUrl = classifyListsUrl + "?key=\"" + iclname + "\"";
+        $.get(listUrl, appendListsObj);
+    });
 
     populateIclDropDown(iclToTaskIds);
 }
+    
 
+var appendResultsObj = function(resJson) {
+
+    var dbresult = jQuery.parseJSON(resJson);
+    
+    
+    
+    dbresult.rows.forEach(function(row) {
+        var task = row.value.task;
+        var taskIdx = row.value.task_idx;
+        var imageUrl = row.value.image0;
+        var diag = row.value.diagnosis;
+        var user = row.value.user;
+        // also date and user ... not needed 
+        
+        taskIdToResults[task] = taskIdToResults[task] || {};
+        
+        // assert we've not seen this idx before, or that we are reloading the same value
+        var thisRes = taskIdToResults[task][taskIdx];
+        if (thisRes) {
+            if (thisRes.image != imageUrl ||
+                thisRes.user != user      ||
+                thisRes.diag != diag)
+            alert ("repeated task id with a different result: taskidx: " + taskIdx + "taskid: " + task );
+        }
+        
+        // recording images is redundant, todo - taskIdTaskIdxToImage
+        taskIdToResults[task][taskIdx] = {image: imageUrl, user: user, diag: diag};
+        taskResults.push({task: task, taskIdx: taskIdx, image: imageUrl, user: user, diag: diag});
+    });
+    
+}
+    
+var buildClassifyResultsObj = function(iclname){
+
+    var taskIds = iclToTaskIds[iclname];
+
+    var deferreds = [];
+    var deferred;
+    taskIds.forEach(function(taskId) {
+        
+        var listUrl = classifyResultsUrl + "?key=\"" + taskId + "\"";
+        deferred = $.get(listUrl, appendResultsObj);
+        deferreds.push(deferred);
+    });
+    
+    return deferreds;
+}
 
 var OnSetICL=function(sel) {
     console.log ("ICL changed to: " + sel.value);
     
-    // for each task id, get the results and populate a row
-    // table: imageClassifyList are the rows, users (but really taskIds) are the columns
-    //$.get(classifyResultsUrl, populateTable);
-    populateTestTable();
+    //populateTestTable();
+    taskResults = [];
+    
+    // build up the results data for this icl
+    var deferreds = buildClassifyResultsObj(sel.value);
+    $.when.apply($, deferreds).done(function() {
+        populateResultsTable(sel.value);
+    });
 }
 
 var dbviewUrl = "http://ec2-54-152-40-100.compute-1.amazonaws.com:5984/rop_images/_design/basic_views/_view/";
 
 var classifyTasksViewname = "classify_tasks";
 var classifyResultsViewname = "classifyResults";
+var classifyListsViewname = "image_classify_lists";
 
 var classifyTasksUrl = dbviewUrl + classifyTasksViewname;
 var classifyResultsUrl = dbviewUrl + classifyResultsViewname;
+var classifyListsUrl = dbviewUrl + classifyListsViewname;
 
 // hashes
-var iclToTaskIds = [];
-var taskIdToUser = [];
+var iclToTaskIds = {};
+var iclToImageIdList = {};
+var taskIdToUser = {};
+var taskIdToResults = {};
+var taskResults = [];
 
+// find the list of icls from the DB and populate the drop down
 $.get(classifyTasksUrl, handleClassifyTasksJson);
 
 
