@@ -12,7 +12,7 @@ th {
   font-weight: normal;
   text-align: left;
   padding-right: 6px;
-  min-width: 100px;
+  min-width: 60px;
 }
 
 thead td {
@@ -26,7 +26,7 @@ tbody tr:first-child td {
 
 tbody td {
   padding: 0;
-  border-left: solid 1px #000;
+ // border: solid 1px #000;
 }
 
 tbody rect {
@@ -47,6 +47,15 @@ tbody tr:hover rect {
     <label id="icldropdownlabel" >Select an ICL</label>
     <select id="icldropdown" onchange="OnSetICL(this)">Fetching ICL names....</select> 
 </div>
+
+<table>
+  <thead>
+    <tr>
+    </tr>
+  </thead>
+  <tbody>
+  </tbody>
+</table>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js"></script>
 <script src="../vendor/jquery/jquery-2.1.0.min.js"></script>
@@ -71,47 +80,44 @@ var populateIclDropDown = function(iclToTaskIds) {
 
 var populateTable = function(columnNames, objArr) {
     
-    var headerRow = d3.selectAll("thead tr")
+    var headerRow = d3.select("thead").select("tr").selectAll("td")
         .data(columnNames)
         .enter()
-        .append("th")
+        .append("td")
         .text(function(d) { 
-            return taskIdToUser[d]; })
+            return d; 
+        })
         .on("click", function(k) {
             // magic! sorts and redisplays the table
             bodyRows.sort(function(a, b) { return a[k] - b[k]; });
         });
           
-    var bodyRows = d3.selectAll("tbody tr")
+    var bodyRows = d3.select("tbody").selectAll("tr")
         .data(objArr)
         .enter()
         .append("tr");
         
+       
     bodyRows.selectAll("td")
-        .data(objArr.map(function(d, i) { 
-            if (d){
-                if(d[i]) {
-                    return d[i].diag;
-                }
-            }
-            
-            return 0;
-        }))
-        .enter()
+        .data(function(d) { 
+        return columnNames.map(function(k) { return d[k]; }) 
+     })
+    .enter()
         .append("td")
         .text(function(d) {
-            return d;});
+            return d;}
+        );
 }
 
 
 var populateTestTable = function() {
 
-    var columnNames = ["apples", "peaches", "pumpkin_pie"];
+    var columnNames = ["imageid",  "bubba", "george", "tulips"];
     
     var testme = [
-        { title:"quantity", apples: 5, peaches: 3, pumpkin_pie:12 },
-        { title:"volume", apples: 1, peaches:7, pumpkin_pie: 3},
-        { title:"hours", apples: 3, peaches:12, pumpkin_pie: 5},
+        { imageid:"img 127", bubba: 5, george: 3, tulips:12 },
+        { imageid:"img 256", bubba: 1, george:7,  tulips: 3 },
+        { imageid:"img 512", bubba: 3, george:12, tulips: 5 },
     ];
     
     populateTable(columnNames, testme);
@@ -264,5 +270,5 @@ var taskResults = {};
 // find the list of icls from the DB and populate the drop down
 $.get(classifyTasksUrl, handleClassifyTasksJson);
 
-
+populateTestTable();
 </script>
