@@ -19,5 +19,7 @@ scp -rp -i aws-alan-laptop.pem ec2-user@ec2-54-152-40-100.compute-1.amazonaws.co
 
 scp -rp -i aws-alan-laptop.pem ec2-user@ec2-54-152-40-100.compute-1.amazonaws.com:/home/ec2-user/backups/rop_images_0900_09_14_2015.json .
 
+scp -rp -i aws-alan-laptop.pem ec2-user@ec2-54-152-40-100.compute-1.amazonaws.com:/home/ec2-user/backups/rop_images_0900_09_30_2015.json /Users/jkc/Documents/retinalImaging/website/data/
+
 
 move backup to the backups dir (e.g. /Users/jayashreekalpathy-cramer/Documents/retinalImaging/dbBackups or /Users/jkc/Documents/retinalImaging/website/data/)
