@@ -10,13 +10,14 @@ table {
 
 th {
   font-weight: normal;
-  text-align: right;
+  text-align: left;
   padding-right: 6px;
-  min-width: 43px;
+  min-width: 100px;
 }
 
 thead td {
   cursor: s-resize;
+
 }
 
 tbody tr:first-child td {
@@ -36,57 +37,232 @@ tbody tr:hover rect {
   fill: brown;
 }
 
+#icldropdowndiv{
+    margin: 20px;
+}
+
 </style>
 
-<table>
-  <thead>
-    <tr>
-      <th>State</th>
-      <td><5</td>
-      <td>5-13</td>
-      <td>14-17</td>
-      <td>18-24</td>
-      <td>≥16</td>
-      <td>≥18</td>
-      <td>15-44</td>
-      <td>45-64</td>
-      <td>≥65</td>
-      <td>≥85</td>
-    </tr>
-  </thead>
-  <tbody>
-  </tbody>
-</table>
+<div id="icldropdowndiv">
+    <label id="icldropdownlabel" >Select an ICL</label>
+    <select id="icldropdown" onchange="OnSetICL(this)">Fetching ICL names....</select> 
+</div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js"></script>
+<script src="../vendor/jquery/jquery-2.1.0.min.js"></script>
 <script>
 
-d3.csv("states.csv", function(error, states) {
-  if (error) throw error;
 
-  var ages = d3.keys(states[0]).filter(function(key) {
-    return key != "State" && key != "Total";
-  });
+var populateIclDropDown = function(iclToTaskIds) {
+    var dd = document.getElementById("icldropdown");
+    
+    // empty the current options
+    var len = dd.options.length;
+    for (var i = 0; i < len ; ++i) {
+        dd.options[i] = null;
+    };
+    
+    // add the new ones
+    Object.keys(iclToTaskIds).forEach(function(key){
+        dd.options[dd.options.length] = new Option(key, key);
+    });
+}
 
-  d3.selectAll("thead td").data(ages).on("click", function(k) {
-    tr.sort(function(a, b) { return (b[k] / b.Total) - (a[k] / a.Total); });
-  });
 
-  var tr = d3.select("tbody").selectAll("tr")
-      .data(states)
-    .enter().append("tr");
+var populateTable = function(columnNames, objArr) {
+    
+    var headerRow = d3.selectAll("thead tr")
+        .data(columnNames)
+        .enter()
+        .append("th")
+        .text(function(d) { 
+            return taskIdToUser[d]; })
+        .on("click", function(k) {
+            // magic! sorts and redisplays the table
+            bodyRows.sort(function(a, b) { return a[k] - b[k]; });
+        });
+          
+    var bodyRows = d3.selectAll("tbody tr")
+        .data(objArr)
+        .enter()
+        .append("tr");
+        
+    bodyRows.selectAll("td")
+        .data(objArr.map(function(d, i) { 
+            if (d){
+                if(d[i]) {
+                    return d[i].diag;
+                }
+            }
+            
+            return 0;
+        }))
+        .enter()
+        .append("td")
+        .text(function(d) {
+            return d;});
+}
 
-  tr.append("th")
-      .text(function(d) { return d.State; });
 
-  tr.selectAll("td")
-      .data(function(d) { return ages.map(function(k) { return d[k] / d.Total; }); })
-    .enter().append("td").append("svg")
-      .attr("width", 71)
-      .attr("height", 12)
-    .append("rect")
-      .attr("height", 12)
-      .attr("width", function(d) { return d * 71; });
-});
+var populateTestTable = function() {
+
+    var columnNames = ["apples", "peaches", "pumpkin_pie"];
+    
+    var testme = [
+        { title:"quantity", apples: 5, peaches: 3, pumpkin_pie:12 },
+        { title:"volume", apples: 1, peaches:7, pumpkin_pie: 3},
+        { title:"hours", apples: 3, peaches:12, pumpkin_pie: 5},
+    ];
+    
+    populateTable(columnNames, testme);
+}
+
+
+var populateResultsTable = function(iclname) {
+
+    // build an array of objects 
+    // rows are images (for the moment indexes)
+    // columns are users
+    var userNames = [];
+    Object.keys(taskIdToUser).forEach(function(id) {
+        var unm = taskIdToUser[id];
+        if (userNames.indexOf(unm) === -1){
+            userNames.push(unm);
+        }      
+    }); 
+//    userNames.forEach(function(unm) { console.log (unm);});
+    
+    var columnNames = iclToTaskIds[iclname];
+    var resultData = [];
+    columnNames.forEach(function(taskId) {
+        resultData.push(taskResults[taskId]);
+    });
+    
+    populateTable(columnNames, resultData);
+    
+}
+
+var appendListsObj = function(listJson) {
+
+    var dbresult = jQuery.parseJSON(listJson);
+    
+    // assert we only got one row, that is, one and only one list per icl
+    if (dbresult.rows.length != 1) {
+        alert ("bad number of lists for icl");
+    }
+    
+    var dbresRow = dbresult.rows[0];
+    
+    iclToImageIdList[dbresRow.key] = dbresRow.value.list;
+    //console.log(dbresRow.key + " " + dbresRow.value.list.length);
+}
+
+var handleClassifyTasksJson = function(tasksJson) {
+
+    var result = jQuery.parseJSON(tasksJson);
+    var rows = result.rows;
+    
+    // build array of iclnames with associated array of all tasksIds that have that icl
+    rows.forEach(function(row) {
+        
+        iclToTaskIds[row.value.image_classify_list] = iclToTaskIds[row.value.image_classify_list] || [];
+        iclToTaskIds[row.value.image_classify_list].push(row.value._id);
+        
+        taskIdToUser[row.value._id] = row.key;
+    });
+    
+    // for each icl, go get the actual list
+    Object.keys(iclToTaskIds).forEach(function(iclname) {
+        var listUrl = classifyListsUrl + "?key=\"" + iclname + "\"";
+        $.get(listUrl, appendListsObj);
+    });
+
+    populateIclDropDown(iclToTaskIds);
+}
+    
+
+var appendResultsObj = function(resJson) {
+
+    var dbresult = jQuery.parseJSON(resJson);
+    
+    
+    
+    dbresult.rows.forEach(function(row) {
+        var task = row.value.task;
+        var taskIdx = row.value.task_idx;
+        var imageUrl = row.value.image0;
+        var diag = row.value.diagnosis;
+        var user = row.value.user;
+        // also date and user ... not needed 
+        
+        taskIdToResults[task] = taskIdToResults[task] || {};
+        
+        // assert we've not seen this idx before, or that we are reloading the same value
+        var thisRes = taskIdToResults[task][taskIdx];
+        if (thisRes) {
+            if (thisRes.image != imageUrl ||
+                thisRes.user != user      ||
+                thisRes.diag != diag)
+            alert ("repeated task id with a different result: taskidx: " + taskIdx + "taskid: " + task );
+        }
+        
+        // recording images is redundant, todo - taskIdTaskIdxToImage
+        taskIdToResults[task][taskIdx] = {image: imageUrl, user: user, diag: diag};
+        
+        taskResults[task] = taskResults[task] || [];
+        taskResults[task].push({taskIdx: taskIdx, image: imageUrl, user: user, diag: diag});
+    });
+    
+}
+    
+var buildClassifyResultsObj = function(iclname){
+
+    var taskIds = iclToTaskIds[iclname];
+
+    var deferreds = [];
+    var deferred;
+    taskIds.forEach(function(taskId) {
+        
+        var listUrl = classifyResultsUrl + "?key=\"" + taskId + "\"";
+        deferred = $.get(listUrl, appendResultsObj);
+        deferreds.push(deferred);
+    });
+    
+    return deferreds;
+}
+
+var OnSetICL=function(sel) {
+    console.log ("ICL changed to: " + sel.value);
+    
+    //populateTestTable();
+    taskResults = [];
+    
+    // build up the results data for this icl
+    var deferreds = buildClassifyResultsObj(sel.value);
+    $.when.apply($, deferreds).done(function() {
+        populateResultsTable(sel.value);
+    });
+}
+
+var dbviewUrl = "http://ec2-54-152-40-100.compute-1.amazonaws.com:5984/rop_images/_design/basic_views/_view/";
+
+var classifyTasksViewname = "classify_tasks";
+var classifyResultsViewname = "classifyResults";
+var classifyListsViewname = "image_classify_lists";
+
+var classifyTasksUrl = dbviewUrl + classifyTasksViewname;
+var classifyResultsUrl = dbviewUrl + classifyResultsViewname;
+var classifyListsUrl = dbviewUrl + classifyListsViewname;
+
+// hashes
+var iclToTaskIds = {};
+var iclToImageIdList = {};
+var taskIdToUser = {};
+var taskIdToResults = {};
+var taskResults = {};
+
+// find the list of icls from the DB and populate the drop down
+$.get(classifyTasksUrl, handleClassifyTasksJson);
+
 
 </script>
