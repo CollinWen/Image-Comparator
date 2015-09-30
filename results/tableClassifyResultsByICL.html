@@ -27,6 +27,7 @@ tbody tr:first-child td {
 tbody td {
   padding: 0;
  // border: solid 1px #000;
+ min-width: 45px;
 }
 
 tbody rect {
@@ -98,7 +99,7 @@ var populateTable = function(columnNames, objArr) {
         .enter()
         .append("td")
         .text(function(d) { 
-            return d; 
+            return taskIdToUser[d]; 
         })
         .on("click", function(k) {
             // magic! sorts and redisplays the table
