@@ -8,6 +8,7 @@ use a cmd similar to the following
 curl -X GET http://localhost:5984/rop_images/_all_docs?include_docs=true >rop_images_2140_25_7_2015.json
 curl -X GET http://localhost:5984/rop_images/_all_docs?include_docs=true >rop_images_1330_17_8_2015.json
 curl -X GET http://localhost:5984/rop_images/_all_docs?include_docs=true >rop_images_0900_09_14_2015.json
+curl -X GET http://localhost:5984/rop_images/_all_docs?include_docs=true >rop_images_0900_09_30_2015.json
 
 
 on local machine, from pem file dir
