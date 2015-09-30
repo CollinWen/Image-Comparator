@@ -77,11 +77,24 @@ var populateIclDropDown = function(iclToTaskIds) {
     });
 }
 
+var diagnosisToValue = function(diagStr) {
+
+    var diags = ["Normal", "PrePlus", "Plus"]; 
+    var idx = diags.indexOf(diagStr);
+    
+    if (idx === -1) {
+        alert ("unexpected diagnosis");
+    }
+    
+    return idx;
+}
 
 var populateTable = function(columnNames, objArr) {
     
     var headerRow = d3.select("thead").select("tr").selectAll("td")
-        .data(columnNames)
+        .data(columnNames);
+        
+    headerRow    
         .enter()
         .append("td")
         .text(function(d) { 
@@ -89,23 +102,31 @@ var populateTable = function(columnNames, objArr) {
         })
         .on("click", function(k) {
             // magic! sorts and redisplays the table
-            bodyRows.sort(function(a, b) { return a[k] - b[k]; });
+            bodyRows.sort(function(a, b) { return diagnosisToValue(a[k]) - diagnosisToValue(b[k]); });
         });
+        
+    headerRow.exit().remove();
           
     var bodyRows = d3.select("tbody").selectAll("tr")
-        .data(objArr)
+        .data(objArr);
+       
+       
+    bodyRows
         .enter()
         .append("tr");
-        
+    
+    bodyRows.exit().remove();  
        
     bodyRows.selectAll("td")
         .data(function(d) { 
-        return columnNames.map(function(k) { return d[k]; }) 
-     })
-    .enter()
+            return columnNames.map(function(k) { 
+                if (d) return d[k];
+            }) 
+        })
+        .enter()
         .append("td")
         .text(function(d) {
-            return d;}
+            if (d) return d;}
         );
 }
 
@@ -123,29 +144,23 @@ var populateTestTable = function() {
     populateTable(columnNames, testme);
 }
 
+var resetTable = function() {
+    var tableHead = d3.select("table thead")[0][0];
+    var tableBody = d3.select("table tbody")[0][0];
+    var table = tableHead.parentNode;
+    
+    table.removeChild(tableHead);
+    table.removeChild(tableBody);
+    var thead = table.appendChild(document.createElement('thead'));
+    thead.appendChild(document.createElement('tr'));
+    table.appendChild(document.createElement('tbody'));
+}
 
 var populateResultsTable = function(iclname) {
 
-    // build an array of objects 
-    // rows are images (for the moment indexes)
-    // columns are users
-    var userNames = [];
-    Object.keys(taskIdToUser).forEach(function(id) {
-        var unm = taskIdToUser[id];
-        if (userNames.indexOf(unm) === -1){
-            userNames.push(unm);
-        }      
-    }); 
-//    userNames.forEach(function(unm) { console.log (unm);});
-    
-    var columnNames = iclToTaskIds[iclname];
-    var resultData = [];
-    columnNames.forEach(function(taskId) {
-        resultData.push(taskResults[taskId]);
-    });
-    
-    populateTable(columnNames, resultData);
-    
+    var columnNames = iclToTaskIds[iclname];  
+    resetTable();    
+    populateTable(columnNames, taskResultsArr); 
 }
 
 var appendListsObj = function(listJson) {
@@ -215,8 +230,8 @@ var appendResultsObj = function(resJson) {
         // recording images is redundant, todo - taskIdTaskIdxToImage
         taskIdToResults[task][taskIdx] = {image: imageUrl, user: user, diag: diag};
         
-        taskResults[task] = taskResults[task] || [];
-        taskResults[task].push({taskIdx: taskIdx, image: imageUrl, user: user, diag: diag});
+        tasksResults[task] = tasksResults[task] || [];
+        tasksResults[task].push({taskIdx: taskIdx, image: imageUrl, user: user, diag: diag});
     });
     
 }
@@ -241,11 +256,45 @@ var OnSetICL=function(sel) {
     console.log ("ICL changed to: " + sel.value);
     
     //populateTestTable();
-    taskResults = [];
+    tasksResults = [];
+    tastResultArr = [];
     
     // build up the results data for this icl
     var deferreds = buildClassifyResultsObj(sel.value);
     $.when.apply($, deferreds).done(function() {
+    
+        // build another structure of the data
+        // an array of objects, each obj is a row 
+        // diagnosis for each image id for each user
+        // slow and redundant ... todo: either build this up initially 
+        // or mine the existing data structures
+        var imageIdList = iclToImageIdList[sel.value];
+        var taskIds = iclToTaskIds[sel.value];
+        
+        imageIdList.forEach(function(imageId) {
+            
+            var obj = {imageid:imageId};
+            var imageIdStr = imageId.toString();
+            
+            taskIds.forEach(function (taskId) {
+            
+                var taskResults = tasksResults[taskId];
+                 
+                // taskResults might not be defined if no results for this task
+                if (taskResults) {
+                    taskResults.forEach(function(taskResult) {
+                        var taskImgId = taskResult.image.split("/").pop();
+                        if( taskImgId === imageIdStr ) {
+                            obj[taskId] = taskResult.diag;
+                            //obj.diag = taskResult.diag;
+                        }
+                    })
+                }    
+            });
+            
+            taskResultsArr.push(obj);
+        });
+    
         populateResultsTable(sel.value);
     });
 }
@@ -265,7 +314,8 @@ var iclToTaskIds = {};
 var iclToImageIdList = {};
 var taskIdToUser = {};
 var taskIdToResults = {};
-var taskResults = {};
+var tasksResults = {};
+var taskResultsArr = [];
 
 // find the list of icls from the DB and populate the drop down
 $.get(classifyTasksUrl, handleClassifyTasksJson);
