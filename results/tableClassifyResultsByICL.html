@@ -113,6 +113,10 @@ var populateTable = function(columnNames, objArr) {
     bodyRows
         .enter()
         .append("tr")
+        .on("mouseenter", function(d){ 
+            d3.select(this).style("background", "#eee"); })
+        .on("mouseleave", function(d){ 
+            d3.select(this).style("background", "#fff"); })
         ;
        
     bodyRows.selectAll("td")
