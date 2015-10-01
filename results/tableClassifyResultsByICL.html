@@ -113,10 +113,6 @@ var populateTable = function(columnNames, objArr) {
     bodyRows
         .enter()
         .append("tr")
-        .on("mouseenter", function(d){ 
-            d3.select(this).style("background", "#eee"); })
-        .on("mouseleave", function(d){ 
-            d3.select(this).style("background", "#fff"); })
         ;
        
     bodyRows.selectAll("td")
@@ -127,6 +123,22 @@ var populateTable = function(columnNames, objArr) {
         })
         .enter()
         .append("td")
+        .on("mouseenter", function(d){ 
+            d3.select(this.parentNode).style("background", "#eee"); 
+            d3.select(this)
+                .style("background", "#ddd")
+                .style("font-weight", "bold")
+                
+                ;
+        })
+        .on("mouseleave", function(d){ 
+            d3.select(this.parentNode).style("background", "#fff"); 
+            d3.select(this)
+                .style("background", "#fff")
+                .style("font-weight", "normal")
+                
+
+        })
         .text(function(d) {
             if (d) return d;
         });
