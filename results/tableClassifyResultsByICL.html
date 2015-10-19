@@ -2,6 +2,10 @@
 <meta charset="utf-8">
 <style type="text/css">
 
+ul {
+    list-style-type: none;
+}
+
 table {
   border-collapse: collapse;
   font: 10px sans-serif;
@@ -44,10 +48,41 @@ tbody tr:hover rect {
 
 </style>
 
+<body>
+<h1> Tabular Classification Results</h1>
+
+<p>
+This page presents the classification results obtained filtered by the selected Image Classify List. 
+Several specialists were assigned the task of classifying a set of ROP images as one of 
+{ "Plus", "Pre-Plus", "Normal" }.
+The list of images that each specialist viewed and classified is recorded in the database as 
+an Image-Classify-List. Several specialists were assigned the same list. Select the name of the list
+in the drop down to see the results. The columns are the results per specialist and the rows are the
+IDs of the images.
+
+<p>
+Some specialists did not complete the image compare list. Some specialists did not start the task. 
+Some test-users were assigned the same list as some of the experts. Each of these results can be
+filtered using the corresponding checkboxes.
+
+
+
+
 <div id="icldropdowndiv">
     <label id="icldropdownlabel" >Select an ICL</label>
     <select id="icldropdown" onchange="OnSetICL(this)">Fetching ICL names....</select> 
 </div>
+
+<div>
+
+    <ul>
+    <li><input id="filter-non-start"    type="checkbox" onchange="OnSetFilter()"> Filter users that did not start the task</input>
+    <li><input id="filter-non-complete" type="checkbox" onchange="OnSetFilter()"> Filter users that did not complete the task</input>
+    <li><input id="filter-testusers"    type="checkbox" onchange="OnSetFilter()"> Filter test users</input>
+    </ul>
+    
+</div>
+
 
 <table>
   <thead>
@@ -60,6 +95,8 @@ tbody tr:hover rect {
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js"></script>
 <script src="../vendor/jquery/jquery-2.1.0.min.js"></script>
+
+
 <script>
 
 
@@ -174,6 +211,15 @@ var populateResultsTable = function(iclname) {
 
     var columnNames = ["imageId"].concat(iclToTaskIds[iclname]);  
     resetTable();    
+    
+    // filter test users
+    if (document.getElementById('filter-testusers').checked) {
+        columnNames = columnNames.filter(function(taskid) {
+            var name = taskIdToUser[taskid]
+            return !(name && name.startsWith("testuser"));    
+        });
+    }
+    
     populateTable(columnNames, taskResultsArr); 
 }
 
@@ -266,6 +312,12 @@ var buildClassifyResultsObj = function(iclname){
     return deferreds;
 }
 
+var OnSetFilter=function() {
+    
+    var sel = document.getElementById("icldropdown");
+    populateResultsTable(sel.value);
+}
+
 var OnSetICL=function(sel) {
     console.log ("ICL changed to: " + sel.value);
     
@@ -335,5 +387,9 @@ var taskResultsArr = [];
 // find the list of icls from the DB and populate the drop down
 $.get(classifyTasksUrl, handleClassifyTasksJson);
 
-populateTestTable();
+//populateTestTable();
 </script>
+
+</body>
+</html>
+
