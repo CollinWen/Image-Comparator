@@ -135,7 +135,7 @@ var diagnosisToValue = function(diagStr) {
 var populateTable = function(columnNames, objArr) {
     
     var headerRow = d3.select("thead").select("tr").selectAll("td")
-        .data(columnNames);
+        .data(columnNames);    
         
     headerRow    
         .enter()
@@ -214,7 +214,7 @@ var resetTable = function() {
 
 var populateResultsTable = function(iclname) {
 
-    var columnNames = ["imageId"].concat(iclToTaskIds[iclname]);  
+    var columnNames = iclToTaskIds[iclname];  
     resetTable();    
     
     // filter test users
@@ -270,8 +270,31 @@ var populateResultsTable = function(iclname) {
         }        
     }
     
-
+    // sort columns by task id
+    // columnNames.sort();
     
+    // calculate averages 
+    var avgs = [];
+    columnNames.forEach(function(taskId) {
+        var tot = 0;
+        var ct = 0;
+        
+        taskResultsArr.forEach(function(res) {
+            if (res[taskId]){
+                tot += diagnosisToValue(res[taskId]);   
+                ct++;
+            }
+        });
+        
+        if (ct) {
+            avgs[taskId] = tot/ct;
+        }
+        
+    });
+    
+    columnNames.sort(function(a,b) { return avgs[a] - avgs[b]; });
+    
+    columnNames.unshift("imageId");
     populateTable(columnNames, taskResultsArr); 
 }
 
