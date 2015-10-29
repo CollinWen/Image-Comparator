@@ -145,7 +145,11 @@ var populateTable = function(columnNames, objArr) {
         })
         .on("click", function(k) {
             // magic! sorts and redisplays the table
-            bodyRows.sort(function(a, b) { return diagnosisToValue(a[k]) - diagnosisToValue(b[k]); });
+            bodyRows.sort(function(a, b) { 
+                var tmp = diagnosisToValue(a[k]) - diagnosisToValue(b[k]);
+                // var ret = tmp === 0 ? <2nd criterion> : tmp;
+                return  tmp;
+            });
         });
         
           
