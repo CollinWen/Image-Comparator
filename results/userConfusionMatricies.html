@@ -286,16 +286,15 @@ var buildConfusionMatrix = function(res1, res2) {
 
     // calculate some info
     // for each img, 
-    var totals = [];
     var ots = [ [0, 0, 0], 
                 [0, 0, 0], 
                 [0, 0, 0]
                ] ;
                
     Object.keys(res1).forEach(function(key){
-        
-        totals.push(res1[key].diag, res2[key].diag);
-        ots[diagnosisToValue(res1[key].diag)] [diagnosisToValue(res2[key].diag)]++;
+
+        if (res1[key] && res2[key])
+            ots[diagnosisToValue(res1[key].diag)] [diagnosisToValue(res2[key].diag)]++;
     });
     
     var svgInfo = setupChart();
@@ -349,7 +348,8 @@ var OnSetTask=function(sel) {
         var res1 = taskIdToResults[task];
         var res2 = taskIdToResults[taskid];
         
-        buildConfusionMatrix(res1, res2);
+        if (res1 && res2)
+            buildConfusionMatrix(res1, res2);
     });
 
 }
