@@ -20,7 +20,6 @@ handleUrlFilter = function(urlSearchStr) {
 
       ImageCompare.username = user;
 
-      $("#username").val(user);
       OnSetUser(user);
     }
 
@@ -291,7 +290,7 @@ saveResultSetImages = function (winnerId) {
     var task = ImageCompare.TaskFeeder.current_task;
 
     var comment = $("#compare-comment").val();
-    var user = $("#username").val();
+    var user = ImageCompare.username; // $("#username").val();
 
     // these two are like a transaction - how to ensure both or neither?
 
