@@ -308,14 +308,14 @@ var buildConfusionMatrix = function(res1, res2) {
         .append('g')
         .attr("class", "dataPt")
         .attr('transform', function(d, i) {
-            return 'translate(0, ' + (y(valueToDiagnosis(i)) + 180) + ')';
+            return 'translate(0, ' + (-y(valueToDiagnosis(i)) + 10) + ')';
         });
     
     grp.selectAll("text")
         .data(function(d) { return d; })
         .enter()
         .append('text')
-            .attr('x', function(d, i) { return x(valueToDiagnosis(i)) + 50; })
+            .attr('x', function(d, i) { return x(valueToDiagnosis(i)) + 45; })
             .style("font-size", "24px")
             .text(function(d, i) { return d; })
         ;
