@@ -9,7 +9,7 @@ var ImageCompare = (function (IC) {
     IC.TaskFeeder.db_config = db_config_elem.options[db_config_elem.selectedIndex].value;
     IC.TaskFeeder.hostname = IC.TaskFeeder.db_config == "localhost" ?
         "http://localhost:5984/" :
-        "http://ec2-54-152-40-100.compute-1.amazonaws.com:5984/";
+        "http://ec2-54-87-182-149.compute-1.amazonaws.com:5984/";
     IC.TaskFeeder.imageDbName = "rop_images/";
 
     // some of this is probably not needed
@@ -24,7 +24,7 @@ var ImageCompare = (function (IC) {
         IC.TaskFeeder.db_config = db_config_elem.options[db_config_elem.selectedIndex].value;
         IC.TaskFeeder.hostname = IC.TaskFeeder.db_config == "localhost" ?
             "http://localhost:5984/" :
-            "http://ec2-54-152-40-100.compute-1.amazonaws.com:5984/";
+            "http://ec2-54-87-182-149.compute-1.amazonaws.com:5984/";
 
         return IC.TaskFeeder.hostname + IC.TaskFeeder.imageDbName;
     };
@@ -37,7 +37,7 @@ var ImageCompare = (function (IC) {
         IC.TaskFeeder.db_config = db_config_elem.options[db_config_elem.selectedIndex].value;
         IC.TaskFeeder.hostname = IC.TaskFeeder.db_config == "localhost" ?
             "http://localhost:5984/" :
-            "http://ec2-54-152-40-100.compute-1.amazonaws.com:5984/";
+            "http://ec2-54-87-182-149.compute-1.amazonaws.com:5984/";
 
         var fullurl = IC.TaskFeeder.hostname + IC.TaskFeeder.imageDbName + '_design/basic_views/_view/incomplete_classify_tasks?key=\"' + username+ "\"";
         $.ajax({
@@ -59,7 +59,7 @@ var ImageCompare = (function (IC) {
 
                 // default next task
                 var task = newResRows[0].value;
-                
+
                 // now we want to find the task that has the lowest (positive?) task_order
                 var minTaskOrder = Number.POSITIVE_INFINITY;
                 for (var irow = 0; irow < newResRows.length; ++irow) {
