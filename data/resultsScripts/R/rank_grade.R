@@ -1,5 +1,7 @@
 library(ggplot2)
 library(reshape2)
+setwd("~/Documents/retinalImaging/website/Image-Comparator/data/resultsScripts/R")
+
 rawData <- read.csv("rank_grade_5_4_2015.csv")
 
 boxplot(consensusRank~combinedGrade, data=rawData)
@@ -41,7 +43,7 @@ rgkPlot <- rgkPlot + scale_x_discrete(limits=c("normal","Pre","Plus"))
 rgkPlot
 
 
-sc <-ggplot(rawData) + geom_point(aes(x=susan, y=paul, colour=factor(combinedGrade), size=4))
+sc <-ggplot(rawData) + geom_point(aes(x=mike, y=paul, colour=factor(combinedGrade), size=4))
 sc <- sc + theme(legend.position="none")
 sc
 
@@ -82,7 +84,7 @@ rawLong <- melt(rawData, id.vars = c("origin", "combinedGrade","consensusRank"),
 
 p <- ggplot(rawLong, aes(consensusRank, rank))
 # A basic scatter plot
-p + geom_point(aes(colour = factor(ranker)), size = 4)
+p + geom_point(aes(colour = factor(combinedGrade), shape=factor(ranker)), size = 4)+theme_bw()
 
 
 ## group separability

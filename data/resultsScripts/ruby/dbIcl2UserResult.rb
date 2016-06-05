@@ -8,7 +8,8 @@ require 'csv'
 #file = File.read('rop_images_laptop1.json')
 #file = File.read('rop_images_4_27_2015.json')
 
-file = File.read('/Users/jkc/Documents/retinalImaging/website/data/rop_images_1220_12_06_2015.json')
+#file = File.read('/Users/jkc/Documents/retinalImaging/website/data//rop_images_1220_12_06_2015.json')
+file = File.read('/Users/jayashreekalpathy-cramer/Syncplicity/retinalImaging/website/data/rop_images_1220_12_06_2015.json')
 
 #file = File.read('/Users/jkc/Documents/retinalImaging/website/data/rop_images_4_27_2015.json')
 #file = File.read('/Users/jayashreekalpathy-cramer/Documents/rop/website/Image-Comparator/data/rop_images_4_27_2015.json')
@@ -47,9 +48,9 @@ icResultRows = contents['rows'].select{|x| x['doc']['type'] === "imageCompareRes
 #puts icResultRows.size
 #icResultRows2 = icResultRows.select{|x| task2icl[x['doc']['task']] === "icl_1_10_rev1"}
 #icResultRows2 = icResultRows.select{|x| task2icl[x['doc']['task']] === "ICL_third_set_hundred_r2"}
-#icResultRows2 = icResultRows.select{|x| task2icl[x['doc']['task']] === "iclSelect25"}
+icResultRows2 = icResultRows.select{|x| task2icl[x['doc']['task']] === "iclSelect25"}
 #icResultRows2 = icResultRows.select{|x| task2icl[x['doc']['task']] === "icl_set34_rev2"}
-icResultRows2 = icResultRows.select{|x| task2icl[x['doc']['task']] === "ICL_third_set_hundred_r2"}
+#icResultRows2 = icResultRows.select{|x| task2icl[x['doc']['task']] === "ICL_third_set_hundred_r2"}
 
 
 #puts icResultRows2.size
@@ -72,7 +73,7 @@ prevTaskIdx=''
 output = []
 
 
-CSV.open("results_ICL_third_set_hundred_r2_compare.csv", "w") do |csv|
+CSV.open("results_compare_set25_2_28_16.csv", "w") do |csv|
   csv << ['task_id', 'image0', 'image1', 'winner', 'user', 'date', 'icl']
 #CSV.open("results_100_rev1.csv", "w") do |csv|
 icResults.each do |x|

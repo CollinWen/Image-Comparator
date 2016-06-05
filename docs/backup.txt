@@ -11,6 +11,8 @@ curl -X GET http://localhost:5984/rop_images/_all_docs?include_docs=true >rop_im
 curl -X GET http://localhost:5984/rop_images/_all_docs?include_docs=true >rop_images_0900_09_30_2015.json
 curl -X GET http://localhost:5984/rop_images/_all_docs?include_docs=true >rop_images_1220_12_06_2015.json
 
+curl -X GET http://localhost:5984/rop_images/_all_docs?include_docs=true >rop_images_2220_02_20_2016.json
+
 on local machine, from pem file dir
 
 scp -rp -i aws-alan-laptop.pem ec2-user@ec2-54-152-40-100.compute-1.amazonaws.com:/home/ec2-user/backups/rop_images_2140_7_26_2015.json .
@@ -23,3 +25,37 @@ scp -rp -i aws-alan-laptop.pem ec2-user@ec2-54-152-40-100.compute-1.amazonaws.co
 
 
 move backup to the backups dir (e.g. /Users/jayashreekalpathy-cramer/Documents/retinalImaging/dbBackups or /Users/jkc/Documents/retinalImaging/website/data/)
+
+
+
+
+scp -rp -i aws-alan-laptop.pem ec2-user@ec2-52-90-138-33.compute-1.amazonaws.com:/home/ec2-user/build-couchdb/build/var/lib/couchdb/rop_images.couch  /Users/jkc/Documents/retinalImaging/website/data/
+
+location of couch file
+/home/ec2-user/build-couchdb/build/var/lib/couchdb/rop_images.couch
+ssh -i "aws-alan-laptop.pem" ec2-user@ec2-52-90-138-33.compute-1.amazonaws.com
+
+
+
+
+scp -rp -i aws-alan-laptop.pem  /Users/jayashreekalpathy-cramer/Syncplicity/retinalImaging/aws-alan-laptop.pem   ec2-user@ec2-52-90-138-33.compute-1.amazonaws.com:/home/ec2-user/  
+
+
+scp -rp -i aws-alan-laptop.pem  /Users/jayashreekalpathy-cramer/Syncplicity/retinalImaging/aws-alan-laptop.pem    ec2-user@ec2-54-87-182-149.compute-1.amazonaws.com:/home/ec2-user/ 
+
+
+scp -rp -i aws-alan-laptop.pem ec2-user@ec2-52-90-138-33.compute-1.amazonaws.com:/home/ec2-user/build-couchdb/build/var/lib/couchdb/rop_images.couch  .
+
+
+
+scp -rp -i aws-alan-laptop.pem  secondSet100All.zip ec2-user@ec2-54-87-182-149.compute-1.amazonaws.com:/home/ec2-user
+
+ec2-54-87-182-149.compute-1.amazonaws.com
+
+/home/ec2-user/secondSet100All
+
+
+curl http://jayashree:changeme@ec2-user@ec2-54-87-182-149.compute-1.amazonaws.com:5984
+
+
+yum -y install  ruby-devel rubygems

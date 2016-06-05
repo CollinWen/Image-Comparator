@@ -24,6 +24,8 @@ dbname = "rop_images"
 #connect to db, create if does not exist
 @db = CouchRest.database!("http://127.0.0.1:5984/#{dbname}")
 
+#CouchRest.put("http://localhost:5984/testdb/doc", 'name' => 'test', 'date' => Date.current)
+
 res= @db.view('basic_views/count_image_docs')#.to_yaml
 puts res
 imgCount= res["rows"].size
