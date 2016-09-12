@@ -8,7 +8,7 @@ var ImageCompare = (function (IC) {
     IC.Feeder.db_config = db_config_elem.options[db_config_elem.selectedIndex].value;
     IC.Feeder.hostname = IC.Feeder.db_config == "localhost" ?
         "http://localhost:5984/" :
-        "http://ec2-54-87-182-149.compute-1.amazonaws.com:5984/";
+        "http://ec2-54-224-183-251.compute-1.amazonaws.com:5984/";
     IC.Feeder.imageDbName = "rop_images/";
     IC.Feeder.resultsDbName = "rop_images/";
 

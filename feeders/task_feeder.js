@@ -9,7 +9,7 @@ var ImageCompare = (function (IC) {
     IC.TaskFeeder.db_config = db_config_elem.options[db_config_elem.selectedIndex].value;
     IC.TaskFeeder.hostname = IC.TaskFeeder.db_config == "localhost" ?
         "http://localhost:5984/" :
-        "http://ec2-54-87-182-149.compute-1.amazonaws.com:5984/";
+        "http://ec2-54-224-183-251.compute-1.amazonaws.com:5984/";
     IC.TaskFeeder.imageDbName = "rop_images/";
     IC.TaskFeeder.resultsDbName = "image_compare_results/";
 
