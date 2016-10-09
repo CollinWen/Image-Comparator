@@ -5,11 +5,8 @@ var ImageCompare = (function (IC) {
     IC.TaskFeeder = {}; // this requires TaskFeeder to only be defined here
 
     IC.TaskFeeder.defaultComment = "<insert comment>";
-    var  db_config_elem = document.getElementById("database");
-    IC.TaskFeeder.db_config = db_config_elem.options[db_config_elem.selectedIndex].value;
-    IC.TaskFeeder.hostname = IC.TaskFeeder.db_config == "localhost" ?
-        "http://localhost:5984/" :
-        "http://ec2-54-224-183-251.compute-1.amazonaws.com:5984/";
+    IC.TaskFeeder.GetImageDbUrl();
+
     IC.TaskFeeder.imageDbName = "rop_images/";
     IC.TaskFeeder.resultsDbName = "image_compare_results/";
 
@@ -18,6 +15,9 @@ var ImageCompare = (function (IC) {
     IC.TaskFeeder.current_task_idx = -1;
     IC.TaskFeeder.current_icl = ""; // image_compare_list
 
+    IC.TaskFeeder.GetPrompt = function() {
+      
+    }
 
     IC.TaskFeeder.GetImageDbUrl = function () {
 
@@ -36,13 +36,9 @@ var ImageCompare = (function (IC) {
         $("#compare-comment").val(this.defaultComment);
 
         // update the dbconfig - guess this should be a function
-        var  db_config_elem = document.getElementById("database");
-        IC.TaskFeeder.db_config = db_config_elem.options[db_config_elem.selectedIndex].value;
-        IC.TaskFeeder.hostname = IC.TaskFeeder.db_config == "localhost" ?
-            "http://localhost:5984/" :
-            "http://ec2-54-224-183-251.compute-1.amazonaws.com:5984/";
+        var dbName = IC.TaskFeeder.GetImageDbUrl();
 
-        var fullurl = IC.TaskFeeder.hostname + IC.TaskFeeder.imageDbName + '_design/basic_views/_view/incomplete_compare_tasks?key=\"' + username+ "\"";
+        var fullurl = dbName + '_design/basic_views/_view/incomplete_compare_tasks?key=\"' + username+ "\"";
         $.ajax({
             url : fullurl,
             type : 'GET',
@@ -65,7 +61,7 @@ var ImageCompare = (function (IC) {
 
                 // now get the next pair of image ids
                 $.ajax({
-                    url : IC.TaskFeeder.hostname + IC.TaskFeeder.imageDbName + '_design/basic_views/_view/image_compare_lists',
+                    url : dbName + '_design/basic_views/_view/image_compare_lists',
                     type : 'GET',
                     success: function (json) {
                         // okay, this seems wrong, we got all the tasks - way too much data over the wire

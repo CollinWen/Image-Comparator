@@ -13,8 +13,8 @@ require 'csv'
 
 #file = File.read('/Users/jkc/Documents/retinalImaging/website/data/rop_images_1330_17_8_2015.json')
 #file = File.read('/Users/jkc/Documents/retinalImaging/website/data/rop_images_0900_09_30_2015.json')
-file = File.read('/Users/jkc/Documents/retinalImaging/website/data/rop_images_1220_12_06_2015.json')
-
+#file = File.read('/Users/jkc/Documents/retinalImaging/website/data/rop_images_1220_12_06_2015.json')
+file = File.read('/Users/jkc/Documents/retinalImaging/website/data/rop_images_2016_10_09_1515.json')
 
 contents = JSON.parse(file)
 #puts contents
@@ -60,8 +60,8 @@ icResultRows = contents['rows'].select{|x| x['doc']['type'] === "imageClassifyRe
 #icResultRows2 = icResultRows.select{|x| task2icl[x['doc']['task']] === "icsfy_set34_rev2"}
 
 #icResultRows2 = icResultRows.select{|x| task2icl[x['doc']['task']] === "icsfy_select25_rev1"}
-icResultRows2 = icResultRows.select{|x| task2icl[x['doc']['task']] === "icsfy_100"}
-
+#icResultRows2 = icResultRows.select{|x| task2icl[x['doc']['task']] === "icsfy_100"}
+icResultRows2 = icResultRows.select{|x| task2icl[x['doc']['task']] === "secondSet100_classify"}
 
 
 
@@ -90,7 +90,7 @@ prevTaskIdx=''
 output = []
 
 
-CSV.open("results_icsfy_icsfy_100_2015_12_6.csv", "w") do |csv|
+CSV.open("results_secondSet100-classify.csv", "w") do |csv|
 #CSV.open("results_icsfy_100_rev.csv", "w") do |csv|
 #  CSV.open("results_icsfy_select25_rev1.csv", "w") do |csv|
 
