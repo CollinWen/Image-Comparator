@@ -5,9 +5,9 @@ $(document).ready(function() {
     updateStatusInfo();
 
     if (ImageCompare.username) {
+
         ImageCompare.TaskFeeder.SetImagePair(ImageCompare.username);
     }
-
 });
 
 //
@@ -136,10 +136,6 @@ updateStatInfoTasks = function(json) {
         imagesDiv.style.display = "none";
         var toDoMsg = document.getElementById("to-do-message");
         toDoMsg.textContent = "All tasks are complete."
-
-        // save results doc
-
-
     }
 };
 
@@ -186,11 +182,6 @@ createICResult = function(winVal, img0, img1, user, comment, task, task_idx) {
     dataStr += "\"image0\":\"" + imgDbStr + img0.toString() + "\",";
     dataStr += "\"image1\":\"" + imgDbStr + img1.toString() + "\",";
     dataStr += "\"winner\":\"" +  winVal.toString() + "\",";
-
-//    if (comment != ImageCompare.TaskFeeder.defaultComment) {/
-//        dataStr += ",";
-//        dataStr += "\"comment\":\"" + comment + "\",";
-//    }
 
     dataStr += "\"task\":\"" +  task._id + "\",";
     dataStr += "\"task_idx\":\"" +  task_idx + "\"";

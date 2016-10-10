@@ -168,37 +168,21 @@ var getIncompleteClassifyTasks = function(username, successFn) {
 // todo - this should not be global
 createICResult = function(diagnosis, img0, user, comment, task, task_idx) {
 
-    // todo - this configuration should be external to this function
-    var db_config_elem = document.getElementById("database");
-    var db_config = db_config_elem.options[db_config_elem.selectedIndex].value;
-    var hostname = db_config === "localhost" ?
-        "http://localhost:5984/" :
-        "http://ec2-54-87-182-149.compute-1.amazonaws.com:5984/";
-    var imageDbName = "rop_images/";
-    var resultsDbName = "rop_images/";
-
     var currentTime = new Date();
     var timeStr = currentTime.toString();
-    var imgDbStr = hostname + imageDbName;
+    var imgDbStr = ImageCompare.TaskFeeder.GetImageDbUrl();
 
     var dataStr = "{\"user\":\"" + user + "\",";
     dataStr += "\"type\":\"" + "imageClassifyResult" + "\",";
     dataStr += "\"date\":\"" + timeStr + "\",";
     dataStr += "\"image0\":\"" + imgDbStr + img0.toString() + "\",";
     dataStr += "\"diagnosis\":\"" +  diagnosis + "\",";
-
-//    if (comment != ImageCompare.TaskFeeder.defaultComment) {/
-//        dataStr += ",";
-//        dataStr += "\"comment\":\"" + comment + "\",";
-//    }
-
     dataStr += "\"task\":\"" +  task._id + "\",";
     dataStr += "\"task_idx\":\"" +  task_idx + "\"";
-
     dataStr += "}";
 
     var def = $.ajax({
-        url : hostname + resultsDbName + generateUUID(),
+        url : imgDbStr + generateUUID(),
         type : 'PUT',
         //dataType : "jsonp",
         data: dataStr,
@@ -223,7 +207,6 @@ updateTask = function(task, user) {
     var dburl = ImageCompare.TaskFeeder.GetImageDbUrl();
     var fullurl = dburl + "_design/basic_views/_view/icl_lengths?key=\"" + task.image_classify_list + "\"";
     var icl_count = -1;
-
 
     var defered = $.ajax({
         url : fullurl,
