@@ -164,23 +164,24 @@ var getTasks = function(username, successFn) {
 createICResult = function(winVal, img0, img1, user, comment, task, task_idx) {
 
     // todo - this configuration should be external to this function
-    var db_config_elem = document.getElementById("database");
-    var db_config = db_config_elem.options[db_config_elem.selectedIndex].value;
-    var hostname = db_config === "localhost" ?
-        "http://localhost:5984/" :
-        "http://ec2-54-224-183-251.compute-1.amazonaws.com:5984/";
-    var imageDbName = "rop_images/";
-    var resultsDbName = "rop_images/";
+    // var db_config_elem = document.getElementById("database");
+    // var db_config = db_config_elem.options[db_config_elem.selectedIndex].value;
+    // var hostname = db_config === "localhost" ?
+    //     "http://localhost:5984/" :
+    //     "http://ec2-54-224-183-251.compute-1.amazonaws.com:5984/";
+    // var imageDbName = "rop_images/";
+    // var resultsDbName = "rop_images/";
+    var dbName = ImageCompare.TaskFeeder.GetImageDbUrl();
 
     var currentTime = new Date();
     var timeStr = currentTime.toString();
-    var imgDbStr = hostname + imageDbName;
+  //  var imgDbStr = hostname + imageDbName;
 
     var dataStr = "{\"user\":\"" + user + "\",";
     dataStr += "\"type\":\"" + "imageCompareResult" + "\",";
     dataStr += "\"date\":\"" + timeStr + "\",";
-    dataStr += "\"image0\":\"" + imgDbStr + img0.toString() + "\",";
-    dataStr += "\"image1\":\"" + imgDbStr + img1.toString() + "\",";
+    dataStr += "\"image0\":\"" + dbName + img0.toString() + "\",";
+    dataStr += "\"image1\":\"" + dbName + img1.toString() + "\",";
     dataStr += "\"winner\":\"" +  winVal.toString() + "\",";
 
     dataStr += "\"task\":\"" +  task._id + "\",";
@@ -189,7 +190,7 @@ createICResult = function(winVal, img0, img1, user, comment, task, task_idx) {
     dataStr += "}";
 
     var def = $.ajax({
-        url : hostname + resultsDbName + generateUUID(),
+        url : dbName + generateUUID(),
         type : 'PUT',
         headers : {'Content-Type': 'application/json'},
         //dataType : "jsonp",
