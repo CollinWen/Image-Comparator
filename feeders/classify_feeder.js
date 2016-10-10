@@ -2,15 +2,8 @@
 // ImageCompare is the namespace
 var ImageCompare = (function (IC) {
 
-    IC.TaskFeeder = {}; // this requires TaskFeeder to only be defined here
-
+    IC.TaskFeeder = IC.TaskFeeder || {};
     IC.TaskFeeder.defaultComment = "<insert comment>";
-    // var  db_config_elem = document.getElementById("database");
-    // IC.TaskFeeder.db_config = db_config_elem.options[db_config_elem.selectedIndex].value;
-    // IC.TaskFeeder.hostname = IC.TaskFeeder.db_config == "localhost" ?
-    //     "http://localhost:5984/" :
-    //     "http://ec2-54-224-183-251.compute-1.amazonaws.com:5984/";
-    // IC.TaskFeeder.imageDbName = "rop_images/";
 
     // some of this is probably not needed
     IC.TaskFeeder.current_task = "";
@@ -18,27 +11,10 @@ var ImageCompare = (function (IC) {
     IC.TaskFeeder.current_icl = ""; // image_classify_list
 
 
-    // IC.TaskFeeder.GetImageDbUrl = function () {
-    //
-    //     var  db_config_elem = document.getElementById("database");
-    //     IC.TaskFeeder.db_config = db_config_elem.options[db_config_elem.selectedIndex].value;
-    //     IC.TaskFeeder.hostname = IC.TaskFeeder.db_config == "localhost" ?
-    //         "http://localhost:5984/" :
-    //         "http://ec2-54-224-183-251.compute-1.amazonaws.com:5984/";
-    //
-    //     return IC.TaskFeeder.hostname + IC.TaskFeeder.imageDbName;
-    // };
 
     // consult results and image database to select two images to present to user
     IC.TaskFeeder.SetImage = function(username) {
 
-        // update the dbconfig - guess this should be a function
-        // var  db_config_elem = document.getElementById("database");
-        // IC.TaskFeeder.db_config = db_config_elem.options[db_config_elem.selectedIndex].value;
-        // IC.TaskFeeder.hostname = IC.TaskFeeder.db_config == "localhost" ?
-        //     "http://localhost:5984/" :
-        //     "http://ec2-54-224-183-251.compute-1.amazonaws.com:5984/";
-        //
         var dbName = IC.TaskFeeder.GetImageDbUrl();
         var fullurl = dbName + '_design/basic_views/_view/incomplete_classify_tasks?key=\"' + username+ "\"";
         $.ajax({
@@ -77,7 +53,7 @@ var ImageCompare = (function (IC) {
 
                 // now get the next pair of image ids
                 $.ajax({
-                    url : IC.TaskFeeder.hostname + IC.TaskFeeder.imageDbName + '_design/basic_views/_view/image_classify_lists',
+                    url : dbName + '_design/basic_views/_view/image_classify_lists',
                     type : 'GET',
                     success: function (json) {
                         // okay, this seems wrong, we got all the tasks - way too much data over the wire

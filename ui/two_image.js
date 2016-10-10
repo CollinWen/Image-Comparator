@@ -5,9 +5,9 @@ $(document).ready(function() {
     updateStatusInfo();
 
     if (ImageCompare.username) {
+
         ImageCompare.TaskFeeder.SetImagePair(ImageCompare.username);
     }
-
 });
 
 //
@@ -136,10 +136,6 @@ updateStatInfoTasks = function(json) {
         imagesDiv.style.display = "none";
         var toDoMsg = document.getElementById("to-do-message");
         toDoMsg.textContent = "All tasks are complete."
-
-        // save results doc
-
-
     }
 };
 
@@ -172,7 +168,7 @@ createICResult = function(winVal, img0, img1, user, comment, task, task_idx) {
     var db_config = db_config_elem.options[db_config_elem.selectedIndex].value;
     var hostname = db_config === "localhost" ?
         "http://localhost:5984/" :
-        "http://ec2-54-87-182-149.compute-1.amazonaws.com:5984/";
+        "http://ec2-54-224-183-251.compute-1.amazonaws.com:5984/";
     var imageDbName = "rop_images/";
     var resultsDbName = "rop_images/";
 
@@ -187,11 +183,6 @@ createICResult = function(winVal, img0, img1, user, comment, task, task_idx) {
     dataStr += "\"image1\":\"" + imgDbStr + img1.toString() + "\",";
     dataStr += "\"winner\":\"" +  winVal.toString() + "\",";
 
-//    if (comment != ImageCompare.TaskFeeder.defaultComment) {/
-//        dataStr += ",";
-//        dataStr += "\"comment\":\"" + comment + "\",";
-//    }
-
     dataStr += "\"task\":\"" +  task._id + "\",";
     dataStr += "\"task_idx\":\"" +  task_idx + "\"";
 
@@ -200,6 +191,7 @@ createICResult = function(winVal, img0, img1, user, comment, task, task_idx) {
     var def = $.ajax({
         url : hostname + resultsDbName + generateUUID(),
         type : 'PUT',
+        headers : {'Content-Type': 'application/json'},
         //dataType : "jsonp",
         data: dataStr,
         success : function(json) {
