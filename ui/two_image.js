@@ -191,6 +191,7 @@ createICResult = function(winVal, img0, img1, user, comment, task, task_idx) {
     var def = $.ajax({
         url : hostname + resultsDbName + generateUUID(),
         type : 'PUT',
+        headers : {'Content-Type': 'application/json'},
         //dataType : "jsonp",
         data: dataStr,
         success : function(json) {
