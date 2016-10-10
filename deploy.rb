@@ -31,10 +31,11 @@ files =['index.html']
 folders.each do |f|
   moveToFolderFull="#{moveToFolder}#{f}"
   puts "copying #{moveToFolderFull}"
-
-  cmd1="rm -R #{moveToFolderFull}"
-  puts "  #{cmd1}"
-  `#{cmd1}`
+  if File.directory? moveToFolderFull
+    cmd1="rm -R #{moveToFolderFull}"
+    puts "  #{cmd1}"
+    `#{cmd1}`
+  end
   cmd2="cp -R #{f} " + moveToFolder
   puts "  #{cmd2}"
   `#{cmd2}`
