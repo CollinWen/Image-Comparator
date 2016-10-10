@@ -184,6 +184,7 @@ createICResult = function(diagnosis, img0, user, comment, task, task_idx) {
     var def = $.ajax({
         url : imgDbStr + generateUUID(),
         type : 'PUT',
+        headers : {'Content-Type': 'application/json'},
         //dataType : "jsonp",
         data: dataStr,
         success : function(json) {
