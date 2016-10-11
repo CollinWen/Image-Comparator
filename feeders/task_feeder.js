@@ -2,7 +2,7 @@
 // ImageCompare is the namespace
 var ImageCompare = (function (IC) {
 
-    IC.TaskFeeder = IC.TaskFeeder || {}; 
+    IC.TaskFeeder = IC.TaskFeeder || {};
     IC.TaskFeeder.defaultComment = "<insert comment>";
 
     IC.TaskFeeder.imageDbName = "rop_images/";
@@ -13,12 +13,8 @@ var ImageCompare = (function (IC) {
     IC.TaskFeeder.current_task_idx = -1;
     IC.TaskFeeder.current_icl = ""; // image_compare_list
 
-    IC.TaskFeeder.SetPrompt = function() {
-
-        var curICL = IC.TaskFeeder.current_icl;
-        if (curICL && curICL.prompt) {
-            $("#to-do-message").val(curICL.prompt);
-        }
+    IC.TaskFeeder.SetPrompt = function(prompt) {
+        $("#to-do-message").text(prompt);
     }
 
     // consult results and image database to select two images to present to user
@@ -62,11 +58,14 @@ var ImageCompare = (function (IC) {
                         var nextpair;
                         var result = jQuery.parseJSON( json );
                         var found = false;
+                        var prompt = null;
+
                         for (var ires = 0 ; ires < result.rows.length && !found; ++ires) {
 
                             var res = result.rows[ires];
                             if (res.id === curICL) {
                                 found = true;
+                                prompt = res.value.prompt;
                                 nextpair = res.value.list[curTaskIdx];
 
                                 if (!nextpair)
@@ -79,7 +78,9 @@ var ImageCompare = (function (IC) {
                             return;
                         }
 
-                        ImageCompare.TaskFeeder.SetPrompt();
+                        if (prompt) {
+                            ImageCompare.TaskFeeder.SetPrompt(prompt);
+                        }
 
                         var idx0 = nextpair[0];
                         var img0 = document.getElementById("image0");
