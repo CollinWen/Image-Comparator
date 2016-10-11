@@ -3,33 +3,24 @@ require 'uri'
 require 'json'
 require 'securerandom'
 uuid = SecureRandom.uuid
-promptIdx=-1
+
 
 # get the number of documents as a command line arg
 ARGV.each { |arg| puts "Argument: #{arg}" }
 user = ARGV[0]
 i_list = ARGV[1]
 task_type=ARGV[2]
-promptIdx=ARGV[3]
 
-prompts=[
-  "Click on the image that represents more severe disease",
-  "Which of these images has higher quality for plus disease diagnosis?"
-]
 
-promptIdx=promptIdx.to_i
-puts promptIdx
-if (ARGV.size <4 || promptIdx >= prompts.size ) then
-
-    puts "Usage: ruby : #{$PROGRAM_NAME}.rb <user> <image-list name> <image-list-type> <promptIdx> <task-order> where image-list-type is either compare or classify";
+if (ARGV.size <3) then
+    puts "Usage: ruby : #{$PROGRAM_NAME}.rb <user> <image-list name> <image-list-type> <task-order> where image-list-type is either compare or classify";
     exit
 end
 
 
 #if task order is provided, use it otherwise task order is set to arbitrarily high number so that it shows up last
-## to do: need to fix this to query database for existing tasks
-if (ARGV.size > 4)
-  task_order=ARGV[4]#.to_int
+if (ARGV.size > 3)
+  task_order=ARGV[3]#.to_int
   task_order=task_order.strip.to_i
   puts task_order
   puts task_order.class
@@ -37,7 +28,6 @@ else
   task_order=100
 end
 
-thisPrompt=prompts[promptIdx]
 
 obj = { type:"task",
         task_type:task_type,
@@ -47,8 +37,7 @@ obj = { type:"task",
   #    image_compare_list:image_compare_list,
   #      image_classify_list:image_classify_list,
         current_idx:0,
-        completed:false,
-        prompt:thisPrompt}
+        completed:false}
 
 if task_type=="compare"
   obj["image_compare_list"]=i_list
