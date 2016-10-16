@@ -189,6 +189,8 @@ createICResult = function(winVal, img0, img1, user, comment, task, task_idx) {
 
     dataStr += "}";
 
+    console.log ("Putting: " + dataStr);
+
     var def = $.ajax({
         url : dbName + generateUUID(),
         type : 'PUT',
