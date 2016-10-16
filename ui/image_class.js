@@ -172,6 +172,11 @@ createICResult = function(diagnosis, img0, user, comment, task, task_idx) {
     var timeStr = currentTime.toString();
     var imgDbStr = ImageCompare.TaskFeeder.GetImageDbUrl();
 
+    if (user === null) {
+      alert ("Uh oh: undefined user. Contact Jayashree.");
+      return;
+    }
+
     var dataStr = "{\"user\":\"" + user + "\",";
     dataStr += "\"type\":\"" + "imageClassifyResult" + "\",";
     dataStr += "\"date\":\"" + timeStr + "\",";
@@ -181,6 +186,8 @@ createICResult = function(diagnosis, img0, user, comment, task, task_idx) {
     dataStr += "\"task_idx\":\"" +  task_idx + "\"";
     dataStr += "}";
 
+    console.log ("Putting: " + dataStr);
+    
     var def = $.ajax({
         url : imgDbStr + generateUUID(),
         type : 'PUT',
