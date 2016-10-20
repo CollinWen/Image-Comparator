@@ -10,9 +10,7 @@ var ImageCompare = (function (IC) {
     IC.TaskFeeder.current_task_idx = -1;
     IC.TaskFeeder.current_icl = ""; // image_classify_list
 
-
-
-    // consult results and image database to select two images to present to user
+    // consult results and image database to select image to present to user
     IC.TaskFeeder.SetImage = function(username) {
 
         var dbName = IC.TaskFeeder.GetImageDbUrl();
@@ -103,14 +101,11 @@ var ImageCompare = (function (IC) {
                         console.log("get of tasks failed : " + JSON.stringify(response));
                     }
                 });
-
             },
             error: function (response) {
                 console.log("get failed : " + JSON.stringify(response));
             }
         });
-
-
     };
 
     return IC;

@@ -5,7 +5,6 @@ $(document).ready(function() {
     updateStatusInfo();
 
     if (ImageCompare.username) {
-
         ImageCompare.TaskFeeder.SetImagePair(ImageCompare.username);
     }
 });
