@@ -1,14 +1,12 @@
 
 Notes on Database "Schema"
 
-  1. Users will be in the _users database.
-  2. Images are in the rop_images database.
-  3. Results go in image_compare_results.hmm? not longer?
+All documents are in rop_images
 
-In addition, rop_images will contain the concept of tasks. Task documents are basically
-an ordered list of comparisons.
+To get latest docs
+http://ec2-54-224-183-251.compute-1.amazonaws.com:5984/rop_images/_design/basic_views/_view/recent_docs?descending=true&limit=10&include_docs=true
 
-TaskExecutors remember a task, a user, and the index of the last recorded result.
-
-TaskList Feeder will find TaskExector documents with the current user. The first
-unfinished task will be resumed.
+How do I find a result?
+http://ec2-54-224-183-251.compute-1.amazonaws.com:5984/_utils/database.html?rop_images/_design/basic_views/_view/classifyResults
+doc.type=imageClassifyResult
+doc.type=imageCompareResult
