@@ -1,6 +1,26 @@
+// assumes d3
 
 
+// div is a d3 selection of the container div
+buildClassifyButtonGroup = function(div) {
 
+    var inner = div.append('div')
+        .classed('btn-group', true);
+
+    buildClassifyButton(inner, 'Normal');
+    buildClassifyButton(inner, 'PrePlus');
+    buildClassifyButton(inner, 'Plus');
+}
+
+buildClassifyButton = function(div, name) {
+
+    div.append('button')
+        .classed('btn btn-primary', true) // for bootstrap
+        .attr('type', 'button') // what's this for?
+        .attr('id', name)
+        .on('click', 'OnClassify(this)')
+        .text(name);
+}
 
 //
 handleUrlFilter = function(urlSearchStr) {
