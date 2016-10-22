@@ -18,19 +18,19 @@ buildControlPanel = function(div) {
     var textWidth = '200px';
 
     div2.append('h2')
-        .text('Agility')
+        .text('Quadrant diagnosis')
         .classed('span2', true);
 
     buildClassifyButtonGroup(div2);
 
     div2.append('h2')
-        .text('Strength')
+        .text('Artery diagnosis')
         .classed('span2', true);
 
     buildClassifyButtonGroup(div2);
 
     div2.append('h2')
-        .text('Charisma')
+        .text('Vein diagnosis')
         .classed('span2', true);
 
     buildClassifyButtonGroup(div2);
