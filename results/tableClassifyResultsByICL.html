@@ -122,6 +122,10 @@ var populateIclDropDown = function(iclToTaskIds) {
 
 var diagnosisToValue = function(diagStr) {
 
+    if (diagStr === undefined) {
+        return -1;
+    }
+
     var diags = ["Normal", "PrePlus", "Plus"];
     var idx = diags.indexOf(diagStr);
 
