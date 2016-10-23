@@ -141,7 +141,8 @@ var populateTable = function(columnNames, objArr) {
         .enter()
         .append("td")
         .text(function(d) {
-            return d.substring(0, 5); // taskIdToUser[d];
+          //  return d.substring(0, 5); 
+            return taskIdToUser[d];
         })
         .on("click", function(k) {
             // magic! sorts and redisplays the table
