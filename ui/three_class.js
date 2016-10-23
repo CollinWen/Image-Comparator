@@ -182,6 +182,7 @@ createQualityResult = function(diagnoses, img0, user, comment, task, task_idx) {
             console.log ("put succeeded: " + JSON.stringify(json));
         },
         error: function (response) {
+                        alert ("Network Issue, Result not Recorded. Please stop the task and contact Jayashree.");
             console.log("put failed : " + JSON.stringify(response));
         }
     });
