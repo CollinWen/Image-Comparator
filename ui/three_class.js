@@ -18,22 +18,22 @@ buildControlPanel = function(div) {
     var textWidth = '200px';
 
     div2.append('h2')
-        .text('Agility')
+        .text('Quadrant diagnosis')
         .classed('span2', true);
 
-    buildClassifyButtonGroup(div2);
+    buildClassifyButtonGroup(div2,'quadrant');
 
     div2.append('h2')
-        .text('Strength')
+        .text('Artery diagnosis')
         .classed('span2', true);
 
-    buildClassifyButtonGroup(div2);
+    buildClassifyButtonGroup(div2,'artery');
 
     div2.append('h2')
-        .text('Charisma')
+        .text('Vein diagnosis')
         .classed('span2', true);
 
-    buildClassifyButtonGroup(div2);
+    buildClassifyButtonGroup(div2,'vein');
 }
 
 updateStatusInfo = function() {
@@ -59,7 +59,7 @@ updateStatusInfo = function() {
     // update tasks
     var user = ImageCompare.username;
     if (user) {
-        getIncompleteClassifyTasks(user, updateStatInfoTasks);
+        getIncompleteQuadrantTasks(user, updateStatInfoTasks);
     }
 };
 
@@ -129,10 +129,10 @@ updateStatInfoTasks = function(json) {
 };
 
 
-var getIncompleteClassifyTasks = function(username, successFn) {
+var getIncompleteQuadrantTasks = function(username, successFn) {
 
     var dburl = ImageCompare.TaskFeeder.GetImageDbUrl();
-    var fullurl = dburl + "_design/basic_views/_view/incomplete_classify_tasks?key=\"" + username + "\"";
+    var fullurl = dburl + "_design/basic_views/_view/incomplete_quadrant_tasks?key=\"" + username + "\"";
 
     $.ajax({
         url : fullurl,
@@ -150,7 +150,7 @@ var getIncompleteClassifyTasks = function(username, successFn) {
 // winVal will be -1, 0, or 1. This can support other values for UIs
 // where the user can say "A five times more than B"
 // todo - this should not be global
-createICResult = function(diagnosis, img0, user, comment, task, task_idx) {
+createQualityResult = function(diagnoses, img0, user, comment, task, task_idx) {
 
     var currentTime = new Date();
     var timeStr = currentTime.toString();
@@ -162,7 +162,7 @@ createICResult = function(diagnosis, img0, user, comment, task, task_idx) {
     }
 
     var dataStr = "{\"user\":\"" + user + "\",";
-    dataStr += "\"type\":\"" + "imageClassifyResult" + "\",";
+    dataStr += "\"type\":\"" + "imageQuadrantResult" + "\",";
     dataStr += "\"date\":\"" + timeStr + "\",";
     dataStr += "\"image0\":\"" + imgDbStr + img0.toString() + "\",";
     dataStr += "\"diagnosis\":\"" +  diagnosis + "\",";

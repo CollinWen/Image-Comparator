@@ -2,20 +2,22 @@
 
 
 // div is a d3 selection of the container div
-buildClassifyButtonGroup = function(div) {
+buildClassifyButtonGroup = function(div, diagType) {
 
     var inner = div.append('div')
         .classed('btn-group', true);
 
-    buildClassifyButton(inner, 'Normal');
-    buildClassifyButton(inner, 'PrePlus');
-    buildClassifyButton(inner, 'Plus');
+    buildClassifyButton(inner, 'Normal',diagType);
+    buildClassifyButton(inner, 'PrePlus', diagType);
+    buildClassifyButton(inner, 'Plus', diagType);
 }
 
-buildClassifyButton = function(div, name) {
+buildClassifyButton = function(div, name, diagType) {
+
+  var classes ='btn btn-primary ' + name + ' ' + diagType;
 
     div.append('button')
-        .classed('btn btn-primary', true) // for bootstrap
+        .classed(classes, true)
         .attr('type', 'button') // what's this for?
         .attr('id', name)
         .on('click', 'OnClassify(this)')
