@@ -201,6 +201,7 @@ createICResult = function(winVal, img0, img1, user, comment, task, task_idx) {
         },
         error: function (response) {
             console.log("put failed : " + JSON.stringify(response));
+                        alert ("Network Issue, Result not Recorded. Please stop the task and contact Jayashree.");
         }
     });
 

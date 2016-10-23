@@ -145,7 +145,7 @@ createICResult = function(diagnosis, img0, user, comment, task, task_idx) {
     dataStr += "}";
 
     console.log ("Putting: " + dataStr);
-    
+
     var def = $.ajax({
         url : imgDbStr + generateUUID(),
         type : 'PUT',
@@ -157,6 +157,7 @@ createICResult = function(diagnosis, img0, user, comment, task, task_idx) {
         },
         error: function (response) {
             console.log("put failed : " + JSON.stringify(response));
+            alert ("Network Issue, Result not Recorded. Please stop the task and contact Jayashree.");
         }
     });
 
