@@ -364,15 +364,7 @@ var appendResultsObj = function(resJson) {
         var user = row.value.user;
         // also date and user ... not needed
 
-        if (user !== 'testuser7') {
-            return;
-        }
-
         taskIdToResults[task] = taskIdToResults[task] || {};
-
-        if (imageUrl.slice(-3) === '340') {
-            console.log ('on image 340');
-        }
 
         // assert we've not seen this idx before, or that we are reloading the same value
         var thisRes = taskIdToResults[task][taskIdx];
