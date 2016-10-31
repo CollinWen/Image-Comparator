@@ -40,16 +40,12 @@ response = JSON.parse(resp)
 
 #puts response
 
-=begin
+
 imageIdRows = response['rows']
 imageIds = []
 imageIdRows.each {|x| imageIds.push(x['value'].to_i) }
 imageIds.sort()
-puts imageIds.class
-puts imageIds.size
-puts imageIds.to_i.sort()
-
-
+puts imageIds
 
 rangeBnds = [imageIds.first, imageIds.last]
 puts "rangeBnds is #{rangeBnds}"
@@ -95,7 +91,7 @@ end
 puts pairs.inspect
 puts pairs.size
 
-
+=begin
 obj = { type:"image_compare_list",
         count:pairs.size,
         list:pairs,
