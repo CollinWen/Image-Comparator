@@ -284,6 +284,17 @@ saveResultSetImages = function (diagnosis) {
 
 OnClassify = function(btn) {
 
+    var thisBtn = d3.select('this');
+
+    var diag = thisBtn.classed('PrePlus') ? 'PrePlus' :
+      thisBtn.classed('Plus') ? 'Plus' :
+      thisBtn.classed('Normal') ? 'Normal' : 'error';
+
+    if (diag === 'error') {
+      alert ('Call Jayashree');
+      exit;
+    }
+
     saveResultSetImages(btn.id);
 };
 
