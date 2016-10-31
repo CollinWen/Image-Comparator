@@ -35,7 +35,9 @@ resp= Net::HTTP.get(uri)
 #puts resp.body
 
 # grab the ids, sort and confirm all from lowest to highest are in the list
-response = JSON.parse(resp.body)
+#response = JSON.parse(resp.body)
+response = JSON.parse(resp)
+
 #puts response
 
 =begin
