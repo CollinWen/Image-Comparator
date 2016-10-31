@@ -20,7 +20,7 @@ pctRep =ARGV[1]
 nameStr = ARGV[2]
 
 # find range from searching db for images that have image_set_name
-viewUrl = "http://localhost:5984/rop_images/_design/basic_views/_view/imageSet2ImageId?key=\"#{imgSetName}\""
+viewUrl = "http://localhost:5984/rop_images/_design/basic_views/_view/imageSet2ImageId?key=\\\"#{imgSetName}\\\""
 uri = URI.parse(viewUrl)
 http = Net::HTTP.new(uri.host, uri.port)
 request = Net::HTTP::Get.new(uri.path)
