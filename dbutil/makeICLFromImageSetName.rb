@@ -35,7 +35,10 @@ imageIdRows = response['rows']
 imageIds = []
 imageIdRows.each {|x| imageIds.push(x['value'].to_i) }
 imageIds.sort()
-puts imageIds
+puts imageIds.class
+puts imageIds.size
+puts imageIds.to_i.sort()
+
 
 =begin
 rangeBnds = [imageIds.first, imageIds.last]
