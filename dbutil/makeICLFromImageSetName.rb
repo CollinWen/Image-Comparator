@@ -24,6 +24,7 @@ viewUrl = "http://localhost:5984/rop_images/_design/basic_views/_view/imageSet2I
 puts viewUrl
 encoded_url = URI.encode(viewUrl)
 uri = URI.parse(encoded_url)
+puts uri
 http = Net::HTTP.new(uri.host, uri.port)
 request = Net::HTTP::Get.new(uri.path)
 resp = http.request(request)
