@@ -20,7 +20,8 @@ pctRep =ARGV[1]
 nameStr = ARGV[2]
 
 # find range from searching db for images that have image_set_name
-viewUrl = "http://localhost:5984/rop_images/_design/basic_views/_view/imageSet2ImageId?key=\\\"#{imgSetName}\\\""
+viewUrl = "http://localhost:5984/rop_images/_design/basic_views/_view/imageSet2ImageId?key=\"#{imgSetName}\""
+puts viewUrl
 uri = URI.parse(viewUrl)
 http = Net::HTTP.new(uri.host, uri.port)
 request = Net::HTTP::Get.new(uri.path)
@@ -76,7 +77,7 @@ end
 puts pairs.inspect
 puts pairs.size
 
-
+=begin
 obj = { type:"image_compare_list",
         count:pairs.size,
         list:pairs,
@@ -99,3 +100,4 @@ request = Net::HTTP::Put.new(uri.path)
 
 resp = http.request(request, obj.to_json)
 puts resp.body
+=end
