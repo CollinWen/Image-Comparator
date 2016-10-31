@@ -35,14 +35,16 @@ imageIdRows = response['rows']
 imageIds = []
 imageIdRows.each {|x| imageIds.push(x['value'].to_i) }
 imageIds.sort()
-#puts imageIds
+puts imageIds
 
 rangeBnds = [imageIds.first, imageIds.last]
+puts "rangeBnds is #{rangeBnds}"
 
 range = Range.new(rangeBnds[0], rangeBnds[1]);
 rangeArray= range.to_a
 sizeDocs=rangeArray.size
 
+puts "sizeDocs is #{sizeDocs}"
 
 # create pairs
 pairs = []
