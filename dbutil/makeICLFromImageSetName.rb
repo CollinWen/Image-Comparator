@@ -37,6 +37,7 @@ imageIdRows.each {|x| imageIds.push(x['value'].to_i) }
 imageIds.sort()
 puts imageIds
 
+=begin
 rangeBnds = [imageIds.first, imageIds.last]
 puts "rangeBnds is #{rangeBnds}"
 
@@ -81,7 +82,7 @@ end
 puts pairs.inspect
 puts pairs.size
 
-=begin
+
 obj = { type:"image_compare_list",
         count:pairs.size,
         list:pairs,
