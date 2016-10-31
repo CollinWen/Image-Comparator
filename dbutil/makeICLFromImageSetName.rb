@@ -60,7 +60,8 @@ pairs.shuffle!
 #puts pairs.inspect
 #puts pairs.size
 
-
+puts pairs
+puts "pairs.size is #{pairs.size}"
 
 # add 20% duplicates by finding a random entry and inserting it randomly
 dupCt = pairs.size*(pctRep.to_f/100) +1
