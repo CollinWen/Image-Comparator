@@ -91,7 +91,7 @@ end
 puts pairs.inspect
 puts pairs.size
 
-=begin
+
 obj = { type:"image_compare_list",
         count:pairs.size,
         list:pairs,
@@ -114,4 +114,3 @@ request = Net::HTTP::Put.new(uri.path)
 
 resp = http.request(request, obj.to_json)
 puts resp.body
-=end
