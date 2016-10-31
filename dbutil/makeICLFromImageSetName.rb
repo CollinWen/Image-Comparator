@@ -31,6 +31,9 @@ resp = http.request(request)
 
 # grab the ids, sort and confirm all from lowest to highest are in the list
 response = JSON.parse(resp.body)
+puts response
+
+=begin
 imageIdRows = response['rows']
 imageIds = []
 imageIdRows.each {|x| imageIds.push(x['value'].to_i) }
@@ -40,7 +43,7 @@ puts imageIds.size
 puts imageIds.to_i.sort()
 
 
-=begin
+
 rangeBnds = [imageIds.first, imageIds.last]
 puts "rangeBnds is #{rangeBnds}"
 
