@@ -9,15 +9,13 @@ $(document).ready(function() {
     if (ImageCompare.username) {
         ImageCompare.TaskFeeder.SetImage(ImageCompare.username);
     }
-    
+    //
     $('body').on('click', '.btn-group button', function (e) {
         $(this).addClass('active');
         $(this).siblings().removeClass('active');
 
         //do any other button related things
     });
-
-    ImageCompare.TaskFeeder.taskViewName = '_design/basic_views/_view/incomplete_quadrant_tasks';
 
 });
 
