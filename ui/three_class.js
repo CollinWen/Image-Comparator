@@ -9,31 +9,45 @@ $(document).ready(function() {
     if (ImageCompare.username) {
         ImageCompare.TaskFeeder.SetImage(ImageCompare.username);
     }
+    
+    $('body').on('click', '.btn-group button', function (e) {
+        $(this).addClass('active');
+        $(this).siblings().removeClass('active');
+
+        //do any other button related things
+    });
 
 });
+
+
 
 buildControlPanel = function(div) {
 
     var div2 = div.append('div');
     var textWidth = '200px';
 
-    div2.append('h2')
-        .text('Quadrant diagnosis')
-        .classed('span2', true);
+    var row1=div2.append('div')
+        .classed('row', true);
 
-    buildClassifyButtonGroup(div2,'quadrant');
+    var col1=row1.append('div')
+        .classed('col-sm-4', true);
+    col1.append('h4')
+        .text('Quadrant diagnosis');
+  //      .classed('text-center',true);
 
-    div2.append('h2')
-        .text('Artery diagnosis')
-        .classed('span2', true);
+    buildClassifyButtonGroup(col1,'quadrant');
 
-    buildClassifyButtonGroup(div2,'artery');
+    var col2=row1.append('div')
+        .classed('col-sm-4', true);
+    col2.append('h4')
+        .text('Artery diagnosis');
+    buildClassifyButtonGroup(col2,'artery');
 
-    div2.append('h2')
-        .text('Vein diagnosis')
-        .classed('span2', true);
-
-    buildClassifyButtonGroup(div2,'vein');
+    var col3=row1.append('div')
+        .classed('col-sm-4', true);
+    col3.append('h4')
+        .text('Vein diagnosis');
+    buildClassifyButtonGroup(col3,'vein');
 }
 
 updateStatusInfo = function() {

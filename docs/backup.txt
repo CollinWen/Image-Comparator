@@ -16,6 +16,9 @@ curl -X GET http://localhost:5984/rop_images/_all_docs?include_docs=true >rop_im
 
 curl -X GET http://localhost:5984/rop_images/_all_docs?include_docs=true >rop_images_2016_10_09_1515.json
 
+curl -X GET http://localhost:5984/rop_images/_all_docs?include_docs=true >rop_images_2016_11_19_1044.json
+
+
 on local machine, from pem file dir
 
 scp -rp -i aws-alan-laptop.pem ec2-user@ec2-54-152-40-100.compute-1.amazonaws.com:/home/ec2-user/backups/rop_images_2140_7_26_2015.json .
@@ -28,6 +31,11 @@ scp -rp -i aws-alan-laptop.pem ec2-user@ec2-54-152-40-100.compute-1.amazonaws.co
 
 
 scp -rp -i aws-alan-laptop.pem ec2-user@ec2-54-224-183-251.compute-1.amazonaws.com:/home/ec2-user/backups/rop_images_2016_10_09_1515.json /Users/jkc/Documents/retinalImaging/website/data/
+
+scp -rp -i aws-alan-laptop.pem ec2-user@ec2-54-224-183-251.compute-1.amazonaws.com:/home/ec2-user/backups/rop_images_2016_10_09_1515.json /Users/jkc/Documents/retinalImaging/website/data/
+
+scp -rp -i aws-alan-laptop.pem ec2-user@ec2-54-224-183-251.compute-1.amazonaws.com:/home/ec2-user/backups/rop_images_2016_11_19_1044.json /Users/jayashreekalpathy-cramer/Syncplicity/retinalImaging/website/data/
+
 
 
 move backup to the backups dir (e.g. /Users/jayashreekalpathy-cramer/Documents/retinalImaging/dbBackups or /Users/jkc/Documents/retinalImaging/website/data/)

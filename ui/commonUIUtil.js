@@ -6,6 +6,7 @@ buildClassifyButtonGroup = function(div, diagType) {
 
     var inner = div.append('div')
         .classed('btn-group', true);
+      //  .attr('data-toggle','buttons');
 
     buildClassifyButton(inner, 'Normal',diagType);
     buildClassifyButton(inner, 'PrePlus', diagType);
@@ -20,7 +21,7 @@ buildClassifyButton = function(div, name, diagType) {
         .classed(classes, true)
         .attr('type', 'button') // what's this for?
         .attr('id', name)
-        .on('click', 'OnClassify(this)')
+        //.on('click', 'OnClassify(this)')
         .text(name);
 }
 
