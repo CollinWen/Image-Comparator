@@ -10,6 +10,8 @@ $(document).ready(function() {
         ImageCompare.TaskFeeder.SetImage(ImageCompare.username);
     }
 
+    ImageCompare.TaskFeeder.taskViewName = '_design/basic_views/_view/incomplete_quadrant_tasks';
+
 });
 
 buildControlPanel = function(div) {
