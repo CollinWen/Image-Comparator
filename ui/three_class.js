@@ -17,6 +17,8 @@ $(document).ready(function() {
         //do any other button related things
     });
 
+    ImageCompare.TaskFeeder.taskViewName = '_design/basic_views/_view/incomplete_quadrant_tasks';
+
 });
 
 
