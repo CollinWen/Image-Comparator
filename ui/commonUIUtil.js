@@ -5,7 +5,8 @@
 buildClassifyButtonGroup = function(div, diagType) {
 
     var inner = div.append('div')
-        .classed('btn-group', true);
+        .classed('btn-group', true)
+        .attr('id',diagType);
       //  .attr('data-toggle','buttons');
 
     buildClassifyButton(inner, 'Normal',diagType);

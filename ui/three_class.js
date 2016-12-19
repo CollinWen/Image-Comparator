@@ -9,7 +9,8 @@ $(document).ready(function() {
     if (ImageCompare.username) {
         ImageCompare.TaskFeeder.SetImage(ImageCompare.username);
     }
-    //
+
+    ImageCompare.TaskFeeder.taskViewName='_design/basic_views/_view/incomplete_quadrant_tasks';
     $('body').on('click', '.btn-group button', function (e) {
         $(this).addClass('active');
         $(this).siblings().removeClass('active');
@@ -19,14 +20,41 @@ $(document).ready(function() {
 
 });
 
+resetDiagnosisButtons=function() {
+  var types = ['#quadrant', '#artery', '#vein'];
+  var btn;
 
+  types.forEach(function(t) {
+    btn = $(t).find('.active');
+    btn.removeClass('active');
+  });
+
+}
+
+
+onSubmit=function() {
+
+    var types = ['#quadrant', '#artery', '#vein'];
+
+    var res = [];
+    var btn;
+
+    types.forEach(function(t) {
+      btn = $(t).find('.active');
+      res.push(btn.text());
+    });
+    console.log(res);
+    saveResultSetImages(res[0],res[1],res[2]);
+    resetDiagnosisButtons();
+
+}
 
 buildControlPanel = function(div) {
 
-    var div2 = div.append('div');
+    var panel = div.append('div');
     var textWidth = '200px';
 
-    var row1=div2.append('div')
+    var row1=panel.append('div')
         .classed('row', true);
 
     var col1=row1.append('div')
@@ -48,6 +76,20 @@ buildControlPanel = function(div) {
     col3.append('h4')
         .text('Vein diagnosis');
     buildClassifyButtonGroup(col3,'vein');
+
+    var row2=panel.append('div')
+        .classed('row', true);
+
+    var submit=row2.append('div')
+        .classed('col-sm-4', true)
+        .style('margin-top','50px');
+    submit.append('button')
+        .attr('type', 'button')
+        .classed('btn btn-primary', true)
+        .on('click',onSubmit)
+        .text('Submit');
+
+
 }
 
 updateStatusInfo = function() {
@@ -164,7 +206,7 @@ var getIncompleteQuadrantTasks = function(username, successFn) {
 // winVal will be -1, 0, or 1. This can support other values for UIs
 // where the user can say "A five times more than B"
 // todo - this should not be global
-createQualityResult = function(diagnoses, img0, user, comment, task, task_idx) {
+createQuadrantResult = function(quadrantDiagnosis,arteryDiagnosis,veinDiagnosis, img0, user, comment, task, task_idx) {
 
     var currentTime = new Date();
     var timeStr = currentTime.toString();
@@ -179,7 +221,9 @@ createQualityResult = function(diagnoses, img0, user, comment, task, task_idx) {
     dataStr += "\"type\":\"" + "imageQuadrantResult" + "\",";
     dataStr += "\"date\":\"" + timeStr + "\",";
     dataStr += "\"image0\":\"" + imgDbStr + img0.toString() + "\",";
-    dataStr += "\"diagnosis\":\"" +  diagnosis + "\",";
+    dataStr += "\"quadrantDiagnosis\":\"" +  quadrantDiagnosis + "\",";
+    dataStr += "\"arteryDiagnosis\":\"" +  arteryDiagnosis + "\",";
+    dataStr += "\"veinDiagnosis\":\"" +  veinDiagnosis + "\",";
     dataStr += "\"task\":\"" +  task._id + "\",";
     dataStr += "\"task_idx\":\"" +  task_idx + "\"";
     dataStr += "}";
@@ -273,7 +317,8 @@ OnSetUser = function(username) {
 }
 
 // really a private helper
-saveResultSetImages = function (diagnosis) {
+
+saveResultSetImages = function (quadrantDiagnosis,arteryDiagnosis,veinDiagnosis) {
     var img0 = ImageCompare.TaskFeeder.Image0;
     var task_idx = ImageCompare.TaskFeeder.current_task_idx;
     var task = ImageCompare.TaskFeeder.current_task;
@@ -286,7 +331,7 @@ saveResultSetImages = function (diagnosis) {
     // not sure why the result is being created with winval of 1
     //var d1 = createICResult(1, img0, img1, user, comment, task, task_idx);
 
-    var d1 = createICResult(diagnosis, img0, user, comment, task, task_idx);
+    var d1 = createQuadrantResult(quadrantDiagnosis,arteryDiagnosis,veinDiagnosis, img0, user, comment, task, task_idx);
     var d2 = updateTask(task, user);
     // update happens asynchronously, so this would be wrong:
     // ImageCompare.TaskFeeder.SetImagePair(user);
@@ -297,21 +342,7 @@ saveResultSetImages = function (diagnosis) {
     $.when(d1, d2).then(updateStatusInfo());
 }
 
-OnClassify = function(btn) {
 
-    var thisBtn = d3.select('this');
-
-    var diag = thisBtn.classed('PrePlus') ? 'PrePlus' :
-      thisBtn.classed('Plus') ? 'Plus' :
-      thisBtn.classed('Normal') ? 'Normal' : 'error';
-
-    if (diag === 'error') {
-      alert ('Call Jayashree');
-      exit;
-    }
-
-    saveResultSetImages(btn.id);
-};
 
 
 
