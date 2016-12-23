@@ -5,7 +5,7 @@ require 'json'
 
 
 if (ARGV.size != 3) then
-    puts "Usage: ruby : #{$PROGRAM_NAME} <doc range> <list name> <pct repeat>";
+    puts "Usage: ruby : #{$PROGRAM_NAME} <doc range> <pct repeat> <list name>";
     puts "  where doc range is a ruby style range in quotations, e.g., \"10..20\" ";
     puts " and pct repeat is the percentage of repeated images to be displayed"
     puts "  full example: ruby #{$PROGRAM_NAME} \"10..20\" 20 bub";

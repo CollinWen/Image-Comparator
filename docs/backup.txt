@@ -73,3 +73,8 @@ curl http://jayashree:changeme@ec2-user@ec2-54-87-182-149.compute-1.amazonaws.co
 
 
 yum -y install  ruby-devel rubygems
+
+
+transfering sangs files
+scp -rp -i aws-alan-laptop.pem  images/sang/1stsetQuadrant.zip ec2-user@ec2-54-224-183-251.compute-1.amazonaws.com:/home/ec2-user
+scp -rp -i aws-alan-laptop.pem  images/sang/2ndsetQuadrant.zip ec2-user@ec2-54-224-183-251.compute-1.amazonaws.com:/home/ec2-user

@@ -2,7 +2,7 @@
 $(document).ready(function() {
 
     buildControlPanel(d3.select('#ui-control-panel'));
-
+    ImageCompare.TaskFeeder.taskViewName='_design/basic_views/_view/incomplete_quadrant_tasks';
     handleUrlFilter(document.location.search);
     updateStatusInfo();
 
@@ -10,7 +10,7 @@ $(document).ready(function() {
         ImageCompare.TaskFeeder.SetImage(ImageCompare.username);
     }
 
-    ImageCompare.TaskFeeder.taskViewName='_design/basic_views/_view/incomplete_quadrant_tasks';
+
     $('body').on('click', '.btn-group button', function (e) {
         $(this).addClass('active');
         $(this).siblings().removeClass('active');
