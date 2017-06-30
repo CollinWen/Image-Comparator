@@ -18,6 +18,8 @@ curl -X GET http://localhost:5984/rop_images/_all_docs?include_docs=true >rop_im
 
 curl -X GET http://localhost:5984/rop_images/_all_docs?include_docs=true >rop_images_2016_11_19_1044.json
 
+curl -X GET http://localhost:5984/rop_images/_all_docs?include_docs=true >rop_images_2017_02_26_1730.json
+
 
 on local machine, from pem file dir
 
@@ -34,7 +36,9 @@ scp -rp -i aws-alan-laptop.pem ec2-user@ec2-54-224-183-251.compute-1.amazonaws.c
 
 scp -rp -i aws-alan-laptop.pem ec2-user@ec2-54-224-183-251.compute-1.amazonaws.com:/home/ec2-user/backups/rop_images_2016_10_09_1515.json /Users/jkc/Documents/retinalImaging/website/data/
 
-scp -rp -i aws-alan-laptop.pem ec2-user@ec2-54-224-183-251.compute-1.amazonaws.com:/home/ec2-user/backups/rop_images_2016_11_19_1044.json /Users/jayashreekalpathy-cramer/Syncplicity/retinalImaging/website/data/
+scp -rp -i aws-alan-laptop.pem ec2-user@ec2-54-224-183-251.compute-1.amazonaws.com:/home/ec2-user/backups/rop_images_2017_02_26_1730.json /Users/jkc/Documents/retinalImaging/website/data/
+
+
 
 
 
