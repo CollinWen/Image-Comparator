@@ -13,7 +13,7 @@ task_type=ARGV[2]
 
 
 if (ARGV.size <3) then
-    puts "Usage: ruby : #{$PROGRAM_NAME}.rb <user> <image-list name> <image-list-type> <task-order> where image-list-type is compare, classify or quandrant";
+    puts "Usage: ruby : #{$PROGRAM_NAME}.rb <user> <image-list name> <image-list-type> <task-order> where image-list-type is compare, classify, classify_nine or quandrant";
     exit
 end
 
@@ -41,7 +41,7 @@ obj = { type:"task",
 
 if task_type=="compare"
   obj["image_compare_list"]=i_list
-elsif task_type=="classify" || task_type=="quadrant"
+elsif task_type=="classify" || task_type=="classify_nine" || task_type=="quadrant"
   obj["image_classify_list"]=i_list
 else
   puts "refer to help"
