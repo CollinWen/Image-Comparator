@@ -1,6 +1,7 @@
 
 $(document).ready(function() {
 
+    ImageCompare.TaskFeeder.taskViewName='_design/basic_views/_view/incomplete_nine_classify_tasks';
     handleUrlFilter(document.location.search);
     updateStatusInfo();
 
