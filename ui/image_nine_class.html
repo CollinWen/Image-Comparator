@@ -16,6 +16,7 @@
 
     <!-- Custom CSS -->
     <link href="../vendor/bootstrap/css/2-col-portfolio.css" rel="stylesheet">
+
     <!--    <link href="two_image.css" rel="stylesheet"> -->
 
     <!-- Google Analytics
@@ -158,43 +159,53 @@
             </div>
         </div>
 
-
-        <div class=" btn-group">
-          <button type="button" class="btn btn-primary"   id="NormalMild" onclick="OnClassify(this)">
-            <span class="glyphicon glyphicon glyphicon-minus" aria-hidden="true"></span>
-          </button>
-          <button type="button" class="btn btn-primary"   id="NormalModerate" onclick="OnClassify(this)">
-            <span class="glyphicon glyphicon glyphicon-ok" aria-hidden="true"></span>
-          </button>
-          <button type="button" class="btn btn-primary"   id="NormalSevere" onclick="OnClassify(this)">
-            <span class="glyphicon glyphicon glyphicon-plus" aria-hidden="true"></span>
-          </button>
+        <div style="float:left">
+          <label style="display:block"> Normal </label>
+          <div class=" btn-group mr-2" role="group" >
+            <button type="button" class="btn btn-primary"  id="NormalMild" onclick="OnClassify(this)">
+              <span class="glyphicon glyphicon glyphicon-minus" aria-hidden="true"></span>
+            </button>
+            <button type="button" class="btn btn-primary"   id="NormalModerate" onclick="OnClassify(this)">
+              <span class="glyphicon glyphicon glyphicon-ok" aria-hidden="true"></span>
+            </button>
+            <button type="button" class="btn btn-primary"   id="NormalSevere" onclick="OnClassify(this)">
+              <span class="glyphicon glyphicon glyphicon-plus" aria-hidden="true"></span>
+            </button>
+          </div>
         </div>
 
-        <div class=" btn-group">
-          <button type="button" class="btn btn-primary"   id="PrePlusMild" onclick="OnClassify(this)">
+      <div style="float:left">
+        <label style="display:block"> Pre Plus </label>
+        <div class=" btn-group mr-2">
+          <button type="button" class="btn btn-primary" id="PrePlusMild" onclick="OnClassify(this)">
             <span class="glyphicon glyphicon glyphicon-minus" aria-hidden="true"></span>
           </button>
-          <button type="button" class="btn btn-primary"   id="PrePlusModerate" onclick="OnClassify(this)">
+          <button type="button" class="btn btn-primary" id="PrePlusModerate" onclick="OnClassify(this)">
             <span class="glyphicon glyphicon glyphicon-ok" aria-hidden="true"></span>
           </button>
           <button type="button" class="btn btn-primary"   id="PrePlusSevere" onclick="OnClassify(this)">
             <span class="glyphicon glyphicon glyphicon-plus" aria-hidden="true"></span>
           </button>
         </div>
-        <div class=" btn-group">
-          <button type="button" class="btn btn-primary"   id="PlusMild" onclick="OnClassify(this)">
+      </div>
+
+      <div style="float:left">
+        <label style="display:block"> Plus </label>
+        <div class=" btn-group mr-2">
+          <button type="button" class="btn btn-primary" id="PlusMild" onclick="OnClassify(this)">
             <span class="glyphicon glyphicon glyphicon-minus" aria-hidden="true"></span>
           </button>
-          <button type="button" class="btn btn-primary"   id="PlusModerate" onclick="OnClassify(this)">
+          <button type="button" class="btn btn-primary"  id="PlusModerate" onclick="OnClassify(this)">
             <span class="glyphicon glyphicon glyphicon-ok" aria-hidden="true"></span>
           </button>
-          <button type="button" class="btn btn-primary"   id="PlusSevere" onclick="OnClassify(this)">
+          <button type="button" class="btn btn-primary"  id="PlusSevere" onclick="OnClassify(this)">
             <span class="glyphicon glyphicon glyphicon-plus" aria-hidden="true"></span>
           </button>
 
         </div>
-        <hr>
+      </div>
+
+      <hr>
     </div> <!-- container -->
 
     <!-- jQuery -->
@@ -210,7 +221,7 @@
     <!-- document ready behavior and handlers -->
     <script src="commonUIUtil.js"></script>
     <script src="commonTask.js"></script>
-    <script src="image_class.js"></script>
+    <script src="image_nine_class.js"></script>
     <script src="queryStringParser.js"></script>
 
     <script src="../util/uuidutil.js"></script>
