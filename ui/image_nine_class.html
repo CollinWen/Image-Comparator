@@ -44,8 +44,14 @@
 }
 
 </style>
-
 -->
+<style>
+  .row{
+    width: 400px;
+    margin-top: 30px;
+  }
+</style>
+
 </head>
 
 <body>
@@ -155,45 +161,29 @@
         <!-- /.row -->
 
         <!-- Projects Row -->
-        <div id="image-row" class="row" style="display:block;height:480px">
+        <div id="image-row" >
             <div  class="col-md-6 portfolio-item">
                 <img id="image0" class="img-responsive portfolio-item " width="550" height="400" src="http://placehold.it/700x400" alt="">
             </div>
         </div>
+        <!-- <div class="row"> -->
         <div class="row">
-          <div class=" btn-group mr-2" role="group" >
-            <!-- <div style="float:left"> -->
-              <!-- <label style="display:block"> Normal </label> -->
-              <!-- <div class=" btn-group mr-2" role="group" > -->
-                <button type="button" class="btn btn-primary diagnosis"  id="NormalMild">1</button>
-                <button type="button" class="btn btn-primary diagnosis"  id="NormalModerate">2</button>
-                <button type="button" class="btn btn-primary diagnosis"  id="NormalSevere" >3</button>
-              <!-- </div> -->
-            <!-- </div> -->
+          <div class=" btn-group btn-group-justified" role="group" >
 
-            <!-- <div style="float:left"> -->
-              <!-- <label style="display:block"> Pre Plus </label> -->
-              <!-- <div class=" btn-group mr-2"> -->
-                <button type="button" class="btn btn-primary diagnosis" id="PrePlusMild">4</button>
-                <button type="button" class="btn btn-primary diagnosis" id="PrePlusModerate">5</button>
-                <button type="button" class="btn btn-primary diagnosis" id="PrePlusSevere">6</button>
-              <!-- </div> -->
-            <!-- </div> -->
-
-            <!-- <div style="float:left"> -->
-              <!-- <label style="display:block"> Plus </label> -->
-              <!-- <div class=" btn-group mr-2"> -->
-                <button type="button" class="btn btn-primary diagnosis" id="PlusMild">7</button>
-                <button type="button" class="btn btn-primary diagnosis" id="PlusModerate">8</button>
-                <button type="button" class="btn btn-primary diagnosis" id="PlusSevere">9</button>
-
-              <!-- </div> -->
-            <!-- </div> -->
+              <a href="javascript:void(0);" role="button" class="btn btn-primary btn-lg diagnosis" id="NormalMild">1</a>
+              <a href="javascript:void(0);" role="button" class="btn btn-primary btn-lg diagnosis" id="NormalModerate">2</a>
+              <a href="javascript:void(0);" role="button" class="btn btn-primary btn-lg diagnosis" id="NormalSevere" >3</a>
+              <a href="javascript:void(0);" role="button" class="btn btn-primary btn-lg diagnosis" id="PrePlusMild">4</a>
+              <a href="javascript:void(0);" role="button" class="btn btn-primary btn-lg diagnosis" id="PrePlusModerate">5</a>
+              <a href="javascript:void(0);" role="button" class="btn btn-primary btn-lg diagnosis" id="PrePlusSevere">6</a>
+              <a href="javascript:void(0);" role="button" class="btn btn-primary btn-lg diagnosis" id="PlusMild">7</a>
+              <a href="javascript:void(0);" role="button" class="btn btn-primary btn-lg diagnosis" id="PlusModerate">8</a>
+              <a href="javascript:void(0);" role="button" class="btn btn-primary btn-lg diagnosis" id="PlusSevere">9</a>
           </div>
         </div>
-
-      <button style="display:block;clear:both;margin-top:30px" type="button" class="btn btn-primary" id="submit" onclick="onSubmit()">Submit</button>
-
+        <div class="row">
+          <button type="button" class="btn btn-primary btn-block" id="submit" onclick="onSubmit()">Submit</button>
+        </div>
     </div> <!-- container -->
 
     <!-- jQuery -->

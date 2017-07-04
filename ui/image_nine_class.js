@@ -9,7 +9,7 @@ $(document).ready(function() {
         ImageCompare.TaskFeeder.SetImage(ImageCompare.username);
     }
 
-    $('body').on('click', '.btn-group button', function (e) {
+    $('body').on('click', '.btn-group a', function (e) {
         $(this).addClass('active');
         $(this).siblings().removeClass('active');
 
