@@ -57,6 +57,9 @@
   #diagnosis-btns{
     margin-top: 2px;
   }
+  #btns-container{
+    margin-left: 100px;
+  }
 </style>
 
 </head>
@@ -174,29 +177,32 @@
             </div>
         </div>
         <!-- <div class="row"> -->
-        <div class="row">
-           <label class="label-row">Normal</label>
-           <label class="label-row">Pre Plus</label>
-           <label class="label-row">Plus</label>
-        </div>
+        <div id="btns-container">
+          <div class="row">
+             <label class="label-row">Normal</label>
+             <label class="label-row">Pre Plus</label>
+             <label class="label-row">Plus</label>
+          </div>
 
-        <div class="row" id="diagnosis-btns">
-          <div class=" btn-group btn-group-justified" role="group" >
+          <div class="row" id="diagnosis-btns">
+            <div class=" btn-group btn-group-justified" role="group" >
 
-              <a href="javascript:void(0);" role="button" class="btn btn-primary btn-lg diagnosis" id="NormalMild">1</a>
-              <a href="javascript:void(0);" role="button" class="btn btn-primary btn-lg diagnosis" id="NormalModerate">2</a>
-              <a href="javascript:void(0);" role="button" class="btn btn-primary btn-lg diagnosis" id="NormalSevere" >3</a>
-              <a href="javascript:void(0);" role="button" class="btn btn-primary btn-lg diagnosis" id="PrePlusMild">4</a>
-              <a href="javascript:void(0);" role="button" class="btn btn-primary btn-lg diagnosis" id="PrePlusModerate">5</a>
-              <a href="javascript:void(0);" role="button" class="btn btn-primary btn-lg diagnosis" id="PrePlusSevere">6</a>
-              <a href="javascript:void(0);" role="button" class="btn btn-primary btn-lg diagnosis" id="PlusMild">7</a>
-              <a href="javascript:void(0);" role="button" class="btn btn-primary btn-lg diagnosis" id="PlusModerate">8</a>
-              <a href="javascript:void(0);" role="button" class="btn btn-primary btn-lg diagnosis" id="PlusSevere">9</a>
+                <a href="javascript:void(0);" role="button" class="btn btn-primary btn-lg diagnosis" id="NormalMild">1</a>
+                <a href="javascript:void(0);" role="button" class="btn btn-primary btn-lg diagnosis" id="NormalModerate">2</a>
+                <a href="javascript:void(0);" role="button" class="btn btn-primary btn-lg diagnosis" id="NormalSevere" >3</a>
+                <a href="javascript:void(0);" role="button" class="btn btn-primary btn-lg diagnosis" id="PrePlusMild">4</a>
+                <a href="javascript:void(0);" role="button" class="btn btn-primary btn-lg diagnosis" id="PrePlusModerate">5</a>
+                <a href="javascript:void(0);" role="button" class="btn btn-primary btn-lg diagnosis" id="PrePlusSevere">6</a>
+                <a href="javascript:void(0);" role="button" class="btn btn-primary btn-lg diagnosis" id="PlusMild">7</a>
+                <a href="javascript:void(0);" role="button" class="btn btn-primary btn-lg diagnosis" id="PlusModerate">8</a>
+                <a href="javascript:void(0);" role="button" class="btn btn-primary btn-lg diagnosis" id="PlusSevere">9</a>
+            </div>
+          </div>
+          <div class="row">
+            <button type="button" class="btn btn-primary btn-block" id="submit" onclick="onSubmit()">Submit</button>
           </div>
         </div>
-        <div class="row">
-          <button type="button" class="btn btn-primary btn-block" id="submit" onclick="onSubmit()">Submit</button>
-        </div>
+
     </div> <!-- container -->
 
     <!-- jQuery -->
