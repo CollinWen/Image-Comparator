@@ -158,54 +158,40 @@
                 <img id="image0" class="img-responsive portfolio-item " width="550" height="400" src="http://placehold.it/700x400" alt="">
             </div>
         </div>
-
-        <div style="float:left">
-          <label style="display:block"> Normal </label>
+        <div class="row">
           <div class=" btn-group mr-2" role="group" >
-            <button type="button" class="btn btn-primary"  id="NormalMild" onclick="OnClassify(this)">
-              <span class="glyphicon glyphicon glyphicon-minus" aria-hidden="true"></span>
-            </button>
-            <button type="button" class="btn btn-primary"   id="NormalModerate" onclick="OnClassify(this)">
-              <span class="glyphicon glyphicon glyphicon-ok" aria-hidden="true"></span>
-            </button>
-            <button type="button" class="btn btn-primary"   id="NormalSevere" onclick="OnClassify(this)">
-              <span class="glyphicon glyphicon glyphicon-plus" aria-hidden="true"></span>
-            </button>
+            <!-- <div style="float:left"> -->
+              <!-- <label style="display:block"> Normal </label> -->
+              <!-- <div class=" btn-group mr-2" role="group" > -->
+                <button type="button" class="btn btn-primary diagnosis"  id="NormalMild">1</button>
+                <button type="button" class="btn btn-primary diagnosis"  id="NormalModerate">2</button>
+                <button type="button" class="btn btn-primary diagnosis"  id="NormalSevere" >3</button>
+              <!-- </div> -->
+            <!-- </div> -->
+
+            <!-- <div style="float:left"> -->
+              <!-- <label style="display:block"> Pre Plus </label> -->
+              <!-- <div class=" btn-group mr-2"> -->
+                <button type="button" class="btn btn-primary diagnosis" id="PrePlusMild">4</button>
+                <button type="button" class="btn btn-primary diagnosis" id="PrePlusModerate">5</button>
+                <button type="button" class="btn btn-primary diagnosis" id="PrePlusSevere">6</button>
+              <!-- </div> -->
+            <!-- </div> -->
+
+            <!-- <div style="float:left"> -->
+              <!-- <label style="display:block"> Plus </label> -->
+              <!-- <div class=" btn-group mr-2"> -->
+                <button type="button" class="btn btn-primary diagnosis" id="PlusMild">7</button>
+                <button type="button" class="btn btn-primary diagnosis" id="PlusModerate">8</button>
+                <button type="button" class="btn btn-primary diagnosis" id="PlusSevere">9</button>
+
+              <!-- </div> -->
+            <!-- </div> -->
           </div>
         </div>
 
-      <div style="float:left">
-        <label style="display:block"> Pre Plus </label>
-        <div class=" btn-group mr-2">
-          <button type="button" class="btn btn-primary" id="PrePlusMild" onclick="OnClassify(this)">
-            <span class="glyphicon glyphicon glyphicon-minus" aria-hidden="true"></span>
-          </button>
-          <button type="button" class="btn btn-primary" id="PrePlusModerate" onclick="OnClassify(this)">
-            <span class="glyphicon glyphicon glyphicon-ok" aria-hidden="true"></span>
-          </button>
-          <button type="button" class="btn btn-primary"   id="PrePlusSevere" onclick="OnClassify(this)">
-            <span class="glyphicon glyphicon glyphicon-plus" aria-hidden="true"></span>
-          </button>
-        </div>
-      </div>
+      <button style="display:block;clear:both;margin-top:30px" type="button" class="btn btn-primary" id="submit" onclick="onSubmit()">Submit</button>
 
-      <div style="float:left">
-        <label style="display:block"> Plus </label>
-        <div class=" btn-group mr-2">
-          <button type="button" class="btn btn-primary" id="PlusMild" onclick="OnClassify(this)">
-            <span class="glyphicon glyphicon glyphicon-minus" aria-hidden="true"></span>
-          </button>
-          <button type="button" class="btn btn-primary"  id="PlusModerate" onclick="OnClassify(this)">
-            <span class="glyphicon glyphicon glyphicon-ok" aria-hidden="true"></span>
-          </button>
-          <button type="button" class="btn btn-primary"  id="PlusSevere" onclick="OnClassify(this)">
-            <span class="glyphicon glyphicon glyphicon-plus" aria-hidden="true"></span>
-          </button>
-
-        </div>
-      </div>
-
-      <hr>
     </div> <!-- container -->
 
     <!-- jQuery -->

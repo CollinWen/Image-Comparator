@@ -9,7 +9,40 @@ $(document).ready(function() {
         ImageCompare.TaskFeeder.SetImage(ImageCompare.username);
     }
 
+    $('body').on('click', '.btn-group button', function (e) {
+        $(this).addClass('active');
+        $(this).siblings().removeClass('active');
+
+        //do any other button related things
+    });
+
 });
+
+
+resetDiagnosisButtons=function() {
+  var btn;
+
+  types.forEach(function(t) {
+    btn = $(t).find('.active');
+    btn.removeClass('active');
+  });
+
+}
+
+
+onSubmit=function() {
+
+    var res ="";
+    var btn;
+
+    btn = $(".diagnosis.active");
+    res=btn.text();
+
+    console.log(res);
+    saveResultSetImages(res);
+    resetDiagnosisButtons();
+
+}
 
 updateStatusInfo = function() {
 
@@ -137,7 +170,7 @@ createICResult = function(diagnosis, img0, user, comment, task, task_idx) {
     }
 
     var dataStr = "{\"user\":\"" + user + "\",";
-    dataStr += "\"type\":\"" + "imageClassifyResult" + "\",";
+    dataStr += "\"type\":\"" + "imageClassifyNineResult" + "\",";
     dataStr += "\"date\":\"" + timeStr + "\",";
     dataStr += "\"image0\":\"" + imgDbStr + img0.toString() + "\",";
     dataStr += "\"diagnosis\":\"" +  diagnosis + "\",";
