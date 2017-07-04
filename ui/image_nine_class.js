@@ -22,10 +22,9 @@ $(document).ready(function() {
 resetDiagnosisButtons=function() {
   var btn;
 
-  types.forEach(function(t) {
-    btn = $(t).find('.active');
-    btn.removeClass('active');
-  });
+
+  btn = $(".diagnosis.active");
+  btn.removeClass('active');
 
 }
 
