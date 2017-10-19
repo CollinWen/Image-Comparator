@@ -16,8 +16,8 @@ end
 # get the number of documents as a command line arg
 #ARGV.each { |arg| puts "Argument: #{arg}" }
 imgSetName = ARGV[0]
-pctRep =ARGV[1]
-nameStr = ARGV[2]
+pctRep =ARGV[2]
+nameStr = ARGV[1]
 
 viewUrl = "http://localhost:5984/rop_images/_design/basic_views/_view/imageSet2ImageId?key=\"#{imgSetName}\""
 puts viewUrl
@@ -73,12 +73,13 @@ obj = { type:"image_classify_list",
 dbname = "rop_images/"
 docname = nameStr
 url = 'http://localhost:5984/' + dbname + docname
-
+puts url
 
 uri = URI.parse(url)
 
 http = Net::HTTP.new(uri.host, uri.port)
 request = Net::HTTP::Put.new(uri.path)
 
+puts "here"
 resp = http.request(request, obj.to_json)
 puts resp.body
