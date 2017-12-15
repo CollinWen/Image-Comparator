@@ -26,30 +26,30 @@ text {
 
 <script>
 
-var dbUrl = "http://ec2-54-152-40-100.compute-1.amazonaws.com:5984/rop_images/";
+var dbUrl = "http://ec2-34-201-70-163.compute-1.amazonaws.com:5984/rop_images/";
 var taskId = "a3367283-b94a-45d8-877b-55066051cee2";
 var lnk = dbUrl + "_design/basic_views/_view/taskresults?key=%22" + taskId + "%22";
 
 $.get( lnk, function( data ) {
   // json rows to links
   var obj = $.parseJSON(data);
-  
+
 
   var newlinks = [];
   obj.rows.forEach(function(row) {
-    
+
     // get the id of the image
     var name0 = row.value.image0.split("/").pop();
     var name1 = row.value.image1.split("/").pop();
-    
+
     var src = "Image " + name0;
     var tgt = "Image " + name1;
-    
+
     if (row.value.winner === "-1") {
         src = "Image " + name1;
         tgt = "Image " + name0;
     }
-    
+
     newlinks.push({source: src, target:tgt});
   });
 
@@ -66,7 +66,7 @@ var srcTgtCts = {};
 for (var key in nodes) {
     if (nodes.hasOwnProperty(key)) {
         srcTgtCts [nodes[key].name] = {srcCt:0, tgtCt:0};
-        
+
     }
 }
 newlinks.forEach(function(link) {
@@ -98,7 +98,7 @@ var force = d3.layout.force()
 var svg = d3.select("body").append("svg")
     .attr("width", width)
     .attr("height", height);
-    
+
 svg.append("svg:defs").selectAll("marker")
     .data(["end"])      // Different link/path types can be defined here
   .enter().append("svg:marker")    // This section adds in the arrows
@@ -117,10 +117,10 @@ var link = svg.selectAll(".link")
   .enter().append("line")
     .attr("class", "link")
     .attr("marker-end", "url(#end)");
-   
+
 var drag = force.drag()
-    .on("dragstart", dragstart);    
-    
+    .on("dragstart", dragstart);
+
 function dragstart(d) {
   d3.select(this).classed("fixed", d.fixed = true);
 }
@@ -135,9 +135,9 @@ var node = svg.selectAll(".node")
 
 node.append("circle")
     .attr("r", 8);
-    
+
 node.append("image")
-  .attr("xlink:href", function(d) {   
+  .attr("xlink:href", function(d) {
         var imgId = d.name.split(" ").pop();
         var imgUrl = dbUrl + imgId + "/image";
         return imgUrl;})
@@ -150,7 +150,7 @@ node.append("text")
     .attr("x", 12)
     .attr("dy", ".35em")
     .text(function(d) { return d.name; });
-    
+
 
 
 function tick() {
@@ -176,20 +176,20 @@ function tick() {
 
 function mouseover() {
 
-  // to get the hovered image to be on top, sort the svg node elements 
+  // to get the hovered image to be on top, sort the svg node elements
   var g_node = d3.select(this);
   var g_node_text = g_node.select("text")[0][0].textContent;
   svg.selectAll("g").sort(function (a, b) { // select the parent and sort the path's
       if (a.name != g_node_text) return -1;               // a is not the hovered element, send "a" to the back
-      else return 1;       
+      else return 1;
   });
-  
+
   d3.select(this).select("image").transition()
       .duration(750)
       .attr("width", 256)
       .attr("height", 256)
       .attr("x", -128)
-      .attr("y", -128);    
+      .attr("y", -128);
 }
 
 function mouseout() {
@@ -198,7 +198,7 @@ function mouseout() {
       .attr("width", 64)
       .attr("height", 64)
       .attr("x", 0)
-      .attr("y", 0); 
+      .attr("y", 0);
 }
 
 });

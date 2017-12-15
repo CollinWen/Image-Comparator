@@ -1,5 +1,5 @@
 
-var Users = [                        
+var Users = [
     "testuser" ,
     "mike"     ,
     "susan"    ,
@@ -13,7 +13,7 @@ var Users = [
     "kim"      ,
     "tony"     ,
     "anton"    ];
-                        
+
 
 
 $(document).ready(function(){
@@ -32,7 +32,7 @@ getSelectedDbUrl = function() {
     var db_config = db_config_elem.options[db_config_elem.selectedIndex].value;
     var hostname = db_config == "localhost" ?
         "http://localhost:5984/" :
-        "http://ec2-54-152-40-100.compute-1.amazonaws.com:5984/";
+        "http://ec2-34-201-70-163.compute-1.amazonaws.com:5984/";
 
     return hostname + imageDbName;
 }
@@ -138,7 +138,7 @@ OnSetUser = function(sel) {
 var getTasks = function(username, successFn) {
 
     var keyStr = username ? "?key=\"" + username + "\"" : "";
-    
+
     var dburl = getSelectedDbUrl();
     var taskViewUrl = dburl + "_design/basic_views/_view/tasks";
     var fullurl = taskViewUrl + keyStr;
@@ -157,11 +157,11 @@ var getTasks = function(username, successFn) {
 var getResults = function(taskId, successFn, extra) {
 
     var keyStr = taskId ? "?key=\"" + taskId + "\"" : "";
-    
+
     var dburl = getSelectedDbUrl();
     var resultsViewUrl = dburl + "_design/basic_views/_view/taskresults";
     var fullurl = resultsViewUrl + keyStr;
-    
+
     $.ajax({
         url : fullurl,
         type : 'GET',
@@ -424,10 +424,10 @@ displayStatus=function(user, taskId){
 }
 
 OnCalcInternCons= function(){
-    
+
     var taskId = document.querySelector('input[name="taskId"]:checked').value;
     var user = $("#username").val();
-    
+
     var res = getInternalConsistencyMeasure(user, taskId);
     var infoElem = document.getElementById("intConMeasInfo");
     infoElem.textContent = "querying ...";

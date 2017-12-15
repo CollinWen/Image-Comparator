@@ -38,7 +38,7 @@ scp -rp -i aws-alan-laptop.pem ec2-user@ec2-54-224-183-251.compute-1.amazonaws.c
 
 scp -rp -i aws-alan-laptop.pem ec2-user@ec2-54-224-183-251.compute-1.amazonaws.com:/home/ec2-user/backups/rop_images_2017_02_26_1730.json /Users/jkc/Documents/retinalImaging/website/data/
 
-
+scp -rp -i aws-alan-laptop.pem ec2-user@ec2-54-224-183-251.compute-1.amazonaws.com:/home/ec2-user/backups/rop_images_2017_12_15_1608.json .
 
 
 

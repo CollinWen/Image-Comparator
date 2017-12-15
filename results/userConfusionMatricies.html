@@ -12,7 +12,7 @@ table {
     width: 720px;
 
     margin-top:4%;
-    margin-left:auto; 
+    margin-left:auto;
     margin-right:auto;
 }
 
@@ -76,14 +76,14 @@ Notice that the i-th chart for the i-th task is a diagonal matrix.
 
 <div id="icldropdowndiv">
 <ul>
-    <li>    
+    <li>
         <label id="icldropdownlabel" >Select an ICL</label>
-        <select id="icldropdown" onchange="OnSetICL(this)">Fetching ICL names....</select> 
+        <select id="icldropdown" onchange="OnSetICL(this)">Fetching ICL names....</select>
     </li>
     <br>
     <li>
         <label id="taskdropdownlabel" >Select a Task (user)</label>
-        <select id="taskdropdown" onchange="OnSetTask(this)">hmm</select> 
+        <select id="taskdropdown" onchange="OnSetTask(this)">hmm</select>
     </li>
 </div>
 
@@ -98,28 +98,28 @@ Notice that the i-th chart for the i-th task is a diagonal matrix.
 
 var populateIclDropDown = function(iclToTaskIds) {
     var dd = document.getElementById("icldropdown");
-    
+
     // empty the current options
     var len = dd.options.length;
     for (var i = 0; i < len ; ++i) {
         dd.options[i] = null;
     };
-    
+
     // add the new ones
     Object.keys(iclToTaskIds).forEach(function(key){
         dd.options[dd.options.length] = new Option(key, key);
     });
 }
 
-var diags = ["Normal", "PrePlus", "Plus"]; 
+var diags = ["Normal", "PrePlus", "Plus"];
 var diagnosisToValue = function(diagStr) {
 
     var idx = diags.indexOf(diagStr);
-    
+
     if (idx === -1) {
         alert ("unexpected diagnosis");
     }
-    
+
     return idx;
 }
 
@@ -132,14 +132,14 @@ var valueToDiagnosis = function(val) {
 var appendListsObj = function(listJson) {
 
     var dbresult = jQuery.parseJSON(listJson);
-    
+
     // assert we only got one row, that is, one and only one list per icl
     if (dbresult.rows.length != 1) {
         alert ("bad number of lists for icl");
     }
-    
+
     var dbresRow = dbresult.rows[0];
-    
+
     iclToImageIdList[dbresRow.key] = dbresRow.value.list;
     //console.log(dbresRow.key + " " + dbresRow.value.list.length);
 }
@@ -148,16 +148,16 @@ var handleClassifyTasksJson = function(tasksJson) {
 
     var result = jQuery.parseJSON(tasksJson);
     var rows = result.rows;
-    
+
     // build array of iclnames with associated array of all tasksIds that have that icl
     rows.forEach(function(row) {
-        
+
         iclToTaskIds[row.value.image_classify_list] = iclToTaskIds[row.value.image_classify_list] || [];
         iclToTaskIds[row.value.image_classify_list].push(row.value._id);
-        
+
         taskIdToUser[row.value._id] = row.key;
     });
-    
+
     // for each icl, go get the actual list
     Object.keys(iclToTaskIds).forEach(function(iclname) {
         var listUrl = classifyListsUrl + "?key=\"" + iclname + "\"";
@@ -166,22 +166,22 @@ var handleClassifyTasksJson = function(tasksJson) {
 
     populateIclDropDown(iclToTaskIds);
 }
-    
+
 
 var appendResultsObj = function(resJson) {
 
-    var dbresult = jQuery.parseJSON(resJson);    
-    
+    var dbresult = jQuery.parseJSON(resJson);
+
     dbresult.rows.forEach(function(row) {
         var task = row.value.task;
         var taskIdx = row.value.task_idx;
         var imageUrl = row.value.image0;
         var diag = row.value.diagnosis;
         var user = row.value.user;
-        // also date and user ... not needed 
-        
+        // also date and user ... not needed
+
         taskIdToResults[task] = taskIdToResults[task] || {};
-        
+
         // assert we've not seen this idx before, or that we are reloading the same value
         var thisRes = taskIdToResults[task][taskIdx];
         if (thisRes) {
@@ -190,16 +190,16 @@ var appendResultsObj = function(resJson) {
                 thisRes.diag != diag)
             alert ("repeated task id with a different result: taskidx: " + taskIdx + "taskid: " + task );
         }
-        
+
         // recording images is redundant, todo - taskIdTaskIdxToImage
         taskIdToResults[task][taskIdx] = {image: imageUrl, user: user, diag: diag};
-        
+
         tasksResults[task] = tasksResults[task] || [];
         tasksResults[task].push({taskIdx: taskIdx, image: imageUrl, user: user, diag: diag});
     });
-    
+
 }
-    
+
 var buildClassifyResultsObj = function(iclname){
 
     var taskIds = iclToTaskIds[iclname];
@@ -207,38 +207,38 @@ var buildClassifyResultsObj = function(iclname){
     var deferreds = [];
     var deferred;
     taskIds.forEach(function(taskId) {
-        
+
         var listUrl = classifyResultsUrl + "?key=\"" + taskId + "\"";
         deferred = $.get(listUrl, appendResultsObj);
         deferreds.push(deferred);
     });
-    
+
     return deferreds;
 }
 
 var OnSetFilter=function() {
-    
+
     var sel = document.getElementById("icldropdown");
     populateResultsTable(sel.value);
 }
 
 var populateTaskDropDown = function(iclname) {
-    
+
     var taskids = iclToTaskIds[iclname];
     var dd = document.getElementById("taskdropdown");
-    
+
     // empty the current options
     var len = dd.options.length;
     for (var i = 0; i < len ; ++i) {
         dd.options[i] = null;
     };
-    
+
     // add the new ones
     taskids.forEach(function(taskid){
         var name = taskid.substring(0,5);
         dd.options[dd.options.length] = new Option(name, taskid);
     });
-    
+
 }
 
 var setupChart = function() {
@@ -262,7 +262,7 @@ var setupChart = function() {
     var yAxis = d3.svg.axis()
         .scale(y)
         .orient("left");
-        
+
     var svg = d3.select("body").append("svg")
         .attr("width", width + margin.left + margin.right)
         .attr("height", height + margin.top + margin.bottom)
@@ -273,30 +273,30 @@ var setupChart = function() {
         .attr("class", "x axis")
         .attr("transform", "translate (50," + (height+50) +")")
         .call(xAxis);
-    
+
     svg.append("g")
         .attr("class", "y axis")
         .attr("transform", "translate (0," + (height) +")")
         .call(yAxis);
-        
-    return {svg:svg, xScale:x, yScale:y};    
+
+    return {svg:svg, xScale:x, yScale:y};
 }
 
 var buildConfusionMatrix = function(res1, res2) {
 
     // calculate some info
-    // for each img, 
-    var ots = [ [0, 0, 0], 
-                [0, 0, 0], 
+    // for each img,
+    var ots = [ [0, 0, 0],
+                [0, 0, 0],
                 [0, 0, 0]
                ] ;
-               
+
     Object.keys(res1).forEach(function(key){
 
         if (res1[key] && res2[key])
             ots[diagnosisToValue(res1[key].diag)] [diagnosisToValue(res2[key].diag)]++;
     });
-    
+
     var svgInfo = setupChart();
     var svg = svgInfo.svg;
     var x = svgInfo.xScale;
@@ -310,7 +310,7 @@ var buildConfusionMatrix = function(res1, res2) {
         .attr('transform', function(d, i) {
             return 'translate(0, ' + (-y(valueToDiagnosis(i)) + 10) + ')';
         });
-    
+
     grp.selectAll("text")
         .data(function(d) { return d; })
         .enter()
@@ -329,9 +329,9 @@ var OnSetTask=function(sel) {
     var task = sel.value;
     var iclElem = document.getElementById("icldropdown");
     var val = iclElem.options[iclElem.selectedIndex].value;
-    
+
     var taskIds = iclToTaskIds[val];
-    
+
     // print the results (debugging)
 //   taskIds.forEach (function(taskId) {
 //       d3.select("body")
@@ -340,14 +340,14 @@ var OnSetTask=function(sel) {
 //           .append('br')
 //       ;
 //   });
-    
+
     var taskid1 = taskIds[0];
     var taskid2 = taskIds[1];
-    
+
     taskIds.forEach(function(taskid) {
         var res1 = taskIdToResults[task];
         var res2 = taskIdToResults[taskid];
-        
+
         if (res1 && res2)
             buildConfusionMatrix(res1, res2);
     });
@@ -357,32 +357,32 @@ var OnSetTask=function(sel) {
 
 var OnSetICL=function(sel) {
     console.log ("ICL changed to: " + sel.value);
-    
+
     //populateTestTable();
     tasksResults = [];
     taskResultsArr = [];
-    
+
     // build up the results data for this icl
     var deferreds = buildClassifyResultsObj(sel.value);
     $.when.apply($, deferreds).done(function() {
-    
+
         // build another structure of the data
-        // an array of objects, each obj is a row 
+        // an array of objects, each obj is a row
         // diagnosis for each image id for each user
-        // slow and redundant ... todo: either build this up initially 
+        // slow and redundant ... todo: either build this up initially
         // or mine the existing data structures
         var imageIdList = iclToImageIdList[sel.value];
         var taskIds = iclToTaskIds[sel.value];
-        
+
         imageIdList.forEach(function(imageId) {
-            
+
             var obj = {imageid:imageId};
             var imageIdStr = imageId.toString();
-            
+
             taskIds.forEach(function (taskId) {
-            
+
                 var taskResults = tasksResults[taskId];
-                 
+
                 // taskResults might not be defined if no results for this task
                 if (taskResults) {
                     taskResults.forEach(function(taskResult) {
@@ -393,18 +393,18 @@ var OnSetICL=function(sel) {
                             //obj.diag = taskResult.diag;
                         }
                     })
-                }    
+                }
             });
-            
+
             taskResultsArr.push(obj);
         });
-    
+
         // populateResultsTable(sel.value);
         populateTaskDropDown(sel.value);
     });
 }
 
-var dbviewUrl = "http://ec2-54-152-40-100.compute-1.amazonaws.com:5984/rop_images/_design/basic_views/_view/";
+var dbviewUrl = "http://ec2-34-201-70-163.compute-1.amazonaws.com:5984/rop_images/_design/basic_views/_view/";
 
 var classifyTasksViewname = "classify_tasks";
 var classifyResultsViewname = "classifyResults";
@@ -430,4 +430,3 @@ $.get(classifyTasksUrl, handleClassifyTasksJson);
 
 </body>
 </html>
-

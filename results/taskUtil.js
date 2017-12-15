@@ -2,7 +2,7 @@
 
 var getTasksByType = function(type, username, successFn) {
 
-  var dburl = "http://ec2-54-152-40-100.compute-1.amazonaws.com:5984/rop_images/";
+  var dburl = "http://ec2-34-201-70-163.compute-1.amazonaws.com:5984/rop_images/";
 
 
   //  var dburl = getSelectedDbUrl();
