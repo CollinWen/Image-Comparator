@@ -1,6 +1,5 @@
 function findTaskAndSetImage(json, username, listViewName) {
-
-    var result = jQuery.parseJSON( json );
+    var result = json;
 
     // of all pending tasks, are any assigned to this user?
     // hmm ... we filter by user, so this should not be needed, right?
@@ -36,7 +35,7 @@ function findTaskAndSetImage(json, username, listViewName) {
             // filtering should happen on the server side - is this what reduce is for?
 
             var nextimage;
-            var result = jQuery.parseJSON( json );
+            var result = json;
             var found = false;
             for (var ires = 0 ; ires < result.rows.length && !found; ++ires) {
 

@@ -31,7 +31,7 @@ var ImageCompare = (function (IC) {
             type : 'GET',
             success : function(json) {
 
-                var result = jQuery.parseJSON( json );
+                var result = json
                 var curUser = username;
 
                 // of all pending tasks, are any assigned to this user?
@@ -56,7 +56,7 @@ var ImageCompare = (function (IC) {
                         // filtering should happen on the server side - is this what reduce is for?
 
                         var nextpair;
-                        var result = jQuery.parseJSON( json );
+                        var result = json;
                         var found = false;
                         var prompt = null;
 

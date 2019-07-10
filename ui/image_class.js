@@ -40,7 +40,7 @@ updateStatusInfo = function() {
 // called on getTasks success, input are the rows from the view
 // todo: should not be global
 updateStatInfoTasks = function(json) {
-    var result = jQuery.parseJSON( json );
+    var result = json;
     var tasks = result.rows;
 
     var elem = document.getElementById("si_tasks");
@@ -75,7 +75,7 @@ updateStatInfoTasks = function(json) {
             type : 'GET',
             success : function (json) {
                 //console.log("get succeeded : " + JSON.stringify(json));
-                var result = jQuery.parseJSON( json );
+                var result = json;
 
                 var curIdx = firstTask.current_idx + 1; // because humans usually don't use zero based indexing
                 curTaskElem.textContent = "You are classifying image " + curIdx + " of " + result.rows[0].value.count;
@@ -180,7 +180,7 @@ updateTask = function(task, user) {
         type : 'GET',
         success : function(json) {
 
-            var result = jQuery.parseJSON( json );
+            var result = json;
             icl_count = result.rows[0].value;
 
             // now that that worked, update the task
