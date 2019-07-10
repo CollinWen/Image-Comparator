@@ -18,7 +18,8 @@ var ImageCompare = (function (IC) {
         var dbName = IC.TaskFeeder.GetImageDbUrl();
         var taskViewName = IC.TaskFeeder.taskViewName;
         var fullurl = dbName + taskViewName + '?key=\"' + username + "\"";
-        $.ajax({
+        console.log(dbName);
+	$.ajax({
             url : fullurl,
             type : 'GET',
             success : function(json) {
