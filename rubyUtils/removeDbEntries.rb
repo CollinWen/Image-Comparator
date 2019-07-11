@@ -1,9 +1,11 @@
 require 'couchrest'
 require  'yaml'
-dbName=ARGV[0]
+dir = ARGV[0]
+if dir == ""
+  dir = '_design/basic_views/_view/classifyResults'
+end
 
-
-dbname = "image_compare_results"
+dbname = "rop_images/"
 
 #connect to db, create if does not exist
 db = CouchRest.database!("http://127.0.0.1:5984/#{dbname}")
@@ -28,7 +30,7 @@ db.save_doc({"_id" => "_design/test",:views => {:test => {:map =>
 =end
 
 
-res= db.view('winner/winner')#.to_yaml
+res= db.view(dir)#.to_yaml
 rows= res["rows"]
 
 rows.each do |r|
