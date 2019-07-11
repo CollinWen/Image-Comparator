@@ -3,6 +3,8 @@ require  'yaml'
 dir = ARGV[0]
 if dir == ""
   dir = '_design/basic_views/_view/classifyResults'
+else
+  dir = '_design/basic_views/_view/' + dir
 end
 
 dbname = "rop_images/"
