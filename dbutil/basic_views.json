@@ -1,6 +1,5 @@
 {
    "_id": "_design/basic_views",
-   "_rev": "25-4072b52e19a093bcb27716872263c435",
    "language": "javascript",
    "views": {
        "count_docs": {
