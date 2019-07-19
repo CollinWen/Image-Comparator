@@ -16,6 +16,9 @@
        "image_compare_lists": {
            "map": "function(doc) {\n  if (doc.type === \"image_compare_list\") {\n\n     emit(doc._id, doc);\n  }\n}"
        },
+       "OCTimage_compare_lists": {
+           "map": "function(doc) {\n  if (doc.type === \"OCTimage_compare_list\") {\n\n     emit(doc._id, doc);\n  }\n}"
+       },
        "incomplete_tasks": {
            "map": "function(doc) {\n  if (doc.type === \"task\" && doc.completed === false) {\n    emit (doc.user, doc);\n  }\n}"
        },
@@ -23,7 +26,7 @@
            "map": "function(doc) {\n  if (doc.type === \"task\" && doc.completed === true) {\n    emit (doc.user, doc);\n  }\n}"
        },
        "icl_lengths": {
-           "map": "function(doc) {\n  if (doc.type === \"image_compare_list\" || doc.type === \"image_classify_list\")  {\n    emit (doc._id, doc.count);\n  }\n}"
+           "map": "function(doc) {\n  if (doc.type === \"image_compare_list\" || doc.type === \"OCTimage_compare_list\")  {\n    emit (doc._id, doc.count);\n  }\n}"
        },
        "taskresults": {
            "map": "function(doc) {if (doc.type===\"imageCompareResult\")\n  emit(doc.task, doc);\n}"
@@ -40,17 +43,11 @@
        "task2iclByTaskId": {
            "map": "function(doc) {\n  if (doc.type == \"task\") {\n    emit(doc._id, doc.image_compare_list);\n  }\n}"
        },
-       "image_classify_lists": {
-          "map": "function(doc) {\n  if (doc.type===\"image_classify_list\")\n   emit(doc._id, doc);\n}"
-      },
-      "incomplete_compare_tasks": {
-          "map": "function(doc) {\n  if (doc.type === \"task\" && doc.task_type=== \"compare\" && doc.completed === false) {\n    emit (doc.user, doc);\n  }\n}"
-      },
-      "incomplete_classify_tasks": {
-          "map": "function(doc) {\n  if (doc.type === \"task\" && doc.task_type=== \"classify\" && doc.completed === false) {\n    emit (doc.user, doc);\n  }\n}"
-      },
-      "classifyResults": {
-          "map": "function(doc) {\n  if (doc.type===\"imageClassifyResult\")\n    emit(doc.task, doc);\n}"
-      }
+       "incomplete_compare_tasks": {
+           "map": "function(doc) {\n  if (doc.type === \"task\" && doc.task_type=== \"compare\" && doc.completed === false) {\n    emit (doc.user, doc);\n  }\n}"
+       },
+       "incomplete_OCTcompare_tasks": {
+           "map": "function(doc) {\n  if (doc.type === \"task\" && doc.task_type=== \"OCTcompare\" && doc.completed === false) {\n    emit (doc.user, doc);\n  }\n}"
+       },
    }
 }
