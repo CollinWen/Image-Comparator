@@ -194,7 +194,7 @@ var ImageCompare = (function (IC) {
                         var idx0 = nextpair[0];
                         var img0 = document.getElementById("image0");
                         $("#image0").fadeOut(100, function() {
-                            var newSrc = IC.TaskFeeder.hostname + IC.TaskFeeder.imageDbName + "OCT" + idx0.toString() + "/image";
+                            var newSrc = IC.TaskFeeder.hostname + IC.TaskFeeder.imageDbName + "OCT" + idx0.toString() + "/image0";
                             var newImg = new Image(); // by having a new image, onload is called even if the image is already cached
                             newImg.onload = function() {
                                 $("#image0").attr("src", newImg.src);
@@ -247,7 +247,7 @@ var ImageCompare = (function (IC) {
     IC.TaskFeeder.SwitchOCTImage = function(index, imageNum) {
         if(imageNum === 0) { //change image 0
             IC.TaskFeeder.Image0Idx = index;
-            var newSrc = IC.TaskFeeder.hostname + IC.TaskFeeder.imageDbName + "OCT" + idx0.toString() + "/image" + IC.TaskFeeder.Image0Idx;
+            var newSrc = IC.TaskFeeder.hostname + IC.TaskFeeder.imageDbName + "OCT" + IC.TaskFeeder.Image0.toString() + "/image" + IC.TaskFeeder.Image0Idx;
             var newImg = new Image(); // by having a new image, onload is called even if the image is already cached
             newImg.onload = function() {
                 $("#image0").attr("src", newImg.src);
@@ -255,7 +255,7 @@ var ImageCompare = (function (IC) {
             newImg.src = newSrc;//.fadeIn(400);
         } else if(imageNum === 1) { //change image 0
             IC.TaskFeeder.Image1Idx = index;
-            var newSrc = IC.TaskFeeder.hostname + IC.TaskFeeder.imageDbName + "OCT" + idx1.toString() + "/image" + IC.TaskFeeder.Image1Idx;
+            var newSrc = IC.TaskFeeder.hostname + IC.TaskFeeder.imageDbName + "OCT" + IC.TaskFeeder.Image1.toString() + "/image" + IC.TaskFeeder.Image1Idx;
             var newImg = new Image(); // by having a new image, onload is called even if the image is already cached
             newImg.onload = function() {
                 $("#image1").attr("src", newImg.src);
