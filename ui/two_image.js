@@ -317,5 +317,3 @@ OnNotSure = function() {
 
     saveResultSetImages(0);
 };
-
-// private utility

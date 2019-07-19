@@ -18,11 +18,11 @@ ims=Dir.glob("#{imageFolder}/*")
 dbname = "rop_images"
 
 #connect to db, create if does not exist
-@db = CouchRest.database!("http://127.0.0.1:5984/#{dbname}")
+@db = CouchRest.database!("http://admin:password@172.16.42.15:5984/#{dbname}")
 
 #CouchRest.put("http://localhost:5984/testdb/doc", 'name' => 'test', 'date' => Date.current)
 
-Dir.foreach("#{imageFolder}") do |fileName, idx|
+ims.each_with_index do |fileName, idx|
   uuid = SecureRandom.uuid
 
   obj = { :origin => "#{fileName}",
@@ -31,12 +31,21 @@ Dir.foreach("#{imageFolder}") do |fileName, idx|
     :timeAdded => Time.now()
   }
 
-  obj['_id']=fileName
+  numImages = 0
+  Dir.glob(fileName+"/*").each_with_index do |im, idx|
+    numImages = idx
+  end
+
+  obj['numImages'] = (numImages+1)
+
+  folderID = "OCT" + (idx+1).to_s
+  puts folderID
+  obj['_id'] = folderID
 
   #puts obj
-  response =@db.save_doc(obj)
+  response = @db.save_doc(obj)
 
-  Dir.foreach("#{imageFolder}/" + fileName) do |im, idx|
+  Dir.glob(fileName+"/*").each_with_index do |im, idx|
     puts im
     puts idx
     thisIm=im.split('/').last
@@ -44,8 +53,7 @@ Dir.foreach("#{imageFolder}") do |fileName, idx|
     puts thisIm
     puts imClass
 
+    obj = @db.get(response['id'])
     @db.put_attachment(obj, "image"+idx.to_s, File.open(im), :content_type => "image/#{imClass}")
   end
-
-
 end

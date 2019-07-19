@@ -13,7 +13,7 @@ task_type=ARGV[2]
 
 
 if (ARGV.size <3) then
-    puts "Usage: ruby : #{$PROGRAM_NAME}.rb <user> <image-list name> <image-list-type> <task-order> where image-list-type is compare, classify, classify_nine or quandrant";
+    puts "Usage: ruby : #{$PROGRAM_NAME}.rb <user> <image-list name> <image-list-type> <task-order> where image-list-type is compare or OCTcompare";
     exit
 end
 
@@ -39,10 +39,10 @@ obj = { type:"task",
         current_idx:0,
         completed:false}
 
-if task_type=="compare"
+if (task_type=="compare") then
   obj["image_compare_list"]=i_list
-elsif task_type=="classify" || task_type=="classify_nine" || task_type=="quadrant"
-  obj["image_classify_list"]=i_list
+elsif (task_type=="OCTcompare") then
+  obj["OCTimage_compare_list"]=i_list
 else
   puts "refer to help"
   exit
@@ -62,7 +62,7 @@ end
 # put the results in the database
 dbname = "rop_images/"
 docname = uuid
-url = 'http://localhost:5984/' + dbname + docname
+url = 'http://172.16.42.15:5984/' + dbname + docname
 uri = URI.parse(url)
 
 http = Net::HTTP.new(uri.host, uri.port)

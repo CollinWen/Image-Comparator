@@ -4,11 +4,12 @@ require 'json'
 
 
 
-if (ARGV.size != 3) then
-    puts "Usage: ruby : #{$PROGRAM_NAME} <doc range> <list name> <pct repeat>";
+if (ARGV.size != 4) then
+    puts "Usage: ruby : #{$PROGRAM_NAME} <doc range> <pct repeat> <image type> <list name>";
     puts "  where doc range is a ruby style range in quotations, e.g., \"10..20\" ";
-    puts " and pct repeat is the percentage of repeated pairs to be displayed"
-    puts "  full example: ruby #{$PROGRAM_NAME} \"10..20\" 20 bub";
+    puts " and pct repeat is the percentage of repeated pairs to be displayed";
+    puts " and image type is 'ret' for retinal scan or 'oct' for OCT scan"
+    puts "  full example: ruby #{$PROGRAM_NAME} \"10..20\" 20 bub oct";
     exit
 end
 
@@ -16,8 +17,18 @@ end
 # get the number of documents as a command line arg
 #ARGV.each { |arg| puts "Argument: #{arg}" }
 rangeStr = ARGV[0]
-pctRep =ARGV[1]
-nameStr = ARGV[2]
+pctRep = ARGV[1]
+image_type = ARGV[2]
+nameStr = ARGV[3]
+
+if (image_type == "oct") then
+    image_type = "OCTimage_compare_list"
+elsif (image_type == "ret") then
+    image_type = "image_compare_list"
+else
+    puts "Invalid image type."
+    exit
+end
 
 #puts rangeStr
 #puts rangeStr.class
@@ -64,8 +75,7 @@ end
 puts pairs.inspect
 puts pairs.size
 
-
-obj = { type:"image_compare_list",
+obj = { type:image_type,
         count:pairs.size,
         list:pairs,
         timeAdded:Time.now()}
@@ -77,7 +87,7 @@ puts obj.to_json
 # put the results in the database
 dbname = "rop_images/"
 docname = nameStr
-url = 'http://localhost:5984/' + dbname + docname
+url = 'http://admin:password@172.16.42.15:5984/' + dbname + docname
 
 
 uri = URI.parse(url)
