@@ -126,21 +126,24 @@
         <!-- /.row -->
 
         <!-- Projects Row -->
-        <div id="image-row" class="row" style="display:block;height:400px">
+        <div id="image-row" class="row" style="display:block;height:600px">
             <div  class="col-md-6 portfolio-item" onclick="OnImage0()">
 
                 <img src="http://placehold.it/700x400" id="image0"></img>
-                <input type="range" min="0" max="100" value="0" class="slider" id="slider0" onchange="SliderChange(this.value, this.id)">
                 <p></p>
 
             </div>
+            <input type="range" min="0" max="100" value="0" class="slider" id="slider0" onchange="SliderChange(this.value, this.id)">
+        </div>
+
+        <div id="image-row" class="row" style="display:block;height:600px">
             <div  class="col-md-6 portfolio-item" onclick="OnImage1()">
 
                 <img src="http://placehold.it/700x400" id="image1"></img>
-                <input type="range" min="0" max="100" value="0" class="slider" id="slider1" onchange="SliderChange(this.value, this.id)">
                 <p></p>
 
             </div>
+            <input type="range" min="0" max="100" value="0" class="slider" id="slider1" onchange="SliderChange(this.value, this.id)">
         </div>
         <!-- /.row -->
         <hr>
@@ -160,7 +163,7 @@
     <!-- document ready behavior and handlers -->
     <script src="queryStringParser.js"></script>
     <script src="commonUIUtil.js"></script>
-    <script src="two_image.js"></script>
+    <script src="oct_two_image.js"></script>
 
     <script src="../util/uuidutil.js"></script>
 
