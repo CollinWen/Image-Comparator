@@ -220,11 +220,14 @@ var ImageCompare = (function (IC) {
                         IC.TaskFeeder.Image1 = idx1;
                         IC.TaskFeeder.Image1Idx = 0;
 
-                        curIm0 = IC.TaskFeeder.hostname + IC.TaskFeeder.imageDbName + "OCT" + idx0.to_String();
-                        curIm1 = IC.TaskFEeder.hostname + IC.TaskFeeder.imageDbName + "OCT" + idx1.to_String();
+                        curIm0 = IC.TaskFeeder.hostname + IC.TaskFeeder.imageDbName + "OCT" + idx0.toString();
+                        curIm1 = IC.TaskFeeder.hostname + IC.TaskFeeder.imageDbName + "OCT" + idx1.toString();
 
                         IC.TaskFeeder.Image0Max = curIm0.numImages;
                         IC.TaskFeeder.Image1Max = curIm1.numImages;
+
+                        $("#slider0").attr("max", IC.TaskFeeder.Image0Max);
+                        $("#slider1").attr("max", IC.TaskFeeder.Image1Max);
 
                     },
                     error: function (response) {

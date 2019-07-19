@@ -264,7 +264,7 @@ OnSetDB = function(sel) {
 
     var user_elem = document.getElementById("username");
     var selUserTxt = user_elem.options[ user_elem.selectedIndex ].value;
-    ImageCompare.TaskFeeder.SetImage(selUserTxt);
+    ImageCompare.TaskFeeder.SetOCTImage(selUserTxt);
 }
 
 OnSetUser = function(username) {
@@ -317,17 +317,17 @@ OnNotSure = function() {
 };
 
 SliderChange = function(value, id) {
-    if(IC.TaskFeeder.current_task != "") {
+    if(ImageCompare.TaskFeeder.current_task != "") {
         if(value < 0) {
           value = 0;
-        } else if(value >= IC.TaskFeeder.Image0Max) {
+        } else if(value >= ImageCompare.TaskFeeder.Image0Max) {
           value = IC.TaskFeeder.Image0Max - 1;
         }
 
         if(id == "slider0") {
-            IC.TaskFeeder.SwitchOCTImage(value, 0);
+            ImageCompare.TaskFeeder.SwitchOCTImage(value, 0);
         } else if(id == "slider1") {
-            IC.TaskFeeder.SwitchOCTImage(value, 1);
+            ImageCompare.TaskFeeder.SwitchOCTImage(value, 1);
         }
     }
 };
