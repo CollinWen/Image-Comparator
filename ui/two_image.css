@@ -16,15 +16,8 @@ input:hover {
 input::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
-  width: 25px;
-  height: 25px;
-  background: #4CAF50;
-  cursor: pointer;
-}
-
-input::-moz-range-thumb {
-  width: 25px;
-  height: 25px;
-  background: #4CAF50;
+  width: 15px;
+  height: 15px;
+  background: #000000;
   cursor: pointer;
 }
