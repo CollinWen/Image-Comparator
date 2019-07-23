@@ -131,6 +131,8 @@ updateStatInfoTasks = function(json) {
         curTaskElem.hidden = true;
         var imagesDiv = document.getElementById("image-row");
         imagesDiv.style.display = "none";
+        var imagesDiv2 = document.getElementById("image-row2");
+        imagesDiv2.style.display = "none";      
         var toDoMsg = document.getElementById("to-do-message");
         toDoMsg.textContent = "All tasks are complete."
     }
@@ -321,7 +323,7 @@ SliderChange = function(value, id) {
         if(value < 0) {
           value = 0;
         } else if(value >= ImageCompare.TaskFeeder.Image0Max) {
-          value = IC.TaskFeeder.Image0Max - 1;
+          value = ImageCompare.TaskFeeder.Image0Max - 1;
         }
 
         if(id == "slider0") {

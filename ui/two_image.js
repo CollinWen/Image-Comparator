@@ -133,6 +133,8 @@ updateStatInfoTasks = function(json) {
         curTaskElem.hidden = true;
         var imagesDiv = document.getElementById("image-row");
         imagesDiv.style.display = "none";
+        var imagesDiv2 = document.getElementById("image-row2");
+        imagesDiv2.style.display = "none";      
         var toDoMsg = document.getElementById("to-do-message");
         toDoMsg.textContent = "All tasks are complete."
     }

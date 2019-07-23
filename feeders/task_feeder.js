@@ -220,15 +220,44 @@ var ImageCompare = (function (IC) {
                         IC.TaskFeeder.Image1 = idx1;
                         IC.TaskFeeder.Image1Idx = 0;
 
-                        curIm0 = IC.TaskFeeder.hostname + IC.TaskFeeder.imageDbName + "OCT" + idx0.toString();
-                        curIm1 = IC.TaskFeeder.hostname + IC.TaskFeeder.imageDbName + "OCT" + idx1.toString();
+                        $.ajax({
+                            url : IC.TaskFeeder.hostname + IC.TaskFeeder.imageDbName + "OCT" + idx0.toString(),
+                            type : 'GET',
+                            success : function(json) {
+                                IC.TaskFeeder.Image0Max = json.numImages;
+                                $('#slider0').attr("max", json.numImages-1);
+                            }
+                        });
 
-                        IC.TaskFeeder.Image0Max = curIm0.numImages;
-                        IC.TaskFeeder.Image1Max = curIm1.numImages;
+                        $.ajax({
+                            url : IC.TaskFeeder.hostname + IC.TaskFeeder.imageDbName + "OCT" + idx1.toString(),
+                            type : 'GET',
+                            success : function(json) {
+                                IC.TaskFeeder.Image1Max = json.numImages;
+                                $('#slider1').attr("max", json.numImages-1);
+                            }
+                        });
 
-                        $("#slider0").attr("max", IC.TaskFeeder.Image0Max);
-                        $("#slider1").attr("max", IC.TaskFeeder.Image1Max);
-
+                        // $("#slider0").slider("destroy");
+                        // $("#slider1").slider("destroy");
+                        //
+                        // $("#slider0").slider({
+                        //     min: 0, // min value
+                        //     max: IC.TaskFeeder.Image0Max,
+                        //     value: Math.floor(IC.TaskFeeder.Image0Max/2),
+                        //     slide: function(event, ui) {
+                        //       SliderChange(ui.value, ui.id)
+                        //     }
+                        // });​
+                        //
+                        // $("#slider1").slider({
+                        //     min: 0, // min value
+                        //     max: IC.TaskFeeder.Image1Max,
+                        //     value: Math.floor(IC.TaskFeeder.Image1Max/2),
+                        //     slide: function(event, ui) {
+                        //       SliderChange(ui.value, ui.id)
+                        //     }
+                        // });​
                     },
                     error: function (response) {
                         console.log("get of tasks failed : " + JSON.stringify(response));

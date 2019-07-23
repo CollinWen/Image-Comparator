@@ -51,15 +51,13 @@
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
                     <li>
-                        <a href="#">About</a>
+                        <a href="/about.html">About</a>
                     </li>
                     <li>
-                        <a href="#">Contact</a>
+                        <a href="/contact.html">Contact</a>
                     </li>
                     <li>
-                        <select id="database" onchange="OnSetDB(this)">
-                          <option selected="selected">Choose database</option>
-                          <option value="localhost">Localhost</option>
+                        <select id="database" onload"OnSetDB(this)" onchange="OnSetDB(this)">
                           <option value="172.16.42.15">172.16.42.15</option>
                         </select>
                     </li>
@@ -126,13 +124,16 @@
         <!-- /.row -->
 
         <!-- Projects Row -->
-        <div id="image-row" class="row" style="display:block;height:400px">
+        <div id="image-row" class="row" style="display:block;height:600px">
             <div  class="col-md-6 portfolio-item" onclick="OnImage0()">
 
                 <img id="image0" class="img-responsive portfolio-item " width="550" height="400" src="http://placehold.it/700x400" alt="">
 
                 <p></p>
             </div>
+        </div>
+        <div id="image-row2" class="row" style="display:block;height:600px">
+
             <div  class="col-md-6 portfolio-item" onclick="OnImage1()">
 
                 <img id="image1" class="img-responsive" width="550" height="400" src="http://placehold.it/700x400" alt="">
