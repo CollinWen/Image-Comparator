@@ -192,40 +192,19 @@ var ImageCompare = (function (IC) {
                         }
 
                         var idx0 = nextpair[0];
-                        var img0 = document.getElementById("image0");
-                        $("#image0").fadeOut(100, function() {
-                            var newSrc = IC.TaskFeeder.hostname + IC.TaskFeeder.imageDbName + "OCT" + idx0.toString() + "/image0";
-                            var newImg = new Image(); // by having a new image, onload is called even if the image is already cached
-                            newImg.onload = function() {
-                                $("#image0").attr("src", newImg.src);
-                                $("#image0").fadeIn(100);
-                            };
-                            newImg.src = newSrc;//.fadeIn(400);
-                        });
-
                         var idx1 = nextpair[1];
-                        var img1 = document.getElementById("image1");
-                        $("#image1").fadeOut(100, function() {
-                            var newSrc = IC.TaskFeeder.hostname + IC.TaskFeeder.imageDbName + "OCT" + idx1.toString() + "/image0";
-                            var newImg = new Image(); // by having a new image, onload is called even if the image is already cached
-                            newImg.onload = function() {
-                                $("#image1").attr("src", newImg.src);
-                                $("#image1").fadeIn(100);
-                            };
-                            newImg.src = newSrc;//.fadeIn(400);
-                        });
 
                         IC.TaskFeeder.Image0 = idx0;
-                        IC.TaskFeeder.Image0Idx = 0;
                         IC.TaskFeeder.Image1 = idx1;
-                        IC.TaskFeeder.Image1Idx = 0;
 
                         $.ajax({
                             url : IC.TaskFeeder.hostname + IC.TaskFeeder.imageDbName + "OCT" + idx0.toString(),
                             type : 'GET',
                             success : function(json) {
                                 IC.TaskFeeder.Image0Max = json.numImages;
+                                IC.TaskFeeder.Image0Idx = Math.floor(IC.TaskFeeder.Image0Max/2);
                                 $('#slider0').attr("max", json.numImages-1);
+                                $('#slider0').attr("value", IC.TaskFeeder.Image0Idx);
                             }
                         });
 
@@ -234,8 +213,32 @@ var ImageCompare = (function (IC) {
                             type : 'GET',
                             success : function(json) {
                                 IC.TaskFeeder.Image1Max = json.numImages;
+                                IC.TaskFeeder.Image1Idx = Math.floor(IC.TaskFEeder.Image1Max/2);
                                 $('#slider1').attr("max", json.numImages-1);
+                                $('#slider1').attr("value", IC.TaskFeeder.Image1Idx);
                             }
+                        });
+
+                        var img0 = document.getElementById("image0");
+                        $("#image0").fadeOut(100, function() {
+                            var newSrc = IC.TaskFeeder.hostname + IC.TaskFeeder.imageDbName + "OCT" + idx0.toString() + "/image" + IC.TaskFeeder.Image0Idx.toString();
+                            var newImg = new Image(); // by having a new image, onload is called even if the image is already cached
+                            newImg.onload = function() {
+                                $("#image0").attr("src", newImg.src);
+                                $("#image0").fadeIn(100);
+                            };
+                            newImg.src = newSrc;//.fadeIn(400);
+                        });
+
+                        var img1 = document.getElementById("image1");
+                        $("#image1").fadeOut(100, function() {
+                            var newSrc = IC.TaskFeeder.hostname + IC.TaskFeeder.imageDbName + "OCT" + idx1.toString() + "/image" + IC.TaskFeeder.Image1Idx.toString();
+                            var newImg = new Image(); // by having a new image, onload is called even if the image is already cached
+                            newImg.onload = function() {
+                                $("#image1").attr("src", newImg.src);
+                                $("#image1").fadeIn(100);
+                            };
+                            newImg.src = newSrc;//.fadeIn(400);
                         });
 
                         // $("#slider0").slider("destroy");
