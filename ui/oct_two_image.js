@@ -131,7 +131,7 @@ updateStatInfoTasks = function(json) {
         var imagesDiv = document.getElementById("image-row");
         imagesDiv.style.display = "none";
         var imagesDiv2 = document.getElementById("image-row2");
-        imagesDiv2.style.display = "none";      
+        imagesDiv2.style.display = "none";
         var toDoMsg = document.getElementById("to-do-message");
         toDoMsg.textContent = "All tasks are complete."
     }
@@ -319,15 +319,11 @@ OnNotSure = function() {
 
 SliderChange = function(value, id) {
     if(ImageCompare.TaskFeeder.current_task != "") {
-        if(value < 0) {
-          value = 0;
-        } else if(value >= ImageCompare.TaskFeeder.Image0Max) {
-          value = ImageCompare.TaskFeeder.Image0Max - 1;
-        }
-
         if(id == "slider0") {
+            ImageCompare.TaskFeeder.Image0Idx = value
             ImageCompare.TaskFeeder.SwitchOCTImage(value, 0);
         } else if(id == "slider1") {
+            ImageCompare.TaskFeeder.Image1Idx = value
             ImageCompare.TaskFeeder.SwitchOCTImage(value, 1);
         }
     }
