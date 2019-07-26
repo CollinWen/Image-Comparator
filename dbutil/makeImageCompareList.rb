@@ -85,9 +85,9 @@ puts obj.to_json
 
 
 # put the results in the database
-dbname = "rop_images/"
+dbname = "ret_images/"
 docname = nameStr
-url = 'http://admin:password@172.16.42.15:5984/' + dbname + docname
+url = 'http://admin:password@ec2-18-220-36-255.us-east-2.compute.amazonaws.com:54956/' + dbname + docname
 
 
 uri = URI.parse(url)

@@ -2,19 +2,19 @@ require 'json'
 require 'time'
 require 'csv'
 
-#file = File.read('rop_images_1100_5_2_2015.json')
-#file = File.read('rop_images_1100_5_2_2015.json')
-#file = File.read('rop_images_laptop1.json')
-#file = File.read('rop_images_4_27_2015.json')
-#file = File.read('/Users/jkc/Documents/retinalImaging/website/data/rop_images_4_27_2015.json')
-#file = File.read('/Users/jayashreekalpathy-cramer/Documents/rop/website/Image-Comparator/data/rop_images_4_27_2015.json')
+#file = File.read('ret_images_1100_5_2_2015.json')
+#file = File.read('ret_images_1100_5_2_2015.json')
+#file = File.read('ret_images_laptop1.json')
+#file = File.read('ret_images_4_27_2015.json')
+#file = File.read('/Users/jkc/Documents/retinalImaging/website/data/ret_images_4_27_2015.json')
+#file = File.read('/Users/jayashreekalpathy-cramer/Documents/rop/website/Image-Comparator/data/ret_images_4_27_2015.json')
 
-#file = File.read('/Users/kalpathy/Documents/retinalImaging/website/rop_images_1330_17_8_2015.json')
+#file = File.read('/Users/kalpathy/Documents/retinalImaging/website/ret_images_1330_17_8_2015.json')
 
-#file = File.read('/Users/jkc/Documents/retinalImaging/website/data/rop_images_1330_17_8_2015.json')
-#file = File.read('/Users/jkc/Documents/retinalImaging/website/data/rop_images_0900_09_30_2015.json')
-#file = File.read('/Users/jkc/Documents/retinalImaging/website/data/rop_images_1220_12_06_2015.json')
-file = File.read('/Users/jkc/Documents/retinalImaging/website/data/rop_images_2016_10_09_1515.json')
+#file = File.read('/Users/jkc/Documents/retinalImaging/website/data/ret_images_1330_17_8_2015.json')
+#file = File.read('/Users/jkc/Documents/retinalImaging/website/data/ret_images_0900_09_30_2015.json')
+#file = File.read('/Users/jkc/Documents/retinalImaging/website/data/ret_images_1220_12_06_2015.json')
+file = File.read('/Users/jkc/Documents/retinalImaging/website/data/ret_images_2016_10_09_1515.json')
 
 contents = JSON.parse(file)
 #puts contents

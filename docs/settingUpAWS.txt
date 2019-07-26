@@ -3,7 +3,7 @@ setting up new instance of image comparator
 1. New AWS instance with 24GB
 2. set up couchdb per instructions on http://www.everyhaironyourhead.com/installing-couchdb-1-5-on-amazon-linux/
 3. confirm couch is running, if not start it
-4. curl to http://localhost:5984
+4. curl to http://localhost:54956
 5. Changed the local.ini settings
 	bind_address = 0.0.0.0
 	enable_cors = true
@@ -12,7 +12,7 @@ setting up new instance of image comparator
 	credentials = true
 	origins = *
 
-6. Chown couchdb:couchdb for the rop_images.couch file	
+6. Chown couchdb:couchdb for the ret_images.couch file	
 
 6. sudo service httpd start
 

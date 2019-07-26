@@ -75,9 +75,9 @@ puts obj.to_json
 
 
 # put the results in the database
-dbname = "rop_images/"
+dbname = "ret_images/"
 docname = nameStr
-url = 'http://localhost:5984/' + dbname + docname
+url = 'http://localhost:54956/' + dbname + docname
 
 
 uri = URI.parse(url)

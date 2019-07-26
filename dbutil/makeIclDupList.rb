@@ -14,7 +14,7 @@ iclName = ARGV[0]
 
 
 # find range from searching db for images that have image_set_name
-viewUrl = "http://localhost:5984/rop_images/_design/basic_views/_view/image_compare_lists"
+viewUrl = "http://localhost:54956/ret_images/_design/basic_views/_view/image_compare_lists"
 uri = URI.parse(viewUrl)
 http = Net::HTTP.new(uri.host, uri.port)
 request = Net::HTTP::Get.new(uri.path)
@@ -66,9 +66,9 @@ puts "adding this doc to db:"
 puts obj.inspect()        
 
 
-dbname = "rop_images/"
+dbname = "ret_images/"
 docname = iclName+"_duplist"
-url = 'http://localhost:5984/' + dbname + docname
+url = 'http://localhost:54956/' + dbname + docname
 uri = URI.parse(url)
 
 http = Net::HTTP.new(uri.host, uri.port)
@@ -137,9 +137,9 @@ puts obj.to_json
 
 
 # put the results in the database
-dbname = "rop_images/"
+dbname = "ret_images/"
 docname = nameStr
-url = 'http://localhost:5984/' + dbname + docname
+url = 'http://localhost:54956/' + dbname + docname
 
 
 uri = URI.parse(url)

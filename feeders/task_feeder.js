@@ -5,7 +5,7 @@ var ImageCompare = (function (IC) {
     IC.TaskFeeder = IC.TaskFeeder || {};
     IC.TaskFeeder.defaultComment = "<insert comment>";
 
-    IC.TaskFeeder.imageDbName = "rop_images/";
+    IC.TaskFeeder.imageDbName = "ret_images/";
     IC.TaskFeeder.resultsDbName = "image_compare_results/";
 
     // some of this is probably not needed

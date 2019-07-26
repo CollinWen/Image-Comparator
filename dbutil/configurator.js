@@ -26,7 +26,7 @@ handleFileSelect = function (evt) {
     }    
 };
 
-var dburl =  'http://127.0.0.1:5984/rop_images_1/';
+var dburl =  'http://127.0.0.1:54956/ret_images_1/';
 
 
 addAttachment = function(imgRes, img) {

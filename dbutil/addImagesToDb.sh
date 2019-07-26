@@ -2,12 +2,12 @@
 
 # Typical Usage:
 #    find ../images -name *.jpg | xargs ./addImagesToDb.sh
-#  first create database rop_images
+#  first create database ret_images
 #  find ../../images -type f
 # add tmp view with reduce function _count(keys, vals, rereduce)
 # and save as count_docs under basic views
 i=8
-curlcmd="curl -X PUT http://127.0.0.1:5984/rop_images/"
+curlcmd="curl -X PUT http://127.0.0.1:54956/ret_images/"
 for arg in $*
 do
    i=$((i+1))

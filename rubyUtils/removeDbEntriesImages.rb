@@ -3,13 +3,13 @@ require  'yaml'
 dbName=ARGV[0]
 
 
-dbname = "rop_images"
+dbname = "ret_images"
 
 #connect to db, create if does not exist
-db = CouchRest.database!("http://127.0.0.1:5984/#{dbname}")
+db = CouchRest.database!("http://127.0.0.1:54956/#{dbname}")
 
 
-#docs=CouchRest.get("http://localhost:5984/#{dbname}/_all_docs?include_docs=true")
+#docs=CouchRest.get("http://localhost:54956/#{dbname}/_all_docs?include_docs=true")
 
 
 #docs.each do |d|

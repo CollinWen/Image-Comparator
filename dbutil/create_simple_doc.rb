@@ -5,9 +5,9 @@ require 'json'
 #image ids
 imgids = [3, 1, 4]
 
-dbname = "rop_images/"
+dbname = "ret_images/"
 docname = "image_subset"
-url = 'http://localhost:5984/' + dbname + docname
+url = 'http://localhost:54956/' + dbname + docname
 uri = URI.parse(url)
  
 http = Net::HTTP.new(uri.host, uri.port)

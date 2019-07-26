@@ -7,8 +7,8 @@ def compareResults(a, b)
 end
 
 
-#file = File.read('rop_images_1100_5_2_2015.json')
-file = File.read('rop_images_4_27_2015.json')
+#file = File.read('ret_images_1100_5_2_2015.json')
+file = File.read('ret_images_4_27_2015.json')
 
 contents = JSON.parse(file)
 

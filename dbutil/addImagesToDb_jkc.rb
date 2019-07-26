@@ -16,12 +16,12 @@ end
 
 ims=Dir.glob("#{imageFolder}/*")
 
-dbname = "rop_images"
+dbname = "ret_images"
 
 #connect to db, create if does not exist
-@db = CouchRest.database!("http://admin:password@172.16.42.15:5984/#{dbname}")
+@db = CouchRest.database!("http://admin:password@ec2-18-220-36-255.us-east-2.compute.amazonaws.com:54956/#{dbname}")
 
-#CouchRest.put("http://localhost:5984/testdb/doc", 'name' => 'test', 'date' => Date.current)
+#CouchRest.put("http://localhost:54956/testdb/doc", 'name' => 'test', 'date' => Date.current)
 
 # res= @db.view('basic_views/count_image_docs')#.to_yaml
 # puts res

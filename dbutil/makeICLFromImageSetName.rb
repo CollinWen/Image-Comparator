@@ -20,7 +20,7 @@ pctRep =ARGV[1]
 nameStr = ARGV[2]
 
 # find range from searching db for images that have image_set_name
-viewUrl = "http://localhost:5984/rop_images/_design/basic_views/_view/imageSet2ImageId?key=\"#{imgSetName}\""
+viewUrl = "http://localhost:54956/ret_images/_design/basic_views/_view/imageSet2ImageId?key=\"#{imgSetName}\""
 puts viewUrl
 encoded_url = URI.encode(viewUrl)
 uri = URI.parse(encoded_url)
@@ -102,9 +102,9 @@ puts obj.to_json
 
 
 # put the results in the database
-dbname = "rop_images/"
+dbname = "ret_images/"
 docname = nameStr
-url = 'http://localhost:5984/' + dbname + docname
+url = 'http://localhost:54956/' + dbname + docname
 
 
 uri = URI.parse(url)

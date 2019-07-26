@@ -109,6 +109,8 @@ updateStatInfoTasks = function(json) {
         var icl_id = firstTask.image_compare_list;
 
         var dburl = ImageCompare.TaskFeeder.GetImageDbUrl();
+	console.log(dburl);
+
         var fullurl = dburl + "_design/basic_views/_view/image_compare_lists?key=\"" + icl_id + "\"";
 
         $.ajax({
@@ -168,10 +170,10 @@ createICResult = function(winVal, img0, img1, user, comment, task, task_idx) {
     // var db_config_elem = document.getElementById("database");
     // var db_config = db_config_elem.options[db_config_elem.selectedIndex].value;
     // var hostname = db_config === "localhost" ?
-    //     "http://localhost:5984/" :
-    //     "http://ec2-54-224-183-251.compute-1.amazonaws.com:5984/";
-    // var imageDbName = "rop_images/";
-    // var resultsDbName = "rop_images/";
+    //     "http://localhost:54956/" :
+    //     "http://ec2-54-224-183-251.compute-1.amazonaws.com:54956/";
+    // var imageDbName = "ret_images/";
+    // var resultsDbName = "ret_images/";
     var dbName = ImageCompare.TaskFeeder.GetImageDbUrl();
 
     var currentTime = new Date();

@@ -1,6 +1,6 @@
 require 'json'
 
-# example usage: ruby listIclNames.rb rop_images_4_27_2015.json
+# example usage: ruby listIclNames.rb ret_images_4_27_2015.json
 
 filename = ARGV[0]
 file = File.read(filename)

@@ -27,12 +27,12 @@ $(document).ready(function(){
 
 getSelectedDbUrl = function() {
 
-    var imageDbName = "rop_images/";
+    var imageDbName = "ret_images/";
     var db_config_elem = document.getElementById("database");
     var db_config = db_config_elem.options[db_config_elem.selectedIndex].value;
     var hostname = db_config == "localhost" ?
-        "http://localhost:5984/" :
-        "http://ec2-34-201-70-163.compute-1.amazonaws.com:5984/";
+        "http://localhost:54956/" :
+        "http://ec2-34-201-70-163.compute-1.amazonaws.com:54956/";
 
     return hostname + imageDbName;
 }
@@ -299,10 +299,10 @@ sortResults = function(resultArray) {
     var images = Object.keys(numTimesShown);
 
     var images2 = [
-      "http://localhost:5984/rop_images/1",
-      "http://localhost:5984/rop_images/2",
-      "http://localhost:5984/rop_images/3",
-      "http://localhost:5984/rop_images/4"
+      "http://localhost:54956/ret_images/1",
+      "http://localhost:54956/ret_images/2",
+      "http://localhost:54956/ret_images/3",
+      "http://localhost:54956/ret_images/4"
     ]
 
     //console.log(images);
