@@ -90,6 +90,11 @@ updateStatInfoTasks = function(json) {
     if (tasks.length > 0) {
         curTaskElem.hidden = false;
 
+        $('#image-row').show();
+        $('#image-row2').show();
+        var toDoMsg = document.getElementById("to-do-message");
+        toDoMsg.style.display = "none";
+
         var firstTask = tasks[0].value;
 
         // now we want to find the task that has the lowest (positive?) task_order
@@ -132,6 +137,8 @@ updateStatInfoTasks = function(json) {
         imagesDiv.style.display = "none";
         var imagesDiv2 = document.getElementById("image-row2");
         imagesDiv2.style.display = "none";
+
+        $('#to-do-message').show();
         var toDoMsg = document.getElementById("to-do-message");
         toDoMsg.textContent = "All tasks are complete."
     }
