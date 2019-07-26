@@ -213,7 +213,7 @@ var ImageCompare = (function (IC) {
                             type : 'GET',
                             success : function(json) {
                                 IC.TaskFeeder.Image1Max = json.numImages;
-                                IC.TaskFeeder.Image1Idx = Math.floor(IC.TaskFEeder.Image1Max/2);
+                                IC.TaskFeeder.Image1Idx = Math.floor(IC.TaskFeeder.Image1Max/2);
                                 $('#slider1').attr("max", json.numImages-1);
                                 $('#slider1').attr("value", IC.TaskFeeder.Image1Idx);
                             }
