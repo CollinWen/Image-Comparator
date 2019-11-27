@@ -198,6 +198,37 @@ var ImageCompare = (function (IC) {
                         IC.TaskFeeder.Image1 = idx1;
                         IC.TaskFeeder.Image0Idx = 0;
                         IC.TaskFeeder.Image1Idx = 0;
+                        IC.TaskFeeder.Image0Max = -1;
+                        IC.TaskFeeder.Image1Max = -1;
+                        
+                        //ajax calls to retrieve number of images in each OCT scan
+                        $.ajax({
+                            url : IC.TaskFeeder.hostname + IC.TaskFeeder.imageDbName + "OCT" + idx0.toString(),
+                            type : 'GET',
+                            success : function(json) {
+                                IC.TaskFeeder.Image0Max = json.numImages;
+                            }
+                        });
+                        
+                        $.ajax({
+                            url : IC.TaskFeeder.hostname + IC.TaskFeeder.imageDbName + "OCT" + idx1.tString(),
+                            type : 'GET',
+                            success : function(json) {
+                                IC.TaskFeeder.Image1Max = json.numImages;
+                            }
+                        });
+                        
+                        //iterate through each image and preload
+                        for(int i = 0; i < IC.TaskFeeder.Image0Max; i++) {
+                            img = new Image();
+                            img.src = IC.TaskFeeder.hostname + IC.TaskFeeder.imageDbName + "OCT" + idx0.toString() + "/image" + i;
+                        }
+                        
+                        for(int i = 0; i < IC.TaskFeeder.Image1Max; i++) {
+                            img = new Image();
+                            img.src = IC.TaskFeeder.hostname + IC.TaskFeeder.imageDbName + "OCT" + idx1.toString() + "/image" + i;
+                        }
+                        
 
                         $.ajax({
                             url : IC.TaskFeeder.hostname + IC.TaskFeeder.imageDbName + "OCT" + idx0.toString(),
