@@ -219,12 +219,12 @@ var ImageCompare = (function (IC) {
                         });
                         
                         //iterate through each image and preload
-                        for(int i = 0; i < IC.TaskFeeder.Image0Max; i++) {
+                        for(i = 0; i < IC.TaskFeeder.Image0Max; i++) {
                             img = new Image();
                             img.src = IC.TaskFeeder.hostname + IC.TaskFeeder.imageDbName + "OCT" + idx0.toString() + "/image" + i;
                         }
                         
-                        for(int i = 0; i < IC.TaskFeeder.Image1Max; i++) {
+                        for(i = 0; i < IC.TaskFeeder.Image1Max; i++) {
                             img = new Image();
                             img.src = IC.TaskFeeder.hostname + IC.TaskFeeder.imageDbName + "OCT" + idx1.toString() + "/image" + i;
                         }
