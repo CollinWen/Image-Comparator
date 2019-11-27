@@ -211,7 +211,7 @@ var ImageCompare = (function (IC) {
                         });
                         
                         $.ajax({
-                            url : IC.TaskFeeder.hostname + IC.TaskFeeder.imageDbName + "OCT" + idx1.tString(),
+                            url : IC.TaskFeeder.hostname + IC.TaskFeeder.imageDbName + "OCT" + idx1.toString(),
                             type : 'GET',
                             success : function(json) {
                                 IC.TaskFeeder.Image1Max = json.numImages;
