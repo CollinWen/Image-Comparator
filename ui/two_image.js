@@ -7,6 +7,12 @@ $(document).ready(function() {
     if (ImageCompare.username) {
         ImageCompare.TaskFeeder.SetImagePair(ImageCompare.username);
     }
+    
+    $( ".imageContainer" ).resizable({
+        aspectRatio: true,
+        minHeight: 200,
+        minWidth: 100
+    });
 });
 
 //
